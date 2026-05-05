@@ -11,7 +11,7 @@
         $bc = match($k->status){ 'selesai'=>'bg-green-100 text-green-700','disetujui'=>'bg-pink-100 text-pink-700','ditolak'=>'bg-red-100 text-red-700', default=>'bg-yellow-100 text-yellow-700' };
         $bl = match($k->status){ 'selesai'=>'Selesai','disetujui'=>'Berlangsung','ditolak'=>'Ditolak', default=>'Menunggu' };
     @endphp
-    <div class="border border-gray-100 rounded-xl p-4 mb-3 hover:shadow-sm transition">
+    <div class="border border-gray-300 rounded-xl p-4 mb-3 hover:shadow-sm transition bg-gray-50/30">
         <div class="flex items-start justify-between gap-3">
             <div class="flex-1 min-w-0">
                 <div class="font-bold text-sm text-gray-800">{{ $k->jenis_masalah }}</div>

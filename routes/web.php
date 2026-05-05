@@ -59,6 +59,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/konseling/{konseling}/hasil', [AdminController::class, 'hasilKonseling'])->name('konseling.hasil');
     Route::post('/konseling/{konseling}/hasil', [AdminController::class, 'storeHasil'])->name('konseling.hasil.store');
 
+    // Laporan & Rekap
+    Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
+    Route::get('/laporan/pdf', [AdminController::class, 'laporanPdf'])->name('laporan.pdf');
+
     // Tindak Lanjut
     Route::post('/konseling/{konseling}/tindak-lanjut', [\App\Http\Controllers\TindakLanjutController::class, 'store'])->name('konseling.tindak-lanjut.store');
     Route::get('/tindak-lanjut/{tindakLanjut}/pdf', [\App\Http\Controllers\TindakLanjutController::class, 'pdf'])->name('tindak-lanjut.pdf');

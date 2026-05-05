@@ -29,7 +29,7 @@
             {{-- Search --}}
             <form method="GET" id="search-form">
                 <input type="hidden" name="role" value="{{ $role }}">
-                <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm focus-within:border-blue-400 focus-within:ring-2 focus-within:ring-blue-100 transition-all min-w-[220px]">
+                <div class="flex items-center gap-2 bg-gray-100 border border-gray-300 rounded-xl px-4 py-2.5 shadow-sm focus-within:border-gray-300 focus-within:ring-2 focus-within:ring-gray-300 transition-all min-w-[220px]">
                     <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
@@ -41,7 +41,7 @@
 
             {{-- Tambah Button --}}
             <button onclick="openModal('modal-add')"
-                class="flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-sm shadow-blue-200 transition-all">
+                class="flex items-center gap-2 px-5 py-2.5 bg-gray-100 rounded-xl text-sm font-semibold text-black shadow-sm shadow-blue-200 transition-all">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
@@ -56,7 +56,7 @@
             @foreach(['semua' => 'Semua', 'siswa' => 'Siswa', 'admin' => 'Guru BK'] as $val => $lbl)
             <a href="{{ route('admin.users', ['role' => $val, 'search' => $search]) }}"
                class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap
-                      {{ $role === $val ? 'bg-white text-blue-600 font-semibold shadow-sm' : 'text-gray-500 hover:text-gray-700' }}">
+                      {{ $role === $val ? 'bg-white font-semibold shadow-sm text-black' : 'text-black/60 hover:text-black' }}">
                 {{ $lbl }}
             </a>
             @endforeach
@@ -64,47 +64,47 @@
     </div>
 
     {{-- Table --}}
-    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+    <div class="bg-[#F8F3F3] rounded-2xl border border-gray-400 shadow-sm overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left">
                 <thead>
-                    <tr class="border-b border-gray-100">
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Nama</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Email</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Kelas</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest">Akses</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-gray-400 uppercase tracking-widest text-right">Aksi</th>
+                    <tr class="border-b border-gray-400 bg-gray-100">
+                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Nama</th>
+                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Email</th>
+                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Kelas</th>
+                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Akses</th>
+                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="bg-white">
                     @forelse($users as $u)
-                    <tr class="border-b border-gray-50 hover:bg-gray-50/60 transition-colors">
-                        <td class="px-6 py-4">
+                    <tr class="border-b border-gray-400 hover:bg-gray-50 transition-colors">
+                        <td class="px-6 py-4 border-r border-gray-400 text-left">
                             <span class="text-sm font-semibold text-gray-800">{{ $u->name }}</span>
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 border-r border-gray-400 text-left">
                             <span class="text-sm text-gray-500">{{ $u->email }}</span>
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 border-r border-gray-400 text-left">
                             @if($u->hasRole('siswa'))
                                 <span class="text-sm text-gray-600">{{ $u->kelas ?? '—' }}</span>
                             @else
                                 <span class="text-sm text-gray-400">—</span>
                             @endif
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 border-r border-gray-400 text-center">
                             @if($u->hasRole('admin'))
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs bg-[#EBE0E0] border border-gray-400">
                                     Guru BK
                                 </span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs bg-[#EBE0E0] border border-gray-400">
                                     Siswa
                                 </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4">
-                            <div class="flex items-center justify-end gap-2">
+                        <td class="px-4 py-2 text-center">
+                            <div class="flex items-center justify-center gap-2">
                                 <button onclick="openEditUser({{ $u->id }},'{{ addslashes($u->name) }}','{{ $u->username }}','{{ $u->email }}','{{ $u->roles->first()?->name }}','{{ $u->kelas }}','{{ $u->no_telp }}')"
                                     class="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition" title="Edit">
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -232,11 +232,11 @@
             {{-- Footer --}}
             <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100">
                 <button type="button" onclick="closeModal('modal-add')"
-                    class="px-5 py-2.5 text-sm font-medium text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
+                    class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
                     Batal
                 </button>
                 <button type="submit"
-                    class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm shadow-blue-200 transition">
+                    class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
                     Simpan
                 </button>
             </div>

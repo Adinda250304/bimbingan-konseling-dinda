@@ -8,6 +8,7 @@ use App\Models\JadwalKonseling;
 use App\Models\HasilKonseling;
 use App\Models\KalenderBk;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminController extends Controller
 {
@@ -491,5 +492,55 @@ class AdminController extends Controller
 
         $konseling->update(['status' => 'selesai']);
         return redirect()->route('admin.riwayat')->with('success', 'Hasil konseling & tindak lanjut berhasil disimpan.');
+    }
+
+    public function laporan(Request $request)
+    {
+        $start_date = $request->get('start_date', now()->subMonths(3)->toDateString());
+        $end_date = $request->get('end_date', now()->toDateString());
+
+        $query = Konseling::with(['siswa', 'hasil'])
+            ->whereBetween('created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $konselings = $query->latest()->get();
+
+        // Statistics
+        $stats = [
+            'total' => $konselings->count(),
+            'selesai' => $konselings->where('status', 'selesai')->count(),
+            'berlangsung' => $konselings->where('status', 'disetujui')->count(),
+            'ditolak' => $konselings->where('status', 'ditolak')->count(),
+            'masalah_count' => $konselings->groupBy('jenis_masalah')->map->count(),
+        ];
+
+        return view('admin.laporan', compact('konselings', 'stats', 'start_date', 'end_date'));
+    }
+
+    public function laporanPdf(Request $request)
+    {
+        $start_date = $request->get('start_date', now()->subMonths(3)->toDateString());
+        $end_date = $request->get('end_date', now()->toDateString());
+
+        $query = Konseling::with(['siswa', 'hasil'])
+            ->whereBetween('created_at', [$start_date . ' 00:00:00', $end_date . ' 23:59:59']);
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $konselings = $query->latest()->get();
+        
+        $pdf = Pdf::loadView('admin.laporan-pdf', [
+            'konselings' => $konselings,
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'user' => auth()->user()
+        ]);
+
+        return $pdf->download('Rekap-Konseling-' . $start_date . '-to-' . $end_date . '.pdf');
     }
 }

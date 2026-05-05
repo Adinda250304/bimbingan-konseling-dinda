@@ -5,13 +5,13 @@
 @section('content')
 <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
     <div>
-        <h2 class="text-blue-600 font-bold text-xl">Manajemen Jadwal</h2>
+        <h2 class="font-bold text-xl">Manajemen Jadwal</h2>
         <p class="text-xs text-gray-400 mt-0.5">Kelola pengajuan dan sesi konseling siswa</p>
     </div>
 
     {{-- Search + Filter --}}
     <form method="GET" class="flex items-center gap-2 flex-wrap">
-        <div class="flex items-center gap-2 border-2 border-gray-200 rounded-xl px-3 py-2 bg-white">
+        <div class="flex items-center gap-2 border-2 border-gray-200 rounded-xl px-3 py-2 bg-gray-100">
             <input type="text" name="search" value="{{ $search }}" placeholder="Cari Siswa..."
                 class="text-sm outline-none font-poppins text-gray-700 bg-transparent w-32">
             <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -19,7 +19,7 @@
             </svg>
         </div>
         <select name="status" onchange="this.form.submit()"
-            class="px-3 py-2 border-2 border-gray-200 rounded-xl text-sm font-poppins text-gray-700 outline-none bg-white cursor-pointer">
+            class="px-3 py-2 border-2 border-gray-200 rounded-xl text-sm font-poppins text-gray-700 outline-none bg-gray-100 cursor-pointer">
             <option value="">Semua Status</option>
             <option value="terjadwal"   {{ $status==='terjadwal'   ? 'selected' : '' }}>Menunggu Persetujuan</option>
             <option value="berlangsung" {{ $status==='berlangsung' ? 'selected' : '' }}>Terjadwal</option>
@@ -38,18 +38,18 @@
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
     
     {{-- KOLOM: MENUNGGU PERSETUJUAN --}}
-    <div class="flex flex-col bg-gray-50/60 border border-gray-100 rounded-2xl p-4 min-h-[500px]">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200/60">
+    <div class="flex flex-col bg-yellow-50/30 border border-yellow-300 rounded-2xl p-4 min-h-[500px]">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-yellow-300">
             <h3 class="font-bold text-gray-700 flex items-center gap-2 text-sm">
-                <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.6)] animate-pulse"></span>
                 Menunggu Persetujuan
             </h3>
-            <span class="text-xs font-semibold bg-white border border-gray-200 text-gray-600 px-2 py-1 rounded-full shadow-sm">{{ $menunggu_list->count() }}</span>
+            <span class="text-xs font-semibold bg-white border border-yellow-200 text-yellow-700 px-2 py-1 rounded-full shadow-sm">{{ $menunggu_list->count() }}</span>
         </div>
         
         <div class="space-y-3 flex-1">
             @forelse($menunggu_list as $k)
-            <div class="bg-white border border-gray-100 rounded-xl p-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.05)] hover:shadow-[0_8px_20px_-6px_rgba(6,81,237,0.1)] transition-all group">
+            <div class="bg-white border border-gray-300 rounded-xl p-4 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.1)] transition-all group">
                 <div class="flex items-start justify-between gap-2 mb-3">
                     <div>
                         <h4 class="font-bold text-sm text-gray-800 group-hover:text-blue-600 transition-colors">{{ $k->siswa->name }}</h4>
@@ -61,8 +61,14 @@
                         </span>
                         @endif
                     </div>
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-yellow-100 to-yellow-50 text-yellow-600 flex items-center justify-center text-xs font-bold shrink-0">
-                        {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                    <div class="flex flex-col items-end gap-1.5">
+                        <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center text-xs font-bold shrink-0">
+                            {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                        </div>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold border bg-yellow-50 text-yellow-600 border-yellow-200">
+                            <span class="w-1 h-1 rounded-full bg-yellow-500"></span>
+                            Menunggu
+                        </span>
                     </div>
                 </div>
                 <div class="bg-gray-50 rounded-lg p-2.5 mb-3 border border-gray-100/50">
@@ -85,8 +91,8 @@
     </div>
 
     {{-- KOLOM: TERJADWAL --}}
-    <div class="flex flex-col bg-blue-50/30 border border-blue-100/50 rounded-2xl p-4 min-h-[500px]">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-blue-100">
+    <div class="flex flex-col bg-blue-50/30 border border-blue-300 rounded-2xl p-4 min-h-[500px]">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-blue-300">
             <h3 class="font-bold text-gray-700 flex items-center gap-2 text-sm">
                 <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.6)]"></span>
                 Terjadwal
@@ -96,15 +102,21 @@
         
         <div class="space-y-3 flex-1">
             @forelse($terjadwal_list as $k)
-            <div class="bg-white border border-blue-100/50 rounded-xl p-4 shadow-[0_2px_10px_-3px_rgba(59,130,246,0.05)] hover:shadow-[0_8px_20px_-6px_rgba(59,130,246,0.1)] transition-all group relative">
+            <div class="bg-white border border-blue-300 rounded-xl p-4 shadow-[0_2px_10px_-3px_rgba(59,130,246,0.05)] hover:shadow-[0_8px_20px_-6px_rgba(59,130,246,0.1)] transition-all group relative">
                 {{-- Date Ribbon --}}
                 <div class="absolute -top-2.5 right-4 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-sm border-2 border-white">
                      {{ $k->tanggal_konseling ? $k->tanggal_konseling->format('d M') : 'TBA' }}
                 </div>
 
                 <div class="flex items-start gap-3 mb-3 mt-1">
-                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0 ring-4 ring-white shadow-sm">
-                        {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                    <div class="flex flex-col items-center gap-1.5 shrink-0">
+                        <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xs font-bold ring-4 ring-white shadow-sm">
+                            {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                        </div>
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold border bg-blue-50 text-blue-600 border-blue-200">
+                            <span class="w-1 h-1 rounded-full bg-blue-500"></span>
+                            Terjadwal
+                        </span>
                     </div>
                     <div>
                         <h4 class="font-bold text-sm text-gray-800">{{ $k->siswa->name }}</h4>
@@ -137,40 +149,45 @@
     </div>
 
     {{-- KOLOM: SEDANG BERLANGSUNG --}}
-    <div class="flex flex-col bg-emerald-50/30 border border-emerald-100/50 rounded-2xl p-4 min-h-[500px]">
-        <div class="flex items-center justify-between mb-4 pb-3 border-b border-emerald-100">
+    <div class="flex flex-col bg-pink-50/30 border border-pink-300 rounded-2xl p-4 min-h-[500px]">
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-pink-300">
             <h3 class="font-bold text-gray-700 flex items-center gap-2 text-sm">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-pink-400 shadow-[0_0_8px_rgba(244,114,182,0.6)] animate-pulse"></span>
                 Sedang Berlangsung
             </h3>
-            <span class="text-xs font-semibold bg-white border border-emerald-100 text-emerald-700 px-2 py-1 rounded-full shadow-sm">{{ $berlangsung_list->count() }}</span>
+            <span class="text-xs font-semibold bg-white border border-pink-200 text-pink-700 px-2 py-1 rounded-full shadow-sm">{{ $berlangsung_list->count() }}</span>
         </div>
         
         <div class="space-y-3 flex-1">
             @forelse($berlangsung_list as $k)
-            <div class="bg-white border-2 border-emerald-400/30 rounded-xl p-4 shadow-[0_4px_15px_-3px_rgba(16,185,129,0.15)] relative overflow-hidden group">
-                <div class="absolute top-0 left-0 w-1 h-full bg-emerald-400"></div>
-                <div class="flex items-start gap-3">
-                    <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-bold shrink-0">
-                        {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-sm text-gray-800">{{ $k->siswa->name }}</h4>
-                        <p class="text-[11px] text-gray-500 line-clamp-1 mt-0.5">{{ $k->jenis_masalah }}</p>
+            <div class="bg-white border-2 border-pink-400/30 rounded-xl p-4 shadow-[0_4px_15px_-3px_rgba(244,114,182,0.15)] relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1 h-full bg-pink-400"></div>
+                <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-pink-100 text-pink-700 flex items-center justify-center text-sm font-bold shrink-0 ring-4 ring-pink-50">
+                            {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm text-gray-800">{{ $k->siswa->name }}</h4>
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold border bg-pink-50 text-pink-600 border-pink-200 mt-1">
+                                <span class="w-1 h-1 rounded-full bg-pink-500"></span>
+                                Berlangsung
+                            </span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="mt-4 pt-3 border-t border-emerald-50">
+                <div class="mt-4 pt-3 border-t border-pink-50">
                     <a href="{{ route('admin.konseling.hasil', $k) }}"
-                        class="w-full block text-center py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg transition text-[11px] font-bold tracking-wide shadow-sm shadow-emerald-200">
+                        class="w-full block text-center py-2 bg-pink-500 hover:bg-pink-600 text-white rounded-lg transition text-[11px] font-bold tracking-wide shadow-sm shadow-pink-200">
                         SELESAIKAN SESI
                     </a>
                 </div>
             </div>
             @empty
-            <div class="flex flex-col items-center justify-center h-full text-center p-6 border-2 border-dashed border-emerald-100 rounded-xl">
-                <svg class="w-8 h-8 text-emerald-200 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
-                <p class="text-[11px] text-emerald-500/70 font-medium">Tidak ada sesi yang <br>sedang jalan</p>
+            <div class="flex flex-col items-center justify-center h-full text-center p-6 border-2 border-dashed border-pink-100 rounded-xl">
+                <svg class="w-8 h-8 text-pink-200 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>
+                <p class="text-[11px] text-pink-500/70 font-medium">Tidak ada sesi yang <br>sedang jalan</p>
             </div>
             @endforelse
         </div>

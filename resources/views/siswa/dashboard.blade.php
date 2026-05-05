@@ -78,7 +78,7 @@
             $bc = match($k->status){ 'selesai'=>'bg-green-100 text-green-700','disetujui'=>'bg-pink-100 text-pink-700','ditolak'=>'bg-red-100 text-red-700', default=>'bg-yellow-100 text-yellow-700' };
             $bl = match($k->status){ 'selesai'=>'Selesai','disetujui'=>'Berlangsung','ditolak'=>'Ditolak', default=>'Menunggu' };
         @endphp
-        <div class="flex items-center gap-3 py-2.5 border-b border-gray-50 last:border-b-0">
+        <div class="flex items-center gap-3 py-2.5 border-b border-gray-300 last:border-b-0">
             <div class="flex-1 min-w-0">
                 <div class="font-semibold text-sm text-gray-800 truncate">{{ $k->jenis_masalah }}</div>
                 <div class="text-xs text-gray-400">{{ $k->created_at->format('d M Y') }}</div>

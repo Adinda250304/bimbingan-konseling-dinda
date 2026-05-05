@@ -95,21 +95,24 @@
 .fc { font-family: 'Poppins', sans-serif; }
 .fc-toolbar-title { font-size: 1.1rem !important; font-weight: 700 !important; color: #1e3a8a; }
 .fc-button-primary { 
-    background-color: #2563eb !important; 
+    background-color: #f3f4f6 !important; /* gray-100 */
     border-color: transparent !important; 
+    color: #000000 !important; /* black font */
     border-radius: 0.5rem !important; 
     text-transform: capitalize; 
     font-family: 'Poppins', sans-serif;
     font-size: 0.875rem !important;
     padding: 0.4rem 1rem !important;
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    box-shadow: none !important;
     transition: all 0.2s;
 }
 .fc-button-primary:hover {
-    background-color: #1d4ed8 !important;
+    background-color: #e5e7eb !important; /* gray-200 */
 }
 .fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
-    background-color: #1e40af !important;
+    background-color: #ffffff !important; /* white */
+    color: #000000 !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
 }
 
 .fc-button-group {
@@ -133,8 +136,8 @@
 }
 
 /* Custom Grid & Borders */
-.fc-theme-standard td, .fc-theme-standard th { border-color: #f1f5f9 !important; }
-.fc-theme-standard .fc-scrollgrid { border: 1px solid #e2e8f0 !important; border-radius: 0.75rem !important; overflow: hidden; }
+.fc-theme-standard td, .fc-theme-standard th { border-color: #cbd5e1 !important; }
+.fc-theme-standard .fc-scrollgrid { border: 2px solid #cbd5e1 !important; border-radius: 1rem !important; overflow: hidden; }
 .fc-col-header-cell-cushion { padding: 12px 4px !important; font-weight: 600 !important; color: #64748b; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
 .fc-daygrid-day-number { font-weight: 600; font-size: 0.875rem; color: #475569; padding: 8px 10px !important; }
 .fc-day-today { background-color: #f8fafc !important; }

@@ -3,9 +3,11 @@
 @section('nav-title', 'Selamat Datang, ' . auth()->user()->name . '!')
 
 @section('content')
-<div class="bg-white rounded-2xl shadow-sm p-5">
+<div class="bg-[#F8F3F3] rounded-2xl shadow-sm p-5 border border-gray-100">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-        <h2 class="text-blue-600 font-bold text-xl">Riwayat Konseling</h2>
+        <div class="flex items-center gap-3">
+            <h2 class="font-bold text-xl">Riwayat Konseling</h2>
+        </div>
 
         <form method="GET" class="flex items-center gap-2 flex-wrap">
             {{-- Cari Nama --}}
@@ -47,27 +49,45 @@
         </form>
     </div>
 
-    <div class="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+    <div class="border border-gray-400 rounded-2xl overflow-hidden shadow-sm">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="bg-gray-50 border-b border-gray-100/80 text-[10px] text-gray-400 uppercase tracking-widest font-semibold">
-                        <th class="px-6 py-4 whitespace-nowrap">Nama Siswa</th>
-                        <th class="px-6 py-4 whitespace-nowrap">Waktu Pengajuan</th>
-                        <th class="px-6 py-4 whitespace-nowrap">Detail Permasalahan</th>
-                        <th class="px-6 py-4 whitespace-nowrap">Status</th>
-                        <th class="px-6 py-4 whitespace-nowrap text-right">Aksi</th>
+                    <tr class="bg-gray-100 border-b border-gray-400 text-[10px] text-gray-600 uppercase tracking-widest font-semibold">
+                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Nama Siswa</th>
+                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Waktu Pengajuan</th>
+                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Detail Permasalahan</th>
+                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Status</th>
+                        <th class="px-6 py-4 whitespace-nowrap text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50/80 bg-white">
+                <tbody class="bg-[#F6F4F5]">
                     @forelse($konselings as $k)
                     @php
-                        $bc = match($k->status){ 'selesai'=>'bg-emerald-50 text-emerald-600 border-emerald-200','disetujui'=>'bg-pink-50 text-pink-600 border-pink-200','ditolak'=>'bg-red-50 text-red-600 border-red-200', default=>'bg-yellow-50 text-yellow-600 border-yellow-200' };
-                        $bl = match($k->status){ 'selesai'=>'Selesai','disetujui'=>'Berlangsung','ditolak'=>'Ditolak', default=>'Menunggu' };
-                        $dc = match($k->status){ 'selesai'=>'bg-emerald-500','disetujui'=>'bg-pink-500','ditolak'=>'bg-red-500', default=>'bg-yellow-500' };
+                        $bc = match($k->status){ 
+                            'selesai'=>'bg-emerald-50 text-emerald-600 border-emerald-200',
+                            'berlangsung'=>'bg-pink-50 text-pink-600 border-pink-200',
+                            'disetujui'=>'bg-blue-50 text-blue-600 border-blue-200',
+                            'ditolak'=>'bg-red-50 text-red-600 border-red-200', 
+                            default=>'bg-yellow-50 text-yellow-600 border-yellow-200' 
+                        };
+                        $bl = match($k->status){ 
+                            'selesai'=>'Selesai',
+                            'berlangsung'=>'Berlangsung',
+                            'disetujui'=>'Terjadwal',
+                            'ditolak'=>'Ditolak', 
+                            default=>'Menunggu' 
+                        };
+                        $dc = match($k->status){ 
+                            'selesai'=>'bg-emerald-500',
+                            'berlangsung'=>'bg-pink-500',
+                            'disetujui'=>'bg-blue-500',
+                            'ditolak'=>'bg-red-500', 
+                            default=>'bg-yellow-500' 
+                        };
                     @endphp
-                    <tr class="hover:bg-blue-50/20 transition-colors group">
-                        <td class="px-6 py-4">
+                    <tr class="bg-white transition-colors group border-b border-gray-400">
+                        <td class="px-6 py-4 border-r border-gray-400">
                             <div class="flex items-center gap-3">
                                 <div>
                                     <div class="font-bold text-sm text-gray-800 group-hover:text-blue-600 transition-colors">{{ $k->siswa->name }}</div>
@@ -75,22 +95,22 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 border-r border-gray-400">
                             <div class="text-xs font-semibold text-gray-600">{{ $k->created_at->format('d M Y') }}</div>
                             <div class="text-[10px] text-gray-400 mt-0.5">{{ $k->created_at->format('H:i') }} WIB</div>
                         </td>
-                        <td class="px-6 py-4 max-w-[250px]">
+                        <td class="px-6 py-4 max-w-[250px] border-r border-gray-400">
                             <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed" title="{{ $k->jenis_masalah }}">{{ $k->jenis_masalah }}</p>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="px-6 py-4 text-center whitespace-nowrap border-r border-gray-400">
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border {{ $bc }}">
                                 <span class="w-1.5 h-1.5 rounded-full {{ $dc }}"></span>
                                 {{ $bl }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-right whitespace-nowrap">
+                        <td class="px-6 py-4 text-center whitespace-nowrap">
                             <a href="{{ route('admin.konseling.show', $k) }}"
-                               class="inline-flex items-center justify-center px-4 py-1.5 bg-white border border-gray-200 text-gray-600 rounded-xl text-xs font-semibold hover:bg-gray-50 hover:border-gray-300 hover:text-blue-600 transition-all shadow-sm">
+                               class="inline-flex items-center justify-center px-4 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-xl text-xs font-semibold hover:bg-gray-50 hover:border-gray-400 hover:text-blue-600 transition-all shadow-sm">
                                 Detail
                             </a>
                         </td>
