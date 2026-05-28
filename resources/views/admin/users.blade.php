@@ -1,242 +1,198 @@
 @extends('layouts.admin')
-@section('title', 'Kelola Data User')
-@section('nav-title', 'Selamat Datang, ' . auth()->user()->name . '!')
+@section('title', 'Kelola Data Pengguna')
+@section('nav-title', 'Kelola Data Pengguna')
 
 @section('styles')
 <style>
-    .field-select {
-        appearance: none;
-        -webkit-appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239CA3AF'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 0.75rem center;
-        background-size: 1rem 1rem;
-        padding-right: 2.5rem;
+    .shadow-subtle {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     }
 </style>
 @endsection
 
 @section('content')
-<div class="mb-6">
-    {{-- Page Header --}}
-    <div class="flex items-start justify-between mb-6 flex-wrap gap-4">
-        <div>
-            <h2 class="text-gray-800 font-bold text-xl">Manajemen Pengguna</h2>
-            <p class="text-sm text-gray-400 mt-0.5">Kelola akses dan data pengguna sistem.</p>
-        </div>
-
-        <div class="flex items-center gap-3 flex-wrap sm:flex-nowrap">
-            {{-- Search --}}
-            <form method="GET" id="search-form">
-                <input type="hidden" name="role" value="{{ $role }}">
-                <div class="flex items-center gap-2 bg-gray-100 border border-gray-300 rounded-xl px-4 py-2.5 shadow-sm focus-within:border-gray-300 focus-within:ring-2 focus-within:ring-gray-300 transition-all min-w-[220px]">
-                    <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                    <input type="text" name="search" value="{{ $search }}" placeholder="Cari pengguna..."
-                        class="flex-1 text-sm outline-none text-gray-700 bg-transparent placeholder-gray-400"
-                        oninput="clearTimeout(window._st);window._st=setTimeout(()=>document.getElementById('search-form').submit(),450)">
-                </div>
-            </form>
-
-            {{-- Tambah Button --}}
-            <button onclick="openModal('modal-add')"
-                class="flex items-center gap-2 px-5 py-2.5 bg-gray-100 rounded-xl text-sm font-semibold text-black shadow-sm shadow-blue-200 transition-all">
-                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-                Tambah User
-            </button>
-        </div>
+<!-- Header Section -->
+<div class="flex justify-between items-start mb-10 flex-wrap gap-4">
+    <div>
+        <h1 class="font-display text-3xl font-bold text-on-surface mb-2">Kelola Data Pengguna</h1>
+        <p class="text-on-surface-variant text-sm">Kelola informasi guru, siswa, dan orang tua dalam satu tempat yang tenang.</p>
     </div>
+    <button class="bg-primary text-white px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:bg-primary-container transition-colors shadow-subtle" 
+            onclick="openAddModal()">
+        <span class="material-symbols-outlined">add</span>
+        Tambah Pengguna Baru
+    </button>
+</div>
 
-    {{-- Filter Tabs --}}
-    <div class="mb-5">
-        <div class="flex gap-1 bg-gray-100 p-1 rounded-xl w-fit">
-            @foreach(['semua' => 'Semua', 'siswa' => 'Siswa', 'admin' => 'Guru BK'] as $val => $lbl)
-            <a href="{{ route('admin.users', ['role' => $val, 'search' => $search]) }}"
-               class="px-4 py-1.5 rounded-lg text-sm font-medium transition-all whitespace-nowrap
-                      {{ $role === $val ? 'bg-white font-semibold shadow-sm text-black' : 'text-black/60 hover:text-black' }}">
-                {{ $lbl }}
-            </a>
-            @endforeach
-        </div>
+<!-- Filter Panel -->
+<form action="{{ route('admin.users') }}" method="GET" class="grid grid-cols-12 gap-gutter mb-8">
+    <div class="col-span-12 md:col-span-8 relative">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+        <input name="search" value="{{ $search }}" 
+               class="w-full bg-white border border-outline-variant/50 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm" 
+               placeholder="Cari berdasarkan nama, email, atau ID..." type="text"
+               oninput="clearTimeout(window._st);window._st=setTimeout(()=>this.form.submit(),450)"/>
     </div>
+    <div class="col-span-12 md:col-span-4">
+        <select name="role" class="w-full bg-white border border-outline-variant/50 rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm text-on-surface-variant"
+                onchange="this.form.submit()">
+            <option value="semua" {{ $role === 'semua' ? 'selected' : '' }}>Semua Peran</option>
+            <option value="admin" {{ $role === 'admin' ? 'selected' : '' }}>Admin / Guru BK</option>
+            <option value="siswa" {{ $role === 'siswa' ? 'selected' : '' }}>Siswa</option>
+        </select>
+    </div>
+</form>
 
-    {{-- Table --}}
-    <div class="bg-[#F8F3F3] rounded-2xl border border-gray-400 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="border-b border-gray-400 bg-gray-100">
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Nama</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Email</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Kelas</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest border-r border-gray-400">Akses</th>
-                        <th class="px-6 py-3.5 text-[11px] font-semibold text-center text-gray-600 uppercase tracking-widest">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white">
-                    @forelse($users as $u)
-                    <tr class="border-b border-gray-400 hover:bg-gray-50 transition-colors">
-                        <td class="px-6 py-4 border-r border-gray-400 text-left">
-                            <span class="text-sm font-semibold text-gray-800">{{ $u->name }}</span>
+<!-- Premium Table Card -->
+<div class="bg-surface rounded-2xl border border-outline-variant/30 shadow-subtle overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-surface-variant border-b border-outline-variant/30">
+                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest">Pengguna</th>
+                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest">Peran</th>
+                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest">Departemen / Relasi</th>
+                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest text-right">Aksi</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/10">
+                @forelse($users as $u)
+                    <tr class="hover:bg-background/50 transition-colors">
+                        <td class="px-6 py-5">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-primary-container/10 flex items-center justify-center text-primary-container font-bold text-sm">
+                                    {{ strtoupper(substr($u->name, 0, 2)) }}
+                                </div>
+                                <div>
+                                    <div class="font-bold text-on-surface text-sm">{{ $u->name }}</div>
+                                    <div class="text-[12px] text-on-surface-variant">{{ $u->email }}</div>
+                                </div>
+                            </div>
                         </td>
-                        <td class="px-6 py-4 border-r border-gray-400 text-left">
-                            <span class="text-sm text-gray-500">{{ $u->email }}</span>
-                        </td>
-                        <td class="px-6 py-4 border-r border-gray-400 text-left">
-                            @if($u->hasRole('siswa'))
-                                <span class="text-sm text-gray-600">{{ $u->kelas ?? '—' }}</span>
-                            @else
-                                <span class="text-sm text-gray-400">—</span>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 border-r border-gray-400 text-center">
+                        <td class="px-6 py-5">
                             @if($u->hasRole('admin'))
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs bg-[#EBE0E0] border border-gray-400">
-                                    Guru BK
-                                </span>
+                                <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-primary/10 text-primary uppercase">Guru BK</span>
                             @else
-                                <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs bg-[#EBE0E0] border border-gray-400">
-                                    Siswa
-                                </span>
+                                <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-700 uppercase">Siswa</span>
                             @endif
                         </td>
-                        <td class="px-4 py-2 text-center">
-                            <div class="flex items-center justify-center gap-2">
-                                <button onclick="openEditUser({{ $u->id }},'{{ addslashes($u->name) }}','{{ $u->username }}','{{ $u->email }}','{{ $u->roles->first()?->name }}','{{ $u->kelas }}','{{ $u->no_telp }}')"
-                                    class="p-1.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition" title="Edit">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
-                                    </svg>
+                        <td class="px-6 py-5">
+                            @if($u->hasRole('admin'))
+                                <span class="text-sm text-on-surface-variant">Konseling & Kesiswaan</span>
+                            @else
+                                <span class="text-sm text-on-surface-variant">{{ $u->kelas ?? '—' }}</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-5 text-right">
+                            <div class="flex justify-end gap-2">
+                                <button class="w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-primary/10 transition-all"
+                                        onclick="openEditModal({{ $u->id }}, '{{ addslashes($u->name) }}', '{{ $u->username }}', '{{ $u->email }}', '{{ $u->roles->first()?->name }}', '{{ $u->kelas }}', '{{ $u->no_telp }}')">
+                                    <span class="material-symbols-outlined text-[20px]">edit</span>
                                 </button>
                                 @if(auth()->id() !== $u->id)
-                                <button onclick="openDeleteUser({{ $u->id }}, '{{ addslashes($u->name) }}')"
-                                    class="p-1.5 rounded-lg text-gray-300 hover:text-red-500 hover:bg-red-50 transition" title="Hapus">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                    </svg>
-                                </button>
+                                    <button class="w-8 h-8 flex items-center justify-center rounded-full text-error hover:bg-error/10 transition-all"
+                                            onclick="openDeleteModal({{ $u->id }}, '{{ addslashes($u->name) }}')">
+                                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                                    </button>
                                 @endif
                             </div>
                         </td>
                     </tr>
-                    @empty
+                @empty
                     <tr>
-                        <td colspan="5" class="py-20 text-center">
-                            <div class="flex flex-col items-center gap-3">
-                                <div class="w-10 h-10 bg-gray-100 rounded-xl flex items-center justify-center">
-                                    <svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm font-semibold text-gray-600">Tidak ada data</p>
-                                    <p class="text-xs text-gray-400 mt-0.5">Belum ada pengguna terdaftar.</p>
-                                </div>
-                            </div>
+                        <td colspan="4" class="px-6 py-12 text-center text-on-surface-variant font-medium">
+                            Tidak ada pengguna ditemukan.
                         </td>
                     </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
+    <!-- Pagination -->
+    <div class="px-6 py-5 border-t border-outline-variant/20 flex justify-between items-center bg-white flex-wrap gap-4">
+        <p class="text-[13px] text-on-surface-variant">
+            Menampilkan <span class="font-bold text-on-surface">{{ $users->firstItem() ?? 0 }}</span> - <span class="font-bold text-on-surface">{{ $users->lastItem() ?? 0 }}</span> dari <span class="font-bold text-on-surface">{{ $users->total() }}</span> pengguna
+        </p>
         @if($users->hasPages())
-        <div class="px-6 py-4 border-t border-gray-100">
-            {{ $users->appends(request()->query())->links() }}
-        </div>
+            <div class="flex gap-1">
+                {{ $users->appends(request()->query())->links() }}
+            </div>
         @endif
     </div>
 </div>
 @endsection
 
 @section('modals')
-
-{{-- ── MODAL TAMBAH ── --}}
-<div id="modal-add" class="hidden fixed inset-0 bg-black/30 backdrop-blur-[2px] z-[100] items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
-        {{-- Header --}}
-        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-            <h3 class="font-bold text-gray-800 text-base">Tambah Pengguna</h3>
-            <button onclick="closeModal('modal-add')" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
+<!-- Modal: Tambah/Edit User -->
+<div class="hidden fixed inset-0 z-[100] flex items-center justify-center px-4" id="userModal">
+    <div class="absolute inset-0 bg-on-background/40 backdrop-blur-md" onclick="closeUserModal()"></div>
+    <div class="relative bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden border border-outline-variant/20">
+        <div class="p-6 border-b border-outline-variant/10">
+            <h3 class="font-display text-xl font-bold text-on-surface" id="modalTitle">Tambah Pengguna Baru</h3>
         </div>
-
-        {{-- Body --}}
-        <form action="{{ route('admin.users.store') }}" method="POST">
+        <form id="userForm" class="p-6 space-y-4" method="POST">
             @csrf
-            <div class="px-6 py-5 space-y-4">
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Nama Lengkap</label>
-                        <input type="text" name="name" required
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Username</label>
-                        <input type="text" name="username" required
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                </div>
-
+            <div id="methodContainer"></div>
+            
+            <div>
+                <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Nama Lengkap</label>
+                <input id="userName" name="name" required class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Masukkan nama lengkap..." type="text"/>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1.5">Email</label>
-                    <input type="email" name="email" required
-                        class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1.5">Role</label>
-                    <select name="role" required class="field-select w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition cursor-pointer">
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Peran</label>
+                    <select id="userRole" name="role" required class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm cursor-pointer" onchange="toggleRoleFields()">
                         <option value="siswa">Siswa</option>
                         <option value="admin">Guru BK</option>
                     </select>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Tingkat Kelas</label>
-                        <select name="tingkat_kelas" class="field-select w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 outline-none transition cursor-pointer">
-                            <option value="">—</option>
-                            <option value="X">X</option>
-                            <option value="XI">XI</option>
-                            <option value="XII">XII</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Jurusan</label>
-                        <input type="text" name="jurusan" placeholder="Contoh: TKJ 1"
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">ID Identitas</label>
+                    <input id="userUsername" name="username" required class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="NIP / NISN" type="text"/>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Password</label>
-                        <input type="password" name="password" required minlength="6"
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">No. Telepon</label>
-                        <input type="text" name="no_telp"
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                </div>
-
             </div>
 
-            {{-- Footer --}}
-            <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100">
-                <button type="button" onclick="closeModal('modal-add')"
-                    class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
+            <!-- Fields only for student (Siswa) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="siswaFields">
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Tingkat Kelas</label>
+                    <select id="userTingkat" name="tingkat_kelas" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm cursor-pointer">
+                        <option value="">—</option>
+                        <option value="X">X</option>
+                        <option value="XI">XI</option>
+                        <option value="XII">XII</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Jurusan</label>
+                    <input id="userJurusan" name="jurusan" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Contoh: IPA 2, TKJ 1" type="text"/>
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Email</label>
+                <input id="userEmail" name="email" required class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="email@contoh.com" type="email"/>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Password</label>
+                    <input id="userPassword" name="password" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="••••••••" type="password" minlength="8" maxlength="20"/>
+                    <p class="text-[10px] text-on-surface-variant mt-1" id="pwHelp">8-20 karakter, huruf besar, kecil, angka & spesial.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">No. Telepon</label>
+                    <input id="userNotelp" name="no_telp" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Contoh: 0812345678" type="text"/>
+                </div>
+            </div>
+            
+            <div class="pt-6 flex gap-3">
+                <button class="flex-1 py-3 border border-outline-variant rounded-xl font-bold text-on-surface-variant hover:bg-background transition-all" onclick="closeUserModal()" type="button">
                     Batal
                 </button>
-                <button type="submit"
-                    class="px-5 py-2.5 text-sm font-medium bg-gray-100 text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
+                <button class="flex-1 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary-container transition-all shadow-subtle" type="submit">
                     Simpan
                 </button>
             </div>
@@ -244,115 +200,82 @@
     </div>
 </div>
 
-{{-- ── MODAL EDIT ── --}}
-<div id="modal-edit" class="hidden fixed inset-0 bg-black/30 backdrop-blur-[2px] z-[100] items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
-        <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-            <h3 class="font-bold text-gray-800 text-base">Edit Pengguna</h3>
-            <button onclick="closeModal('modal-edit')" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-        </div>
-
-        <form id="form-edit" method="POST">
-            @csrf @method('PUT')
-            <div class="px-6 py-5 space-y-4">
-
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1.5">Nama Pengguna</label>
-                    <input type="text" name="name" id="eu-name" required
-                        class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1.5">Email</label>
-                    <input type="email" name="email" id="eu-email" required
-                        class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                </div>
-
-                <div>
-                    <label class="block text-xs font-medium text-gray-500 mb-1.5">Role</label>
-                    <select name="role" id="eu-role" required class="field-select w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition cursor-pointer">
-                        <option value="siswa">Siswa</option>
-                        <option value="admin">Guru BK</option>
-                    </select>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Tingkat Kelas</label>
-                        <select name="tingkat_kelas" id="eu-tingkat" class="field-select w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 outline-none transition cursor-pointer">
-                            <option value="">—</option>
-                            <option value="X">X</option>
-                            <option value="XI">XI</option>
-                            <option value="XII">XII</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 mb-1.5">Jurusan</label>
-                        <input type="text" name="jurusan" id="eu-jurusan" placeholder="Contoh: TKJ 1"
-                            class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:bg-white focus:border-blue-400 focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                </div>
-
-            </div>
-            <input type="hidden" name="username" id="eu-username">
-            <input type="hidden" name="no_telp" id="eu-notelp">
-
-            <div class="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100">
-                <button type="button" onclick="closeModal('modal-edit')"
-                    class="px-5 py-2.5 text-sm font-medium text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
-                    Batal
-                </button>
-                <button type="submit"
-                    class="px-5 py-2.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-xl shadow-sm shadow-blue-200 transition">
-                    Simpan
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-{{-- ── MODAL HAPUS ── --}}
-<div id="modal-hapus" class="hidden fixed inset-0 bg-black/30 backdrop-blur-[2px] z-[100] items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm">
+<!-- Modal: Hapus User -->
+<div id="deleteModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div class="absolute inset-0 bg-on-background/40 backdrop-blur-md" onclick="closeDeleteModal()"></div>
+    <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-xl overflow-hidden border border-outline-variant/20">
         <div class="px-6 pt-6 pb-5 text-center">
-            <div class="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <svg class="w-6 h-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                </svg>
+            <div class="w-12 h-12 bg-error-container/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-error text-[28px]">delete</span>
             </div>
-            <h3 class="font-bold text-gray-800 text-base mb-1">Hapus Pengguna?</h3>
-            <p id="hapus-label" class="text-sm text-gray-500"></p>
+            <h3 class="font-bold text-on-surface text-base mb-1">Hapus Pengguna?</h3>
+            <p id="deleteLabel" class="text-sm text-on-surface-variant"></p>
         </div>
-        <form id="form-hapus" method="POST">
+        <form id="deleteForm" method="POST">
             @csrf @method('DELETE')
             <div class="flex gap-3 px-6 pb-6">
-                <button type="button" onclick="closeModal('modal-hapus')"
-                    class="flex-1 py-2.5 text-sm font-medium text-gray-600 rounded-xl border border-gray-200 hover:bg-gray-50 transition">
+                <button type="button" onclick="closeDeleteModal()"
+                    class="flex-1 py-2.5 text-sm font-semibold text-on-surface-variant rounded-xl border border-outline-variant hover:bg-background transition-all">
                     Batal
                 </button>
                 <button type="submit"
-                    class="flex-1 py-2.5 text-sm font-semibold text-white bg-red-500 hover:bg-red-600 rounded-xl transition">
+                    class="flex-1 py-2.5 text-sm font-semibold text-white bg-error hover:bg-error/80 rounded-xl transition-all">
                     Hapus
                 </button>
             </div>
         </form>
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script>
-function openEditUser(id, name, username, email, role, kelas, notelp) {
-    document.getElementById('form-edit').action = '/admin/users/' + id;
-    document.getElementById('eu-name').value     = name;
-    document.getElementById('eu-username').value = username;
-    document.getElementById('eu-email').value    = email;
-    document.getElementById('eu-role').value     = role;
-    document.getElementById('eu-notelp').value   = notelp || '';
+function toggleRoleFields() {
+    var role = document.getElementById('userRole').value;
+    var fields = document.getElementById('siswaFields');
+    if (role === 'siswa') {
+        fields.classList.remove('hidden');
+    } else {
+        fields.classList.add('hidden');
+    }
+}
 
+function openAddModal() {
+    document.getElementById('modalTitle').textContent = 'Tambah Pengguna Baru';
+    document.getElementById('userForm').action = "{{ route('admin.users.store') }}";
+    document.getElementById('methodContainer').innerHTML = '';
+    
+    // Clear inputs
+    document.getElementById('userName').value = '';
+    document.getElementById('userRole').value = 'siswa';
+    document.getElementById('userUsername').value = '';
+    document.getElementById('userEmail').value = '';
+    document.getElementById('userPassword').value = '';
+    document.getElementById('userPassword').required = true;
+    document.getElementById('pwHelp').textContent = '8-20 karakter, huruf besar, kecil, angka & spesial.';
+    document.getElementById('userNotelp').value = '';
+    document.getElementById('userTingkat').value = '';
+    document.getElementById('userJurusan').value = '';
+    
+    toggleRoleFields();
+    openModal('userModal');
+}
+
+function openEditModal(id, name, username, email, role, kelas, notelp) {
+    document.getElementById('modalTitle').textContent = 'Edit Pengguna';
+    document.getElementById('userForm').action = "/admin/users/" + id;
+    document.getElementById('methodContainer').innerHTML = '<input type="hidden" name="_method" value="PUT">';
+    
+    // Populate inputs
+    document.getElementById('userName').value = name;
+    document.getElementById('userRole').value = role || 'siswa';
+    document.getElementById('userUsername').value = username;
+    document.getElementById('userEmail').value = email;
+    document.getElementById('userPassword').value = '';
+    document.getElementById('userPassword').required = false;
+    document.getElementById('pwHelp').textContent = 'Biarkan kosong jika tidak ingin mengubah password. Jika diisi: 8-20 karakter, huruf besar, kecil, angka & spesial.';
+    document.getElementById('userNotelp').value = notelp || '';
+    
     var tingkat = '', jurusan = '';
     if (kelas) {
         var parts = kelas.trim().split(' ');
@@ -363,14 +286,25 @@ function openEditUser(id, name, username, email, role, kelas, notelp) {
             jurusan = kelas;
         }
     }
-    document.getElementById('eu-tingkat').value = tingkat;
-    document.getElementById('eu-jurusan').value = jurusan;
-    openModal('modal-edit');
+    document.getElementById('userTingkat').value = tingkat;
+    document.getElementById('userJurusan').value = jurusan;
+    
+    toggleRoleFields();
+    openModal('userModal');
 }
-function openDeleteUser(id, name) {
-    document.getElementById('form-hapus').action = '/admin/users/' + id;
-    document.getElementById('hapus-label').textContent = 'Data pengguna "' + name + '" akan dihapus permanen.';
-    openModal('modal-hapus');
+
+function closeUserModal() {
+    closeModal('userModal');
+}
+
+function openDeleteModal(id, name) {
+    document.getElementById('deleteForm').action = "/admin/users/" + id;
+    document.getElementById('deleteLabel').textContent = 'Data pengguna "' + name + '" akan dihapus secara permanen.';
+    openModal('deleteModal');
+}
+
+function closeDeleteModal() {
+    closeModal('deleteModal');
 }
 </script>
 @endsection

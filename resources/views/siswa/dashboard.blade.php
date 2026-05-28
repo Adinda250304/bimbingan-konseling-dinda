@@ -3,91 +3,196 @@
 @section('nav-title', 'Dashboard')
 
 @section('content')
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-    {{-- Sesi Aktif --}}
-    <div class="bg-teal-300/70 rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 9v7.5m-9-6h.008v.008H12V12zm0 3h.008v.008H12V15zm0 3h.008v.008H12V18zm-3-6h.008v.008H9V12zm0 3h.008v.008H9V15zm0 3h.008v.008H9V18zm6-6h.008v.008H15V12zm0 3h.008v.008H15V15z"/>
-            </svg>
-        </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Sesi Aktif</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $sesi_aktif }}</p>
-        </div>
+<!-- Welcome Banner -->
+<section class="mb-section-margin bg-surface-container-lowest rounded-2xl p-8 border border-surface-variant shadow-subtle relative overflow-hidden flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+    <div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-secondary-container/30 to-transparent pointer-events-none"></div>
+    <div class="relative z-10 max-w-2xl">
+        <h2 class="font-headline-lg text-headline-lg text-primary mb-2">Halo, {{ auth()->user()->name }}!</h2>
+        <p class="font-body-md text-body-md text-on-surface-variant">Ada yang ingin kamu ceritakan atau konsultasikan hari ini? Teman BK selalu ada untukmu.</p>
     </div>
-    {{-- Menunggu --}}
-    <div class="bg-pink-200/80 rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-        </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Menunggu</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $menunggu }}</p>
-        </div>
-    </div>
-    {{-- Selesai --}}
-    <div class="bg-amber-100/90 rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-        </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Selesai</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $selesai }}</p>
-        </div>
-    </div>
-    {{-- Total Sesi --}}
-    <div class="bg-violet-200/80 rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/>
-            </svg>
-        </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Total Sesi</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $total }}</p>
-        </div>
-    </div>
-</div>
+    <a href="{{ route('siswa.pengajuan') }}" 
+       class="relative z-10 w-full sm:w-auto bg-primary hover:bg-primary-container text-white rounded-xl px-6 py-3 flex items-center justify-center gap-2 font-bold text-sm transition-colors shadow-md shrink-0">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 600;">add</span>
+        Ajukan Konseling Baru
+    </a>
+</section>
 
-<div class="grid md:grid-cols-3 gap-4">
-    {{-- Ajukan banner --}}
-    <div class="md:col-span-1 bg-blue-600 rounded-2xl p-6 flex flex-col justify-between gap-4 shadow-sm shadow-blue-200">
-        <div>
-            <p class="text-white font-bold text-lg">Butuh Bantuan?</p>
-            <p class="text-blue-100 text-sm mt-1">Ajukan sesi konseling dengan guru BK.</p>
-        </div>
-        <a href="{{ route('siswa.pengajuan') }}"
-           class="self-start bg-white text-blue-600 font-bold text-sm px-5 py-2.5 rounded-xl hover:bg-blue-50 transition">
-            Ajukan Sekarang
-        </a>
-    </div>
-
-    {{-- Riwayat --}}
-    <div class="md:col-span-2 bg-white rounded-2xl shadow-sm p-5">
-        <div class="flex items-center justify-between mb-3">
-            <h2 class="text-blue-600 font-bold text-base">Riwayat Konseling</h2>
-            <a href="{{ route('siswa.riwayat') }}" class="text-xs text-gray-400 hover:text-blue-500">Lihat semua</a>
-        </div>
-        @forelse($riwayat as $k)
-        @php
-            $bc = match($k->status){ 'selesai'=>'bg-green-100 text-green-700','disetujui'=>'bg-pink-100 text-pink-700','ditolak'=>'bg-red-100 text-red-700', default=>'bg-yellow-100 text-yellow-700' };
-            $bl = match($k->status){ 'selesai'=>'Selesai','disetujui'=>'Berlangsung','ditolak'=>'Ditolak', default=>'Menunggu' };
-        @endphp
-        <div class="flex items-center gap-3 py-2.5 border-b border-gray-300 last:border-b-0">
-            <div class="flex-1 min-w-0">
-                <div class="font-semibold text-sm text-gray-800 truncate">{{ $k->jenis_masalah }}</div>
-                <div class="text-xs text-gray-400">{{ $k->created_at->format('d M Y') }}</div>
+<!-- Key Metrics Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-card-gap mb-section-margin">
+    <!-- Metric 1: Next Session -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-primary-container/10 rounded-xl text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined">schedule</span>
             </div>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $bc }}">{{ $bl }}</span>
+            @if($sesi_terdekat)
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#E8F0FE] text-[#1A73E8] font-label-md text-label-md">
+                    Terjadwal
+                </span>
+            @else
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-variant text-on-surface-variant font-label-md text-label-md">
+                    Kosong
+                </span>
+            @endif
         </div>
-        @empty
-        <p class="text-center text-gray-400 py-8 text-sm">Belum ada riwayat konseling.</p>
-        @endforelse
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Sesi Terdekat</p>
+        <p class="font-headline-md text-headline-md text-on-surface truncate">
+            {{ $sesi_terdekat ? $sesi_terdekat->tanggal_konseling->translatedFormat('d M Y') : 'Tidak Ada Sesi' }}
+        </p>
     </div>
+
+    <!-- Metric 2: Completed Sessions -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-primary-container/10 rounded-xl text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined">task_alt</span>
+            </div>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Total Sesi Selesai</p>
+        <p class="font-headline-md text-headline-md text-on-surface">{{ $selesai }} Sesi</p>
+    </div>
+
+    <!-- Metric 3: Pending Requests -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-secondary-container/30 rounded-xl text-secondary flex items-center justify-center">
+                <span class="material-symbols-outlined">hourglass_empty</span>
+            </div>
+            @if($menunggu > 0)
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FFF8E1] text-[#F57F17] font-label-md text-label-md animate-pulse">
+                    Menunggu
+                </span>
+            @endif
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Pengajuan Aktif</p>
+        <p class="font-headline-md text-headline-md text-on-surface">{{ $menunggu }} Menunggu</p>
+    </div>
+
+    <!-- Metric 4: BK Availability -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-primary-container/10 rounded-xl text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined">face</span>
+            </div>
+            @if($is_available)
+                <div class="w-3 h-3 bg-primary rounded-full relative">
+                    <div class="absolute inset-0 bg-primary rounded-full animate-ping opacity-75"></div>
+                </div>
+            @endif
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Status Ketersediaan BK</p>
+        <p class="font-headline-md text-headline-md text-on-surface truncate">
+            {{ $is_available ? 'Guru BK Aktif' : 'Tidak Aktif' }}
+        </p>
+    </div>
+</section>
+
+<!-- Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-card-gap">
+    <!-- Left Column: Recent Activity (7 cols wide) -->
+    <section class="lg:col-span-7 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Aktivitas Konseling Saya</h3>
+            <a href="{{ route('siswa.riwayat') }}" 
+               class="text-primary hover:text-primary-container font-label-md text-label-md transition-colors">Lihat Semua</a>
+        </div>
+        
+        <div class="flex flex-col gap-4">
+            @forelse($riwayat->take(3) as $k)
+                @php
+                    $bc = match($k->status) {
+                        'selesai' => 'bg-[#E6F4EA] text-[#137333] border border-[#137333]/20',
+                        'disetujui' => 'bg-[#E8F0FE] text-[#1A73E8] border border-[#1A73E8]/20',
+                        'ditolak' => 'bg-[#FCE8E6] text-[#C5221F] border border-[#C5221F]/20',
+                        default => 'bg-[#FFF8E1] text-[#F57F17] border border-[#F57F17]/20'
+                    };
+                    $bl = match($k->status) {
+                        'selesai' => 'Selesai',
+                        'disetujui' => 'Disetujui',
+                        'ditolak' => 'Ditolak',
+                        default => 'Menunggu'
+                    };
+                @endphp
+                <!-- Session Item Card -->
+                <div class="flex flex-col p-5 rounded-xl border border-outline-variant/40 hover:bg-surface-container-low transition-colors group">
+                    <div class="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                                {{ strtoupper(substr($k->guru ? $k->guru->name : 'BK', 0, 2)) }}
+                            </div>
+                            <div>
+                                <h4 class="font-body-md text-body-md font-semibold text-on-surface">{{ $k->guru ? $k->guru->name : 'Guru BK' }}</h4>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                    {{ $k->tanggal_konseling ? $k->tanggal_konseling->translatedFormat('d M Y') : $k->created_at->translatedFormat('d M Y') }}
+                                    @if($k->jam_konseling)
+                                        • pukul {{ \Carbon\Carbon::parse($k->jam_konseling)->format('H:i') }} WIB
+                                    @endif
+                                    @if($k->tempat)
+                                        • {{ $k->tempat }}
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 rounded-full font-label-md text-label-md {{ $bc }}">{{ $bl }}</span>
+                    </div>
+                    
+                    <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 mt-2">
+                        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Topik / Kategori Masalah: {{ $k->jenis_masalah }}</p>
+                        <p class="text-sm text-on-surface leading-relaxed italic">"{{ $k->deskripsi_masalah }}"</p>
+                    </div>
+
+                    @if($k->status === 'selesai' && $k->hasil && $k->hasil->catatan_konselor)
+                        <div class="bg-primary/5 p-4 rounded-xl border-l-4 border-primary mt-3">
+                            <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">Catatan Hasil dari Guru BK:</p>
+                            <p class="text-sm text-on-surface leading-relaxed">"{{ $k->hasil->catatan_konselor }}"</p>
+                        </div>
+                    @elseif($k->status === 'ditolak' && $k->alasan_penolakan)
+                        <div class="bg-error/5 p-4 rounded-xl border-l-4 border-error mt-3">
+                            <p class="text-[11px] font-bold text-error uppercase tracking-wider mb-1">Alasan Penolakan:</p>
+                            <p class="text-sm text-on-surface leading-relaxed">"{{ $k->alasan_penolakan }}"</p>
+                        </div>
+                    @endif
+                </div>
+            @empty
+                <div class="flex flex-col items-center justify-center py-12 text-center">
+                    <span class="material-symbols-outlined text-outline-variant text-4xl mb-2">history</span>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Belum ada riwayat aktivitas konseling.</p>
+                </div>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- Right Column: Articles (5 cols wide) -->
+    <section class="lg:col-span-5 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tips &amp; Artikel Kesehatan</h3>
+            <a href="{{ route('siswa.artikel.index') }}" class="text-xs text-primary font-semibold hover:underline inline-flex items-center gap-1">
+                Lihat Semua
+                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+            </a>
+        </div>
+        <div class="flex flex-col gap-4">
+            @forelse($artikels as $artikel)
+                <!-- Article Card -->
+                <a href="{{ route('siswa.artikel.detail', $artikel->id) }}" class="flex gap-4 group cursor-pointer p-3 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/30">
+                    <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface-variant">
+                        <img alt="{{ $artikel->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="{{ $artikel->thumbnail }}"/>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <h5 class="font-body-md text-body-md font-semibold text-on-surface group-hover:text-primary transition-colors line-clamp-2">{{ $artikel->judul }}</h5>
+                        <p class="font-label-md text-label-md text-on-surface-variant mt-1.5">{{ $artikel->created_at->format('d M Y') }}</p>
+                    </div>
+                </a>
+                @if(!$loop->last)
+                    <hr class="border-outline-variant/30"/>
+                @endif
+            @empty
+                <div class="flex flex-col items-center justify-center py-12 text-center">
+                    <span class="material-symbols-outlined text-outline-variant text-4xl mb-2">article</span>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Belum ada artikel yang diterbitkan.</p>
+                </div>
+            @endforelse
+        </div>
+    </section>
 </div>
 @endsection

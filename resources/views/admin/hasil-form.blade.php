@@ -1,113 +1,120 @@
 @extends('layouts.admin')
 @section('title', 'Isi Hasil Konseling')
-@section('nav-title', 'Isi Hasil & Saran Konseling')
+@section('nav-title', 'Isi Hasil & Saran')
 
 @section('content')
 <div class="max-w-3xl mx-auto">
 
     {{-- Tombol Kembali --}}
-    <a href="{{ route('admin.jadwal') }}"
-       class="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-500 hover:text-blue-600 transition mb-4">
-        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-        </svg>
-        Kembali ke Jadwal
+    <a href="{{ route('admin.konseling.show', $konseling) }}"
+       class="inline-flex items-center gap-1.5 text-sm font-semibold text-on-surface-variant hover:text-primary transition mb-6">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        Kembali ke Detail Konseling
     </a>
 
-    {{-- Info Siswa --}}
-    <div class="bg-white rounded-2xl shadow-sm p-5 mb-4 border-l-4 border-blue-500">
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <div>
-                <p class="text-xs text-gray-400 font-medium mb-0.5">Nama Siswa</p>
-                <p class="text-sm font-semibold text-gray-800">{{ $konseling->siswa->name }}</p>
+    {{-- Info Siswa Card --}}
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle mb-6">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-base shrink-0">
+                {{ strtoupper(substr($konseling->siswa->name, 0, 2)) }}
             </div>
             <div>
-                <p class="text-xs text-gray-400 font-medium mb-0.5">Kelas</p>
-                <p class="text-sm font-semibold text-gray-800">{{ $konseling->siswa->kelas ?? '—' }}</p>
-            </div>
-            <div>
-                <p class="text-xs text-gray-400 font-medium mb-0.5">Jenis Masalah</p>
-                <p class="text-sm font-semibold text-gray-800">{{ $konseling->jenis_masalah }}</p>
+                <h4 class="font-headline-sm text-headline-sm font-semibold text-on-surface">{{ $konseling->siswa->name }}</h4>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Kelas {{ $konseling->siswa->kelas ?? '—' }} • Sesi Offline</p>
             </div>
         </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-outline-variant/30">
+            <div class="bg-surface-container-low rounded-xl p-3.5 border border-outline-variant/20">
+                <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Topik / Kategori Masalah</p>
+                <p class="text-sm font-semibold text-on-surface">{{ $konseling->jenis_masalah }}</p>
+            </div>
+            @if($konseling->tanggal_konseling)
+            <div class="bg-surface-container-low rounded-xl p-3.5 border border-outline-variant/20">
+                <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Waktu Sesi</p>
+                <p class="text-sm font-semibold text-on-surface">
+                    {{ $konseling->tanggal_konseling->translatedFormat('d F Y') }} • pukul {{ \Carbon\Carbon::parse($konseling->jam_konseling)->format('H:i') }} WIB
+                </p>
+            </div>
+            @endif
+        </div>
         @if($konseling->deskripsi_masalah)
-        <div class="mt-3 pt-3 border-t border-gray-100">
-            <p class="text-xs text-gray-400 font-medium mb-0.5">Deskripsi Masalah</p>
-            <p class="text-sm text-gray-700">{{ $konseling->deskripsi_masalah }}</p>
+        <div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/20 mt-4">
+            <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Deskripsi Masalah</p>
+            <p class="text-sm text-on-surface leading-relaxed">{{ $konseling->deskripsi_masalah }}</p>
         </div>
         @endif
     </div>
 
-    {{-- Form Hasil --}}
-    <div class="bg-white rounded-2xl shadow-sm p-6">
-        <h3 class="font-bold text-gray-800 text-base mb-5">Catatan & Hasil Konseling</h3>
+    {{-- Form Hasil Card --}}
+    <div class="bg-surface-container-lowest rounded-2xl p-8 border border-surface-variant shadow-subtle">
+        <h3 class="font-headline-md text-headline-md text-primary font-bold mb-6">Catatan & Hasil Sesi</h3>
 
         @if($errors->any())
-        <div class="mb-4 bg-red-50 border border-red-200 text-red-700 rounded-xl px-4 py-3 text-sm">
+        <div class="mb-5 bg-error-container/20 border border-error-container/30 text-error rounded-xl px-4 py-3 text-sm font-medium">
             {{ $errors->first() }}
         </div>
         @endif
 
-        <form action="{{ route('admin.konseling.hasil.store', $konseling) }}" method="POST" class="space-y-5">
+        <form action="{{ route('admin.konseling.hasil.store', $konseling) }}" method="POST" class="space-y-6">
             @csrf
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+            <div class="space-y-2">
+                <label class="block font-body-sm text-body-sm font-bold text-on-surface-variant uppercase tracking-wider">
                     Catatan Konselor
-                    <span class="text-red-500 ml-0.5">*</span>
+                    <span class="text-error ml-0.5">*</span>
                 </label>
-                <p class="text-xs text-gray-400 mb-2">Tuliskan jalannya sesi, kondisi siswa, dan permasalahan yang dibahas.</p>
+                <p class="text-xs text-on-surface-variant">Tuliskan jalannya sesi, kondisi siswa, dan permasalahan yang dibahas secara lengkap.</p>
                 <textarea name="catatan_konselor" rows="5" required
                     placeholder="Contoh: Siswa terlihat cemas saat membahas nilai akademik. Kami mendiskusikan strategi belajar yang lebih efektif..."
-                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-sm font-poppins text-gray-800 outline-none focus:border-blue-400 resize-y transition placeholder:text-gray-300">{{ old('catatan_konselor', $konseling->hasil?->catatan_konselor) }}</textarea>
+                    class="w-full px-4 py-3 border border-outline-variant/60 rounded-xl text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary transition bg-surface resize-none">{{ old('catatan_konselor', $konseling->hasil?->catatan_konselor) }}</textarea>
             </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+            <div class="space-y-2">
+                <label class="block font-body-sm text-body-sm font-bold text-on-surface-variant uppercase tracking-wider">
                     Saran untuk Siswa
-                    <span class="text-red-500 ml-0.5">*</span>
+                    <span class="text-error ml-0.5">*</span>
                 </label>
-                <p class="text-xs text-gray-400 mb-2">Tuliskan rekomendasi dan saran konkret yang diberikan kepada siswa.</p>
+                <p class="text-xs text-on-surface-variant">Tuliskan rekomendasi dan saran konkret yang diberikan kepada siswa.</p>
                 <textarea name="saran" rows="4" required
                     placeholder="Contoh: Disarankan untuk membuat jadwal belajar harian, mengurangi penggunaan gadget di malam hari..."
-                    class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-sm font-poppins text-gray-800 outline-none focus:border-blue-400 resize-y transition placeholder:text-gray-300">{{ old('saran', $konseling->hasil?->saran) }}</textarea>
+                    class="w-full px-4 py-3 border border-outline-variant/60 rounded-xl text-sm outline-none focus:border-primary focus:ring-1 focus:ring-primary transition bg-surface resize-none">{{ old('saran', $konseling->hasil?->saran) }}</textarea>
             </div>
 
-            <div class="border-t border-gray-100 pt-5 mt-5">
-                <div class="flex items-center gap-2 mb-3">
+            <div class="pt-4 border-t border-outline-variant/30">
+                <div class="flex items-center gap-3">
                     <input type="checkbox" id="buat_tl" name="buat_tl" value="1" 
-                        class="w-4 h-4 text-blue-600 rounded border-gray-300 cursor-pointer" 
+                        class="w-4 h-4 text-primary focus:ring-primary border-outline-variant rounded cursor-pointer" 
                         onchange="document.getElementById('tl-form').classList.toggle('hidden', !this.checked)">
-                    <label for="buat_tl" class="text-sm font-semibold text-gray-700 cursor-pointer">
+                    <label for="buat_tl" class="text-sm font-semibold text-on-surface cursor-pointer select-none">
                         Buat Surat Tindak Lanjut Resmi (Opsional)
                     </label>
                 </div>
                 
-                <div id="tl-form" class="hidden space-y-4 bg-blue-50/50 p-4 rounded-xl border border-blue-100 mt-2">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Jenis Tindak Lanjut</label>
-                        <select name="tl_jenis" class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:border-blue-500 cursor-pointer transition">
+                <div id="tl-form" class="hidden space-y-4 bg-primary-container/5 p-5 rounded-2xl border border-primary-container/20 mt-4">
+                    <div class="space-y-2">
+                        <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Jenis Tindak Lanjut</label>
+                        <select name="tl_jenis" class="w-full bg-surface border border-outline-variant/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm outline-none cursor-pointer">
                             <option value="pemanggilan_ortu">Pemanggilan Orang Tua</option>
                             <option value="mediasi">Mediasi</option>
                             <option value="rujukan">Rujukan Profesional</option>
                             <option value="lainnya">Lainnya</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Catatan Detail (Untuk Surat)</label>
+                    <div class="space-y-2">
+                        <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Catatan Detail (Untuk Surat)</label>
                         <textarea name="tl_catatan" rows="3" placeholder="Tuliskan detail catatan / alasan tindak lanjut diputuskan..."
-                            class="w-full px-3.5 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:border-blue-500 resize-y transition"></textarea>
+                            class="w-full bg-surface border border-outline-variant/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm outline-none resize-none"></textarea>
                     </div>
                 </div>
             </div>
 
-            <div class="flex gap-3 pt-2 border-t border-gray-100">
+            <div class="flex gap-4 pt-4 border-t border-outline-variant/30">
                 <a href="{{ route('admin.jadwal') }}"
-                   class="flex-1 text-center py-3 border-2 border-gray-300 hover:border-gray-400 rounded-xl text-sm font-semibold text-gray-700 transition">
+                   class="flex-1 text-center py-3 border border-outline text-on-surface-variant hover:bg-surface-container-low rounded-xl transition font-semibold text-sm">
                     Batal
                 </a>
                 <button type="submit"
-                    class="flex-1 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-bold tracking-wide transition shadow-sm">
+                    class="flex-1 py-3 bg-primary hover:bg-primary-container text-white rounded-xl transition font-bold text-sm shadow-md">
                     Simpan & Tandai Selesai
                 </button>
             </div>

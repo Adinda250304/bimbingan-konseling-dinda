@@ -1,140 +1,221 @@
 @extends('layouts.admin')
 @section('title', 'Riwayat Konseling')
-@section('nav-title', 'Selamat Datang, ' . auth()->user()->name . '!')
+@section('nav-title', 'Riwayat Konseling')
 
 @section('content')
-<div class="bg-[#F8F3F3] rounded-2xl shadow-sm p-5 border border-gray-100">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
-        <div class="flex items-center gap-3">
-            <h2 class="font-bold text-xl">Riwayat Konseling</h2>
+
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <!-- Stat 1: Cases Solved -->
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-sm">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="p-3 bg-primary/10 text-primary rounded-lg">
+                <span class="material-symbols-outlined">task_alt</span>
+            </div>
+            <p class="font-label-md text-outline">TOTAL KASUS DISELESAIKAN</p>
         </div>
-
-        <form method="GET" class="flex items-center gap-2 flex-wrap">
-            {{-- Cari Nama --}}
-            <div class="flex items-center gap-2 border border-gray-200 focus-within:border-blue-400 rounded-lg px-3 py-2 transition-colors bg-gray-50/50">
-                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Nama siswa..."
-                    class="text-xs outline-none font-poppins text-gray-700 bg-transparent w-24">
-            </div>
-
-            {{-- Date Picker --}}
-            <div class="flex items-center gap-2 border border-gray-200 focus-within:border-blue-400 rounded-lg px-3 py-2 transition-colors bg-gray-50/50">
-                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <input type="date" name="tanggal" value="{{ request('tanggal') }}"
-                    class="text-xs outline-none font-poppins text-gray-700 bg-transparent cursor-pointer">
-            </div>
-
-            {{-- Status --}}
-            <select name="status" onchange="this.form.submit()"
-                class="border border-gray-200 rounded-lg px-3 py-2 text-xs font-poppins text-gray-700 outline-none bg-gray-50/50 cursor-pointer focus:border-blue-400 transition-colors">
-                <option value="">Semua Status</option>
-                <option value="menunggu"  {{ request('status')==='menunggu'  ? 'selected' : '' }}>Menunggu</option>
-                <option value="disetujui" {{ request('status')==='disetujui' ? 'selected' : '' }}>Berlangsung</option>
-                <option value="selesai"   {{ request('status')==='selesai'   ? 'selected' : '' }}>Selesai</option>
-                <option value="ditolak"   {{ request('status')==='ditolak'   ? 'selected' : '' }}>Ditolak</option>
-            </select>
-
-            <button type="submit"
-                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                Cari
-            </button>
-
-            @if(request()->filled('search') || request()->filled('tanggal') || request()->filled('status'))
-            <a href="{{ route('admin.riwayat') }}"
-                class="px-3 py-2 bg-gray-50 border border-gray-200 text-gray-500 hover:text-red-600 hover:bg-red-50 hover:border-red-200 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 shadow-sm">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                Reset
-            </a>
-            @endif
-        </form>
+        <p class="font-display-lg text-display-lg text-on-surface">{{ $total_selesai }}</p>
+        @if($trend >= 0)
+            <p class="text-body-sm text-primary mt-2">↑ {{ $trend }}% dari bulan lalu</p>
+        @else
+            <p class="text-body-sm text-error mt-2">↓ {{ abs($trend) }}% dari bulan lalu</p>
+        @endif
     </div>
 
-    <div class="border border-gray-400 rounded-2xl overflow-hidden shadow-sm">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 border-b border-gray-400 text-[10px] text-gray-600 uppercase tracking-widest font-semibold">
-                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Nama Siswa</th>
-                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Waktu Pengajuan</th>
-                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Detail Permasalahan</th>
-                        <th class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">Status</th>
-                        <th class="px-6 py-4 whitespace-nowrap text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-[#F6F4F5]">
-                    @forelse($konselings as $k)
+    <!-- Stat 2: Avg Duration -->
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-sm">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="p-3 bg-tertiary-container/10 text-tertiary rounded-lg">
+                <span class="material-symbols-outlined">timer</span>
+            </div>
+            <p class="font-label-md text-outline">RATA-RATA DURASI SESI</p>
+        </div>
+        <p class="font-display-lg text-display-lg text-on-surface">45<span class="text-headline-md font-normal ml-1">menit</span></p>
+        <p class="text-body-sm text-on-surface-variant mt-2">Konsisten dengan standar klinis</p>
+    </div>
+
+    <!-- Stat 3: Top Category -->
+    <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/30 shadow-sm">
+        <div class="flex items-center gap-4 mb-4">
+            <div class="p-3 bg-secondary-container/20 text-secondary rounded-lg">
+                <span class="material-symbols-outlined">category</span>
+            </div>
+            <p class="font-label-md text-outline">KATEGORI MASALAH TERBANYAK</p>
+        </div>
+        <p class="font-headline-lg text-headline-lg text-on-surface">{{ $kategori_terbanyak_nama }}</p>
+        <p class="text-body-sm text-on-surface-variant mt-2">Mencakup {{ $kategori_terbanyak_percentage }}% dari total laporan</p>
+    </div>
+</div>
+
+<!-- Filter & Search Bar -->
+<form method="GET" action="{{ route('admin.riwayat') }}" class="bg-white/50 backdrop-blur-md p-4 rounded-2xl border border-outline-variant/50 flex flex-wrap items-center gap-3 mb-8">
+    <div class="relative flex-grow min-w-[280px] h-12">
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+        <input class="w-full h-full pl-12 pr-4 bg-background border border-outline-variant/50 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-sm text-on-surface" 
+               type="text" 
+               name="search" 
+               value="{{ request('search') }}" 
+               placeholder="Cari nama siswa..."/>
+    </div>
+    
+    <!-- Filter Kelas -->
+    <select name="kelas" onchange="this.form.submit()" class="h-12 px-4 bg-background border border-outline-variant/50 rounded-xl text-body-sm text-on-surface-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer transition-all">
+        <option value="">Semua Kelas</option>
+        @foreach($kelas_list as $kls)
+            <option value="{{ $kls }}" {{ request('kelas') == $kls ? 'selected' : '' }}>{{ $kls }}</option>
+        @endforeach
+    </select>
+    
+    <!-- Filter Tipe Masalah -->
+    <select name="jenis_masalah" onchange="this.form.submit()" class="h-12 px-4 bg-background border border-outline-variant/50 rounded-xl text-body-sm text-on-surface-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer transition-all">
+        <option value="">Tipe Masalah</option>
+        <option value="akademik" {{ request('jenis_masalah') == 'akademik' ? 'selected' : '' }}>Akademik</option>
+        <option value="sosial" {{ request('jenis_masalah') == 'sosial' ? 'selected' : '' }}>Sosial</option>
+        <option value="pribadi" {{ request('jenis_masalah') == 'pribadi' ? 'selected' : '' }}>Pribadi</option>
+        <option value="karir" {{ request('jenis_masalah') == 'karir' ? 'selected' : '' }}>Karir</option>
+        <option value="keluarga" {{ request('jenis_masalah') == 'keluarga' ? 'selected' : '' }}>Keluarga</option>
+    </select>
+    
+    <!-- Filter Status -->
+    <select name="status" onchange="this.form.submit()" class="h-12 px-4 bg-background border border-outline-variant/50 rounded-xl text-body-sm text-on-surface-variant focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer transition-all">
+        <option value="">Status</option>
+        <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+        <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Terjadwal</option>
+        <option value="berlangsung" {{ request('status') == 'berlangsung' ? 'selected' : '' }}>Berlangsung</option>
+        <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+        <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+        <option value="tidak_hadir" {{ request('status') == 'tidak_hadir' ? 'selected' : '' }}>Tidak Hadir</option>
+    </select>
+
+    <!-- Filter Tanggal -->
+    <div class="relative flex items-center h-12 border border-outline-variant/50 rounded-xl bg-background px-4 focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary transition-all">
+        <span class="material-symbols-outlined text-outline text-lg mr-2 select-none pointer-events-none">calendar_today</span>
+        <input type="date" name="tanggal" value="{{ request('tanggal') }}" onchange="this.form.submit()" class="bg-transparent border-none p-0 text-body-sm text-on-surface-variant outline-none cursor-pointer focus:ring-0 w-32 [color-scheme:light]">
+    </div>
+    
+    <button type="submit" class="flex items-center justify-center gap-2 h-12 px-6 bg-primary text-on-primary rounded-xl font-semibold hover:opacity-90 transition-all shrink-0">
+        <span class="material-symbols-outlined">filter_list</span>
+        Cari
+    </button>
+
+    @if(request()->filled('search') || request()->filled('kelas') || request()->filled('jenis_masalah') || request()->filled('status') || request()->filled('tanggal'))
+        <a href="{{ route('admin.riwayat') }}" class="flex items-center justify-center gap-1.5 h-12 px-4 bg-error-container/20 text-error rounded-xl font-semibold hover:bg-error-container/30 transition-all text-body-sm shrink-0">
+            <span class="material-symbols-outlined text-lg">close</span>
+            Reset
+        </a>
+    @endif
+</form>
+
+<!-- Data Table -->
+<div class="bg-surface-container-lowest rounded-2xl border border-outline-variant/30 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-container-low border-b border-outline-variant/30">
+                    <th class="px-6 py-4 font-label-md text-outline whitespace-nowrap">SISWA</th>
+                    <th class="px-6 py-4 font-label-md text-outline whitespace-nowrap">TANGGAL</th>
+                    <th class="px-6 py-4 font-label-md text-outline whitespace-nowrap">KATEGORI</th>
+                    <th class="px-6 py-4 font-label-md text-outline whitespace-nowrap">RINGKASAN CATATAN</th>
+                    <th class="px-6 py-4 font-label-md text-outline whitespace-nowrap">STATUS</th>
+                    <th class="px-6 py-4 font-label-md text-outline text-right whitespace-nowrap">AKSI</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/20">
+                @forelse($konselings as $k)
                     @php
-                        $bc = match($k->status){ 
-                            'selesai'=>'bg-emerald-50 text-emerald-600 border-emerald-200',
-                            'berlangsung'=>'bg-pink-50 text-pink-600 border-pink-200',
-                            'disetujui'=>'bg-blue-50 text-blue-600 border-blue-200',
-                            'ditolak'=>'bg-red-50 text-red-600 border-red-200', 
-                            default=>'bg-yellow-50 text-yellow-600 border-yellow-200' 
+                        // Student Initials
+                        $words = explode(' ', $k->siswa->name);
+                        $initials = '';
+                        if (count($words) >= 2) {
+                            $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                        } else {
+                            $initials = strtoupper(substr($k->siswa->name, 0, 2));
+                        }
+
+                        // Status Color Mapping
+                        $statusColor = match($k->status) {
+                            'selesai' => 'bg-primary/10 text-primary border-primary/20',
+                            'ditolak', 'tidak_hadir' => 'bg-error-container/20 text-error border-error-container/30',
+                            'berlangsung' => 'bg-tertiary-container/10 text-tertiary border-tertiary-container/20',
+                            'disetujui' => 'bg-secondary-container/20 text-secondary border-secondary-container/30',
+                            default => 'bg-surface-container-high/60 text-on-surface-variant border-outline-variant/40',
                         };
-                        $bl = match($k->status){ 
-                            'selesai'=>'Selesai',
-                            'berlangsung'=>'Berlangsung',
-                            'disetujui'=>'Terjadwal',
-                            'ditolak'=>'Ditolak', 
-                            default=>'Menunggu' 
+                        $statusDot = match($k->status) {
+                            'selesai' => 'bg-primary',
+                            'ditolak', 'tidak_hadir' => 'bg-error',
+                            'berlangsung' => 'bg-tertiary',
+                            'disetujui' => 'bg-secondary',
+                            default => 'bg-outline',
                         };
-                        $dc = match($k->status){ 
-                            'selesai'=>'bg-emerald-500',
-                            'berlangsung'=>'bg-pink-500',
-                            'disetujui'=>'bg-blue-500',
-                            'ditolak'=>'bg-red-500', 
-                            default=>'bg-yellow-500' 
+                        $statusLabel = match($k->status) {
+                            'selesai' => 'Selesai',
+                            'ditolak' => 'Ditolak',
+                            'tidak_hadir' => 'Tidak Hadir',
+                            'berlangsung' => 'Berlangsung',
+                            'disetujui' => 'Terjadwal',
+                            default => 'Menunggu',
                         };
                     @endphp
-                    <tr class="bg-white transition-colors group border-b border-gray-400">
-                        <td class="px-6 py-4 border-r border-gray-400">
+                    <tr class="hover:bg-surface-container-lowest transition-colors group">
+                        <td class="px-6 py-5">
                             <div class="flex items-center gap-3">
-                                <div>
-                                    <div class="font-bold text-sm text-gray-800 group-hover:text-blue-600 transition-colors">{{ $k->siswa->name }}</div>
-                                    <div class="text-[11px] text-gray-400 font-medium mt-0.5">{{ $k->siswa->kelas ?? 'Kelas —' }}</div>
+                                <div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs shrink-0">
+                                    {{ $initials }}
+                                </div>
+                                <div class="whitespace-nowrap">
+                                    <p class="text-sm font-semibold text-on-surface">{{ $k->siswa->name }}</p>
+                                    <p class="text-xs text-outline">{{ $k->siswa->kelas ?? 'Kelas -' }}</p>
                                 </div>
                             </div>
                         </td>
-                        <td class="px-6 py-4 border-r border-gray-400">
-                            <div class="text-xs font-semibold text-gray-600">{{ $k->created_at->format('d M Y') }}</div>
-                            <div class="text-[10px] text-gray-400 mt-0.5">{{ $k->created_at->format('H:i') }} WIB</div>
+                        <td class="px-6 py-5 text-xs text-on-surface-variant whitespace-nowrap">
+                            {{ \Carbon\Carbon::parse($k->tanggal_konseling ?? $k->created_at)->translatedFormat('d M Y') }}
                         </td>
-                        <td class="px-6 py-4 max-w-[250px] border-r border-gray-400">
-                            <p class="text-xs text-gray-600 line-clamp-2 leading-relaxed" title="{{ $k->jenis_masalah }}">{{ $k->jenis_masalah }}</p>
-                        </td>
-                        <td class="px-6 py-4 text-center whitespace-nowrap border-r border-gray-400">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border {{ $bc }}">
-                                <span class="w-1.5 h-1.5 rounded-full {{ $dc }}"></span>
-                                {{ $bl }}
+                        <td class="px-6 py-5">
+                            <span class="px-3 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-xs whitespace-nowrap capitalize">
+                                {{ $k->jenis_masalah }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 text-center whitespace-nowrap">
-                            <a href="{{ route('admin.konseling.show', $k) }}"
-                               class="inline-flex items-center justify-center px-4 py-1.5 bg-white border border-gray-300 text-gray-600 rounded-xl text-xs font-semibold hover:bg-gray-50 hover:border-gray-400 hover:text-blue-600 transition-all shadow-sm">
-                                Detail
-                            </a>
+                        <td class="px-6 py-5">
+                            <p class="text-xs text-on-surface-variant line-clamp-1 max-w-xs" title="{{ $k->hasil?->catatan_konselor ?? $k->deskripsi_masalah }}">
+                                {{ Str::limit($k->hasil?->catatan_konselor ?? $k->deskripsi_masalah ?? '-', 50) }}
+                            </p>
                         </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="py-16 text-center">
-                            <div class="flex flex-col items-center justify-center">
-                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                                    <svg class="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-                                </div>
-                                <h3 class="text-sm font-bold text-gray-700">Belum ada riwayat konseling</h3>
-                                <p class="text-xs text-gray-400 mt-1">Data konseling siswa yang masuk akan tampil di sini.</p>
+                        <td class="px-6 py-5">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap {{ $statusColor }}">
+                                <span class="h-1.5 w-1.5 rounded-full {{ $statusDot }}"></span>
+                                {{ $statusLabel }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-5 text-right">
+                            <div class="flex justify-end gap-2">
+                                <!-- Detail action -->
+                                <a href="{{ route('admin.konseling.show', $k) }}" class="p-2 text-outline hover:text-primary hover:bg-primary/10 rounded-lg transition-all shrink-0" title="Lihat Detail">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </a>
                             </div>
                         </td>
                     </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="6" class="py-16 text-center text-on-surface-variant">
+                            <div class="flex flex-col items-center justify-center">
+                                <span class="material-symbols-outlined text-outline/50 text-5xl mb-3">history</span>
+                                <p class="font-semibold text-body-md">Tidak ada riwayat konseling</p>
+                                <p class="text-body-sm text-outline">Data konseling siswa yang cocok akan tampil di sini.</p>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 
+    <!-- Laravel Pagination Wrapper -->
     @if($konselings->hasPages())
-    <div class="mt-5 flex justify-center">{{ $konselings->appends(request()->query())->links() }}</div>
+        <div class="px-6 py-4 bg-surface-container-low/30 border-t border-outline-variant/30">
+            {{ $konselings->appends(request()->query())->links() }}
+        </div>
     @endif
 </div>
 @endsection

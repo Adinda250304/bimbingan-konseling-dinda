@@ -1,207 +1,310 @@
 @extends('layouts.admin')
-@section('title', 'Rekap Laporan Konseling')
+@section('title', 'Laporan & Rekap')
+@section('nav-title', 'Laporan & Rekap')
 
 @section('content')
-<div class="space-y-6">
-    <!-- Header & Filter -->
-    <div class="bg-[#F8F3F3] rounded-2xl shadow-sm p-6 border border-gray-100">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-            <div>
-                <h2 class="text-2xl font-bold text-gray-800">Rekap Laporan</h2>
-                <p class="text-sm text-gray-500 mt-1">Pantau dan unduh riwayat konseling berdasarkan periode tertentu.</p>
-            </div>
+@php
+    $period_label = 'Kustom';
+    if (request('start_date') == now()->subMonths(3)->toDateString() && request('end_date') == now()->toDateString()) {
+        $period_label = '3 Bulan Terakhir';
+    } elseif (request('start_date') == now()->subMonths(6)->toDateString() && request('end_date') == now()->toDateString()) {
+        $period_label = '6 Bulan Terakhir';
+    } elseif (request('start_date') == now()->startOfYear()->toDateString() && request('end_date') == now()->toDateString()) {
+        $period_label = 'Tahun Ini';
+    } elseif (!request()->has('start_date')) {
+        $period_label = '3 Bulan Terakhir'; // default
+    }
+@endphp
+
+<!-- Header Section -->
+<div class="flex flex-col sm:flex-row justify-end items-center gap-3 mb-8">
+    <div class="flex items-center gap-3">
+        <!-- Date Selector Button & Panel -->
+        <div class="relative dd-wrap">
+            <button onclick="toggleDd('filter-panel')" class="bg-white border border-outline-variant/30 px-4 py-2.5 rounded-xl flex items-center gap-3 hover:border-primary transition-all cursor-pointer shadow-sm">
+                <span class="material-symbols-outlined text-primary">calendar_today</span>
+                <span class="font-body-sm font-semibold text-on-surface">{{ $period_label }}</span>
+                <span class="material-symbols-outlined text-outline text-[18px]">expand_more</span>
+            </button>
             
-            <div class="flex items-center gap-3">
-                <a href="{{ route('admin.laporan.pdf', request()->query()) }}" 
-                   class="inline-flex items-center gap-2 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-sm font-semibold transition-all shadow-sm">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 9h1a1 1 0 110 2H9a1 1 0 010-2zM9 13h6a1 1 0 110 2H9a1 1 0 010-2z"/></svg>
-                    Unduh PDF
+            <!-- Collapsible Filter Panel -->
+            <div id="filter-panel" class="hidden dd-menu absolute right-0 mt-3 w-80 bg-white border border-outline-variant/30 rounded-2xl shadow-xl p-5 z-50 text-left origin-top-right transition-all">
+                <h5 class="font-semibold text-sm text-on-surface mb-3">Filter Periode &amp; Status</h5>
+                <form method="GET" action="{{ route('admin.laporan') }}" class="space-y-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-outline uppercase tracking-wider">Mulai Dari</label>
+                        <input type="date" name="start_date" value="{{ $start_date }}" class="w-full px-3 py-2 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-outline uppercase tracking-wider">Sampai Dengan</label>
+                        <input type="date" name="end_date" value="{{ $end_date }}" class="w-full px-3 py-2 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-outline uppercase tracking-wider">Status Sesi</label>
+                        <select name="status" class="w-full px-3 py-2 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            <option value="">Semua Status</option>
+                            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+                            <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Berlangsung</option>
+                            <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                        </select>
+                    </div>
+                    
+                    <div class="pt-2 flex gap-2">
+                        <a href="{{ route('admin.laporan') }}" class="flex-1 py-2 text-center border border-outline-variant/50 rounded-xl text-xs font-bold text-outline hover:bg-surface-container-low transition-all">Reset</a>
+                        <button type="submit" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all">Terapkan</button>
+                    </div>
+                </form>
+                
+                <div class="border-t border-outline-variant/30 mt-4 pt-3 space-y-2">
+                    <span class="text-[10px] font-bold text-outline uppercase tracking-wider">Quick Filter</span>
+                    <div class="grid grid-cols-2 gap-2">
+                        <a href="{{ route('admin.laporan', ['start_date' => now()->startOfMonth()->toDateString(), 'end_date' => now()->endOfMonth()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Bulan Ini</a>
+                        <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(3)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">3 Bulan</a>
+                        <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(6)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">6 Bulan</a>
+                        <a href="{{ route('admin.laporan', ['start_date' => now()->startOfYear()->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Tahun Ini</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button onclick="openModal('modal-buat-laporan')" class="bg-primary text-white px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:opacity-90 transition-all shadow-md cursor-pointer">
+            <span class="material-symbols-outlined text-[20px]">print</span>
+            <span class="font-body-sm font-semibold">Cetak Laporan PDF</span>
+        </button>
+    </div>
+</div>
+
+<!-- Summary Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Card 1: Total Sesi -->
+    <div class="tonal-card p-6 rounded-2xl">
+        <div class="flex justify-between items-start mb-4">
+            <div class="bg-primary/10 p-3 rounded-xl">
+                <span class="material-symbols-outlined text-primary">analytics</span>
+            </div>
+            <span class="bg-emerald-100 text-emerald-700 text-[12px] font-bold px-2 py-1 rounded-lg flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">{{ $stats['trend_percentage'] >= 0 ? 'trending_up' : 'trending_down' }}</span>
+                {{ abs($stats['trend_percentage']) }}%
+            </span>
+        </div>
+        <p class="text-outline text-label-md uppercase tracking-wider">Total Sesi</p>
+        <h3 class="text-display-lg font-bold text-on-surface">{{ $stats['total'] }}</h3>
+        <p class="text-body-sm text-on-surface-variant mt-2">Dibandingkan periode lalu</p>
+    </div>
+
+    <!-- Card 2: Masalah Tersering -->
+    <div class="tonal-card p-6 rounded-2xl">
+        <div class="bg-tertiary-container/20 p-3 rounded-xl w-fit mb-4">
+            <span class="material-symbols-outlined text-tertiary">psychology</span>
+        </div>
+        <p class="text-outline text-label-md uppercase tracking-wider">Masalah Tersering</p>
+        <h3 class="text-headline-lg font-bold text-on-surface">{{ $stats['masalah_tersering'] }}</h3>
+        <div class="flex items-center gap-2 mt-2">
+            <div class="w-full bg-surface-container rounded-full h-1.5">
+                <div class="bg-tertiary h-1.5 rounded-full" style="width: {{ $stats['masalah_tersering_percentage'] }}%"></div>
+            </div>
+            <span class="text-body-sm font-bold text-tertiary">{{ $stats['masalah_tersering_percentage'] }}%</span>
+        </div>
+    </div>
+
+    <!-- Card 3: Kepuasan Siswa -->
+    <div class="tonal-card p-6 rounded-2xl">
+        <div class="bg-secondary-container/20 p-3 rounded-xl w-fit mb-4">
+            <span class="material-symbols-outlined text-secondary">sentiment_satisfied</span>
+        </div>
+        <p class="text-outline text-label-md uppercase tracking-wider">Kepuasan Siswa</p>
+        <div class="flex items-center gap-1 mt-1">
+            <h3 class="text-display-lg font-bold text-on-surface mr-3">{{ number_format($stats['rating_score'], 1) }}</h3>
+            @php
+                $full_stars = floor($stats['rating_score']);
+                $has_half = ($stats['rating_score'] - $full_stars) >= 0.3;
+            @endphp
+            @for ($star = 1; $star <= 5; $star++)
+                @if ($star <= $full_stars)
+                    <span class="material-symbols-outlined text-amber-400" style="font-variation-settings: 'FILL' 1;">star</span>
+                @elseif ($star == $full_stars + 1 && $has_half)
+                    <span class="material-symbols-outlined text-amber-400" style="font-variation-settings: 'FILL' 1;">star_half</span>
+                @else
+                    <span class="material-symbols-outlined text-amber-400">star</span>
+                @endif
+            @endfor
+        </div>
+        <p class="text-body-sm text-on-surface-variant mt-2">Dari {{ $stats['responden_count'] }} responden</p>
+    </div>
+</div>
+
+<!-- Data Visualizations -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+    <!-- Line Chart Section -->
+    <div class="tonal-card p-8 rounded-3xl">
+        <div class="flex justify-between items-center mb-8">
+            <h4 class="font-headline-sm text-on-surface">Tren Sesi Konseling</h4>
+            <div class="text-xs text-outline font-semibold">Distribusi Mingguan</div>
+        </div>
+        <!-- Simulated Line Chart -->
+        <div class="relative h-64 flex items-end justify-between gap-4">
+            <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10">
+                <div class="border-b border-on-surface"></div>
+                <div class="border-b border-on-surface"></div>
+                <div class="border-b border-on-surface"></div>
+                <div class="border-b border-on-surface"></div>
+            </div>
+            <!-- Chart Bars/Lines representation -->
+            @foreach ($stats['weekly_heights'] as $wIdx => $height)
+                <div class="flex-1 group relative flex flex-col justify-end items-center h-full">
+                    <div class="text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity mb-1">{{ $stats['weekly_counts'][$wIdx] }} Sesi</div>
+                    <div class="bg-primary/20 hover:bg-primary/50 transition-all rounded-t-lg w-full cursor-pointer" style="height: {{ max(10, $height) }}%"></div>
+                    <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-outline whitespace-nowrap">Minggu {{ $wIdx + 1 }}</span>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Donut Chart Section -->
+    <div class="tonal-card p-8 rounded-3xl">
+        <div class="flex justify-between items-center mb-8">
+            <h4 class="font-headline-sm text-on-surface">Kategori Masalah</h4>
+            <span class="text-body-sm text-outline">Total: {{ $stats['total'] }} Kasus</span>
+        </div>
+        <div class="flex flex-col sm:flex-row items-center justify-around gap-6">
+            <div class="relative w-48 h-48 rounded-full flex items-center justify-center shadow-inner" 
+                 style="background: conic-gradient(var(--color-primary) 0% {{ $stats['pct_akademik'] }}%, var(--color-tertiary) {{ $stats['pct_akademik'] }}% {{ $stats['pct_akademik'] + $stats['pct_pribadi'] }}%, var(--color-secondary) {{ $stats['pct_akademik'] + $stats['pct_pribadi'] }}% {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] }}%, var(--color-secondary-container) {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] }}% {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] + $stats['pct_keluarga'] }}%, var(--color-outline-variant) {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] + $stats['pct_keluarga'] }}% 100%)">
+                <div class="absolute inset-[16px] rounded-full bg-white flex items-center justify-center shadow">
+                    <div class="text-center">
+                        <span class="text-headline-lg font-bold text-primary">{{ $stats['total'] }}</span>
+                        <p class="text-[10px] text-outline uppercase tracking-wider">Kasus</p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-3 w-full sm:w-auto">
+                <div class="flex items-center gap-3 min-w-[150px]">
+                    <div class="w-3 h-3 rounded-full bg-primary"></div>
+                    <span class="text-body-sm font-semibold">Akademik</span>
+                    <span class="text-body-sm text-outline ml-auto">{{ $stats['pct_akademik'] }}%</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-tertiary"></div>
+                    <span class="text-body-sm font-semibold">Pribadi</span>
+                    <span class="text-body-sm text-outline ml-auto">{{ $stats['pct_pribadi'] }}%</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-secondary"></div>
+                    <span class="text-body-sm font-semibold">Sosial</span>
+                    <span class="text-body-sm text-outline ml-auto">{{ $stats['pct_sosial'] }}%</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-secondary-container"></div>
+                    <span class="text-body-sm font-semibold">Keluarga</span>
+                    <span class="text-body-sm text-outline ml-auto">{{ $stats['pct_keluarga'] }}%</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-3 h-3 rounded-full bg-outline-variant"></div>
+                    <span class="text-body-sm font-semibold">Karir</span>
+                    <span class="text-body-sm text-outline ml-auto">{{ $stats['pct_karir'] }}%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Report History List -->
+<div class="tonal-card rounded-3xl overflow-hidden mt-8">
+    <div class="p-8 border-b border-outline-variant/30 flex justify-between items-center">
+        <h4 class="font-headline-sm text-on-surface">Riwayat Laporan</h4>
+        <div class="flex gap-2">
+            <a href="{{ route('admin.laporan.pdf', request()->query()) }}" class="px-4 py-2 bg-surface-container rounded-lg text-body-sm font-semibold hover:bg-surface-container-high transition-all flex items-center gap-1.5 shadow-sm">
+                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                Export Range Ini
+            </a>
+        </div>
+    </div>
+    <div class="divide-y divide-outline-variant/20">
+        @forelse($historical_reports as $rep)
+        <div class="p-6 flex items-center justify-between hover:bg-surface-container-low transition-all">
+            <div class="flex items-center gap-4">
+                <div class="bg-primary/10 text-primary p-3 rounded-xl">
+                    <span class="material-symbols-outlined">description</span>
+                </div>
+                <div>
+                    <p class="font-body-md font-bold text-on-surface">{{ $rep['name'] }}</p>
+                    <p class="text-body-sm text-outline">Dibuat: {{ $rep['created_at'] }} • {{ $rep['type'] }} • {{ $rep['file_size'] }}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                @php
+                    $is_arsip = isset($rep['tag']) && $rep['tag'] === 'Arsip';
+                @endphp
+                <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-tighter {{ $is_arsip ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700' }}">
+                    {{ $rep['tag'] ?? 'Selesai' }}
+                </span>
+                <a href="{{ route('admin.laporan.pdf', ['start_date' => $rep['start_date'], 'end_date' => $rep['end_date']]) }}" 
+                   class="flex items-center gap-2 text-primary hover:underline font-semibold text-body-sm">
+                    <span class="material-symbols-outlined text-[18px]">download</span>
+                    Download
                 </a>
             </div>
         </div>
-
-        <div class="flex flex-wrap gap-2 mb-6">
-            <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(3)->toDateString(), 'end_date' => now()->toDateString()]) }}" 
-               class="px-4 py-2 bg-gray-50 border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                3 Bulan Terakhir
-            </a>
-            <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(6)->toDateString(), 'end_date' => now()->toDateString()]) }}" 
-               class="px-4 py-2 bg-gray-50 border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                6 Bulan Terakhir
-            </a>
-            <a href="{{ route('admin.laporan', ['start_date' => now()->startOfYear()->toDateString(), 'end_date' => now()->toDateString()]) }}" 
-               class="px-4 py-2 bg-gray-50 border border-gray-200 text-gray-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-2">
-                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Tahun Ini
-            </a>
+        @empty
+        <div class="p-8 text-center text-outline text-body-sm">
+            Belum ada riwayat laporan yang tersedia.
         </div>
+        @endforelse
+    </div>
+    <div class="p-6 bg-surface-container-lowest text-center">
+        <a href="{{ route('admin.riwayat') }}" class="text-primary font-bold text-body-sm hover:underline">Lihat Semua Konseling</a>
+    </div>
+</div>
 
-        <form method="GET" action="{{ route('admin.laporan') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div class="space-y-1.5">
-                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Mulai Dari</label>
-                <div class="relative">
-                    <input type="date" name="start_date" value="{{ $start_date }}"
-                        class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
-                    <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
-                </div>
+@endsection
+
+@section('modals')
+<!-- Modal Buat Laporan Baru -->
+<div id="modal-buat-laporan" class="hidden fixed inset-0 bg-black/50 backdrop-blur-md z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
+        <button onclick="closeModal('modal-buat-laporan')" class="absolute top-6 right-6 text-outline hover:text-on-surface flex items-center justify-center">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Cetak Rekap Laporan PDF</h3>
+        <p class="text-body-sm text-outline mb-6">Pilih kriteria untuk mengekspor rekap laporan aktivitas konseling siswa ke format PDF.</p>
+        
+        <form action="{{ route('admin.laporan.pdf') }}" method="GET" class="space-y-4" target="_blank">
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Mulai Dari</label>
+                <input type="date" name="start_date" value="{{ now()->startOfMonth()->toDateString() }}" required
+                       class="w-full px-4 py-3 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
             </div>
             
-            <div class="space-y-1.5">
-                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Sampai Dengan</label>
-                <div class="relative">
-                    <input type="date" name="end_date" value="{{ $end_date }}"
-                        class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none">
-                    <div class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </div>
-                </div>
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Sampai Dengan</label>
+                <input type="date" name="end_date" value="{{ now()->toDateString() }}" required
+                       class="w-full px-4 py-3 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
             </div>
-
-            <div class="space-y-1.5">
-                <label class="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">Status</label>
-                <select name="status" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none appearance-none cursor-pointer">
+            
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Status Sesi</label>
+                <select name="status" class="w-full px-4 py-3 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none appearance-none cursor-pointer">
                     <option value="">Semua Status</option>
-                    <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
-                    <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Berlangsung</option>
-                    <option value="menunggu" {{ request('status') == 'menunggu' ? 'selected' : '' }}>Menunggu</option>
-                    <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    <option value="selesai">Selesai</option>
+                    <option value="disetujui">Berlangsung/Terjadwal</option>
+                    <option value="menunggu">Menunggu</option>
+                    <option value="ditolak">Ditolak</option>
                 </select>
             </div>
-
-            <div class="flex items-end">
-                <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
-                    Filter Rekap
+            
+            <div class="pt-4 flex gap-3">
+                <button type="button" onclick="closeModal('modal-buat-laporan')" 
+                        class="flex-1 py-3 text-center border border-outline-variant/50 rounded-xl text-sm font-bold text-outline hover:bg-surface-container-low transition-all">
+                    Batal
+                </button>
+                <button type="submit" onclick="closeModal('modal-buat-laporan')"
+                        class="flex-1 py-3 bg-primary hover:bg-primary-container text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
+                    <span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+                    Unduh PDF
                 </button>
             </div>
         </form>
-    </div>
-
-    <!-- Stats Cards -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-[#F8F3F3] p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-            </div>
-            <div>
-                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Total Sesi</div>
-                <div class="text-xl font-black text-gray-800">{{ $stats['total'] }}</div>
-            </div>
-        </div>
-        
-        <div class="bg-[#F8F3F3] p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Selesai</div>
-                <div class="text-xl font-black text-gray-800">{{ $stats['selesai'] }}</div>
-            </div>
-        </div>
-
-        <div class="bg-[#F8F3F3] p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Berlangsung</div>
-                <div class="text-xl font-black text-gray-800">{{ $stats['berlangsung'] }}</div>
-            </div>
-        </div>
-
-        <div class="bg-[#F8F3F3] p-5 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-4">
-            <div class="w-12 h-12 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div>
-                <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Ditolak</div>
-                <div class="text-xl font-black text-gray-800">{{ $stats['ditolak'] }}</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Table -->
-    <div class="bg-[#F8F3F3] rounded-2xl shadow-sm overflow-hidden border border-gray-400">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="bg-gray-100 border-b border-gray-400 text-[10px] text-gray-600 uppercase tracking-widest font-bold">
-                        <th class="px-6 py-4 border-r border-gray-400 text-center">Siswa</th>
-                        <th class="px-6 py-4 border-r border-gray-400 text-center">Waktu</th>
-                        <th class="px-6 py-4 border-r border-gray-400 text-center">Permasalahan</th>
-                        <th class="px-6 py-4 border-r border-gray-400 text-center">Status</th>
-                        <th class="px-6 py-4 text-center">Hasil</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white">
-                    @forelse($konselings as $k)
-                    <tr class="hover:bg-gray-50 transition-colors border-b border-gray-400">
-                        <td class="px-6 py-4 whitespace-nowrap border-r border-gray-400">
-                            <div class="font-bold text-sm text-gray-800 ">{{ $k->siswa->name }}</div>
-                            <div class="text-[11px] text-gray-400 ">{{ $k->siswa->kelas }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap border-r border-gray-400 ">
-                            <div class="text-xs font-semibold text-gray-600">{{ $k->created_at->format('d M Y') }}</div>
-                            <div class="text-[10px] text-gray-400">{{ $k->created_at->format('H:i') }} WIB</div>
-                        </td>
-                        <td class="px-6 py-4 border-r border-gray-400 ">
-                            <p class="text-xs text-gray-600 leading-relaxed">{{ $k->jenis_masalah }}</p>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap border-r border-gray-400 text-center">
-                            @php
-                                $bc = match($k->status){ 
-                                    'selesai'=>'bg-emerald-50 text-emerald-600 border-emerald-200',
-                                    'berlangsung'=>'bg-pink-50 text-pink-600 border-pink-200',
-                                    'disetujui'=>'bg-blue-50 text-blue-600 border-blue-200',
-                                    'ditolak'=>'bg-red-50 text-red-600 border-red-200', 
-                                    default=>'bg-yellow-50 text-yellow-600 border-yellow-200' 
-                                };
-                                $bl = match($k->status){ 
-                                    'selesai'=>'Selesai',
-                                    'berlangsung'=>'Berlangsung',
-                                    'disetujui'=>'Terjadwal',
-                                    'ditolak'=>'Ditolak', 
-                                    default=>'Menunggu' 
-                                };
-                                $dc = match($k->status){ 
-                                    'selesai'=>'bg-emerald-500',
-                                    'berlangsung'=>'bg-pink-500',
-                                    'disetujui'=>'bg-blue-500',
-                                    'ditolak'=>'bg-red-500', 
-                                    default=>'bg-yellow-500' 
-                                };
-                            @endphp
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border {{ $bc }}">
-                                <span class="w-1.5 h-1.5 rounded-full {{ $dc }}"></span>
-                                {{ $bl }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <p class="text-xs text-gray-500 italic">
-                                {{ $k->hasil ? Str::limit($k->hasil->catatan_konselor, 50) : '-' }}
-                            </p>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="py-20 text-center">
-                            <div class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
-                                    <svg class="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
-                                </div>
-                                <h3 class="text-sm font-bold text-gray-700">Tidak ada data untuk periode ini</h3>
-                                <p class="text-xs text-gray-400 mt-1">Silakan sesuaikan filter tanggal di atas.</p>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
     </div>
 </div>
 @endsection

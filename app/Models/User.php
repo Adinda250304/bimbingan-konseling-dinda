@@ -40,4 +40,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Konseling::class, 'siswa_id');
     }
+
+    public function artikels()
+    {
+        return $this->hasMany(Artikel::class, 'author_id');
+    }
 }

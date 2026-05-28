@@ -3,119 +3,274 @@
 @section('nav-title', 'Dashboard')
 
 @section('content')
-{{-- 4-kolom di desktop, 2-kolom di mobile --}}
-<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-    {{-- Total Siswa --}}
-    <div class="bg-[#F8F3F3] rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
-            </svg>
-        </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Total Siswa</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $total_siswa }}</p>
-        </div>
+<!-- Welcome Banner -->
+<section class="mb-section-margin bg-surface-container-lowest rounded-2xl p-8 border border-surface-variant shadow-subtle relative overflow-hidden flex flex-col md:flex-row md:items-center gap-6">
+    <div class="absolute right-0 top-0 w-full md:w-1/2 h-full bg-gradient-to-l from-secondary-container/30 to-transparent pointer-events-none"></div>
+    <div class="relative z-10 max-w-2xl">
+        <h2 class="font-headline-lg text-headline-lg text-primary mb-2">Selamat Pagi, {{ auth()->user()->name }}!</h2>
     </div>
-    {{-- Sesi Hari Ini --}}
-    <div class="bg-[#F8F3F3] rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 9v7.5m-9-6h.008v.008H12V12zm0 3h.008v.008H12V15zm0 3h.008v.008H12V18zm-3-6h.008v.008H9V12zm0 3h.008v.008H9V15zm0 3h.008v.008H9V18zm6-6h.008v.008H15V12zm0 3h.008v.008H15V15z"/>
-            </svg>
+</section>
+
+<!-- Key Metrics -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-card-gap mb-section-margin">
+    <!-- Card 1 -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-primary-container/10 rounded-xl text-primary">
+                <span class="material-symbols-outlined">schedule</span>
+            </div>
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#E6F4EA] text-[#137333] font-label-md text-label-md">
+                Success
+            </span>
         </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Sesi Hari Ini</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $sesi_hari_ini }}</p>
-        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Konseling Hari Ini</p>
+        <p class="font-headline-md text-headline-md text-on-surface">{{ $sesi_hari_ini }} Sesi</p>
     </div>
-    {{-- Menunggu Jadwal --}}
-    <div class="bg-[#F8F3F3] rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
+
+    <!-- Card 2 -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-primary-container/10 rounded-xl text-primary">
+                <span class="material-symbols-outlined">task_alt</span>
+            </div>
         </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Menunggu Jadwal</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $menunggu }}</p>
-        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Total Selesai Bulan Ini</p>
+        <p class="font-headline-md text-headline-md text-on-surface">{{ $selesai_bulan_ini }} Kasus</p>
     </div>
-    {{-- Selesai Bulan Ini --}}
-    <div class="bg-[#F8F3F3] rounded-2xl p-5 flex items-center gap-4">
-        <div class="w-12 h-12 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-            <svg class="w-6 h-6 text-violet-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"/>
-            </svg>
+
+    <!-- Card 3 -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-secondary-container/30 rounded-xl text-secondary">
+                <span class="material-symbols-outlined">person_add</span>
+            </div>
+            @if($menunggu > 0)
+                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#FFF8E1] text-[#F57F17] font-label-md text-label-md animate-pulse">
+                    Butuh Respon
+                </span>
+            @endif
         </div>
-        <div>
-            <p class="text-xs text-gray-600 font-medium leading-tight">Selesai Bulan Ini</p>
-            <p class="text-3xl font-bold text-gray-800 mt-0.5">{{ $selesai_bulan_ini }}</p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Pengajuan Baru</p>
+        <p class="font-headline-md text-headline-md text-on-surface">{{ $menunggu }} Siswa</p>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="bg-surface-container-lowest rounded-2xl p-6 border border-surface-variant shadow-subtle">
+        <div class="flex items-start justify-between mb-4">
+            <div class="p-3 bg-primary-container/10 rounded-xl text-primary">
+                <span class="material-symbols-outlined">person</span>
+            </div>
+            <div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer" onclick="window.location.href='{{ route('admin.kalender') }}'">
+                <div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
+            </div>
         </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-1">Status Ketersediaan</p>
+        <p class="font-headline-md text-headline-md text-on-surface">Aktif (Tersedia)</p>
+    </div>
+</section>
+
+<!-- Main Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-card-gap">
+    <!-- Left Column: Upcoming Schedule -->
+    <section class="lg:col-span-7 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Jadwal Konseling Terdekat</h3>
+            <a href="{{ route('admin.jadwal') }}" class="text-primary hover:text-primary-container font-label-md text-label-md transition-colors">Lihat Semua</a>
+        </div>
+        
+        <div class="flex flex-col gap-4">
+            @forelse($upcoming_konselings as $k)
+                <!-- Schedule Item -->
+                <div class="flex flex-col sm:flex-row sm:items-center p-4 rounded-xl border border-outline-variant/50 hover:bg-surface-container-low transition-colors group gap-4">
+                    <div class="flex items-center flex-1">
+                        <div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center text-primary font-headline-sm text-headline-sm mr-4 font-bold shrink-0">
+                            {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                        </div>
+                        <div>
+                            <h4 class="font-body-md text-body-md font-semibold text-on-surface">{{ $k->siswa->name }}</h4>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                {{ $k->siswa->kelas ?? 'Kelas —' }} • {{ ucfirst($k->jenis) }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center sm:text-right sm:block shrink-0 border-t sm:border-t-0 pt-2 sm:pt-0 border-outline-variant/10">
+                        <div class="sm:mr-6">
+                            <p class="font-body-sm text-body-sm font-semibold text-on-surface">
+                                {{ $k->jam_konseling ? \Carbon\Carbon::parse($k->jam_konseling)->format('H:i') : 'TBA' }}
+                            </p>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                {{ $k->tanggal_konseling ? $k->tanggal_konseling->translatedFormat('d M Y') : '' }}
+                            </p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full bg-[#E6F4EA] text-[#137333] font-label-md text-label-md border border-[#137333]/20">Disetujui</span>
+                    </div>
+                </div>
+            @empty
+                <div class="flex flex-col items-center justify-center py-12 text-center">
+                    <span class="material-symbols-outlined text-outline-variant text-4xl mb-2">calendar_today</span>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Tidak ada jadwal konseling terdekat.</p>
+                </div>
+            @endforelse
+        </div>
+    </section>
+
+    <!-- Right Column: New Requests -->
+    <section class="lg:col-span-5 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-headline-sm text-headline-sm text-on-surface">Daftar Pengajuan Terbaru</h3>
+        </div>
+        
+        <div class="flex-1 overflow-auto">
+            <div class="flex flex-col gap-4">
+                @forelse($recent_konselings as $k)
+                    <!-- Request Item -->
+                    <div class="p-4 rounded-xl bg-surface border border-outline-variant/30 shadow-sm">
+                        <div class="flex items-center mb-3">
+                            <div class="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center text-tertiary font-body-sm text-body-sm mr-3 font-bold">
+                                {{ strtoupper(substr($k->siswa->name, 0, 2)) }}
+                            </div>
+                            <div>
+                                <h4 class="font-body-sm text-body-sm font-semibold text-on-surface">{{ $k->siswa->name }}</h4>
+                                <p class="font-label-md text-label-md text-on-surface-variant">{{ $k->siswa->kelas ?? 'Kelas —' }}</p>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <span class="inline-block px-2 py-1 bg-surface-container-high text-on-surface-variant rounded-md font-label-md text-label-md">
+                                {{ $k->jenis_masalah }}
+                            </span>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-1.5 w-full">
+                            <button onclick="openSetujui({{ $k->id }}, '{{ addslashes($k->siswa->name) }}', '{{ $k->tanggal_konseling ? $k->tanggal_konseling->toDateString() : '' }}', '{{ $k->jam_konseling }}')" 
+                                     class="flex-grow bg-primary text-white font-semibold py-2 rounded-lg hover:bg-primary-container transition-colors shadow-sm text-center text-xs">
+                                Setujui
+                            </button>
+                            <button onclick="openReschedule({{ $k->id }}, '{{ addslashes($k->siswa->name) }}', '{{ $k->tanggal_konseling ? $k->tanggal_konseling->toDateString() : '' }}', '{{ $k->jam_konseling }}', '{{ addslashes($k->tempat ?? '') }}')" 
+                                     class="flex-grow border border-primary text-primary font-semibold py-2 rounded-lg hover:bg-primary/5 transition-colors text-center text-xs">
+                                Reschedule
+                            </button>
+                            <button onclick="openTolak({{ $k->id }}, '{{ addslashes($k->siswa->name) }}')" 
+                                     class="flex-grow border border-error text-error font-semibold py-2 rounded-lg hover:bg-error/5 transition-colors text-center text-xs">
+                                Tolak
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <div class="flex flex-col items-center justify-center py-12 text-center">
+                        <span class="material-symbols-outlined text-outline-variant text-4xl mb-2">person_search</span>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">Belum ada pengajuan baru.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+    </section>
+</div>
+@endsection
+
+@section('modals')
+{{-- Modal: Setujui & Jadwalkan --}}
+<div id="modal-setujui" class="hidden fixed inset-0 bg-black/40 backdrop-blur-md z-[100] items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-md shadow-xl border border-outline-variant/30">
+        <div class="flex justify-between items-center mb-5">
+            <h3 id="setujui-modal-title" class="font-headline-sm text-headline-sm text-on-surface font-bold">Setujui & Tentukan Jadwal</h3>
+            <button onclick="closeModal('modal-setujui')" class="text-on-surface-variant hover:text-on-surface text-2xl leading-none">&times;</button>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Siswa: <span id="setujui-name" class="font-semibold text-on-surface"></span></p>
+        <form id="setujui-form" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label class="block font-body-sm text-body-sm font-semibold text-on-surface-variant mb-1">Tanggal Konseling</label>
+                <input type="date" name="tanggal_konseling" required min="{{ today()->toDateString() }}"
+                    class="w-full px-4 py-2.5 border border-outline-variant/60 rounded-xl text-sm outline-none focus:border-primary transition bg-surface">
+            </div>
+            <div>
+                <label class="block font-body-sm text-body-sm font-semibold text-on-surface-variant mb-1">Jam</label>
+                <input type="time" name="jam_konseling" required
+                    class="w-full px-4 py-2.5 border border-outline-variant/60 rounded-xl text-sm outline-none focus:border-primary transition bg-surface">
+            </div>
+            <div>
+                <label class="block font-body-sm text-body-sm font-semibold text-on-surface mb-1">Tempat / Ruangan</label>
+                <input type="text" name="tempat" required placeholder="contoh: Ruang BK 1"
+                    class="w-full px-4 py-2.5 border border-outline-variant/60 rounded-xl text-sm outline-none focus:border-primary transition bg-surface">
+            </div>
+            <div class="flex gap-3 pt-2">
+                <button type="button" onclick="closeModal('modal-setujui')"
+                    class="flex-1 py-2.5 border border-outline text-on-surface hover:bg-surface-container-low rounded-lg transition font-semibold text-sm">
+                    Batal
+                </button>
+                <button type="submit" id="setujui-submit-btn"
+                    class="flex-1 py-2.5 bg-primary hover:bg-primary-container text-white rounded-lg transition font-semibold text-sm">
+                    Setujui
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
-<div class="bg-[#F8F3F3] rounded-2xl shadow-sm p-5">
-    <h2 class="font-bold text-base mb-4">Pengajuan Terbaru</h2>
-    @if($recent_konselings->isEmpty())
-        <p class="text-center text-gray-400 py-8 text-sm">Belum ada pengajuan.</p>
-    @else
-    <div class="overflow-x-auto border border-gray-400 rounded-2xl overflow-hidden">
-        <table class="w-full text-sm border-collapse">
-            <thead>
-                <tr class="bg-gray-100 text-gray-700 text-xs uppercase border-b border-gray-400">
-                    <th class="py-3 px-4 text-center font-semibold border-r border-gray-400">Siswa</th>
-                    <th class="py-3 px-4 text-center font-semibold border-r border-gray-400 hidden md:table-cell">Kelas</th>
-                    <th class="py-3 px-4 text-center font-semibold border-r border-gray-400">Masalah</th>
-                    <th class="py-3 px-4 text-center font-semibold border-r border-gray-400">Status</th>
-                    <th class="py-3 px-4 text-center font-semibold">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white">
-                @foreach($recent_konselings as $k)
-                <tr class="transition border-b border-gray-400 hover:bg-gray-50">
-                    <td class="py-3 px-4 font-medium text-gray-800 border-r border-gray-400">
-                        <div>{{ $k->siswa->name }}</div>
-                    </td>
-                    <td class="py-3 px-4 text-gray-800 border-r border-gray-400 hidden md:table-cell">{{ $k->siswa->kelas ?? '—' }}</td>
-                    <td class="py-3 px-4 text-gray-800 border-r border-gray-400">{{ $k->jenis_masalah }}</td>
-                    <td class="py-3 px-4 text-center border-r border-gray-400">
-                        @php
-                            $bc_dash = match($k->status){ 
-                                'selesai'=>'bg-emerald-50 text-emerald-600 border-emerald-200',
-                                'berlangsung'=>'bg-pink-50 text-pink-600 border-pink-200',
-                                'disetujui'=>'bg-blue-50 text-blue-600 border-blue-200',
-                                'ditolak'=>'bg-red-50 text-red-600 border-red-200', 
-                                default=>'bg-yellow-50 text-yellow-600 border-yellow-200' 
-                            };
-                            $bl_dash = match($k->status){ 
-                                'selesai'=>'Selesai',
-                                'berlangsung'=>'Berlangsung',
-                                'disetujui'=>'Terjadwal',
-                                'ditolak'=>'Ditolak', 
-                                default=>'Menunggu' 
-                            };
-                            $dc_dash = match($k->status){ 
-                                'selesai'=>'bg-emerald-500',
-                                'berlangsung'=>'bg-pink-500',
-                                'disetujui'=>'bg-blue-500',
-                                'ditolak'=>'bg-red-500', 
-                                default=>'bg-yellow-500' 
-                            };
-                        @endphp
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold border {{ $bc_dash }}">
-                            <span class="w-1.5 h-1.5 rounded-full {{ $dc_dash }}"></span>
-                            {{ $bl_dash }}
-                        </span>
-                    </td>
-                    <td class="py-3 px-4 text-center">
-                        <a href="{{ route('admin.konseling.show', $k) }}" class="text-blue-600 font-semibold text-xs hover:underline">Review</a>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+{{-- Modal: Tolak --}}
+<div id="modal-tolak" class="hidden fixed inset-0 bg-black/40 backdrop-blur-md z-[100] items-center justify-center p-4">
+    <div class="bg-surface-container-lowest rounded-2xl p-6 w-full max-w-md shadow-xl border border-outline-variant/30">
+        <div class="flex justify-between items-center mb-5">
+            <h3 id="tolak-modal-title" class="font-headline-sm text-headline-sm text-on-surface font-bold">Tolak Pengajuan Konseling</h3>
+            <button onclick="closeModal('modal-tolak')" class="text-on-surface-variant hover:text-on-surface text-2xl leading-none">&times;</button>
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant mb-4">Siswa: <span id="tolak-name" class="font-semibold text-on-surface"></span></p>
+        <form id="tolak-form" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label class="block font-body-sm text-body-sm font-semibold text-on-surface-variant mb-1">Alasan Penolakan</label>
+                <textarea name="alasan_penolakan" rows="3" required placeholder="Tuliskan alasan penolakan bimbingan..."
+                    class="w-full px-4 py-3 border border-outline-variant/60 rounded-xl text-sm outline-none focus:border-error transition bg-surface resize-none"></textarea>
+            </div>
+            <div class="flex gap-3 pt-1">
+                <button type="button" onclick="closeModal('modal-tolak')"
+                    class="flex-1 py-2.5 border border-outline text-on-surface hover:bg-surface-container-low rounded-lg transition font-semibold text-sm">
+                    Batal
+                </button>
+                <button type="submit"
+                    class="flex-1 py-2.5 bg-error hover:opacity-90 text-white rounded-lg transition font-semibold text-sm">
+                    Tolak
+                </button>
+            </div>
+        </form>
     </div>
-    @endif
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    function openSetujui(id, name, date, time) {
+        document.getElementById('setujui-modal-title').textContent = 'Setujui & Tentukan Jadwal';
+        document.getElementById('setujui-name').textContent = name;
+        
+        const form = document.getElementById('setujui-form');
+        form.action = '/admin/konseling/' + id + '/setujui';
+        
+        form.querySelector('input[name="tanggal_konseling"]').value = date || '';
+        form.querySelector('input[name="jam_konseling"]').value = time ? time.substring(0, 5) : '';
+        form.querySelector('input[name="tempat"]').value = '';
+        
+        document.getElementById('setujui-submit-btn').textContent = 'Setujui';
+        openModal('modal-setujui');
+    }
+    function openReschedule(id, name, date, time, tempat) {
+        document.getElementById('setujui-modal-title').textContent = 'Atur Ulang Jadwal (Reschedule)';
+        document.getElementById('setujui-name').textContent = name;
+        
+        const form = document.getElementById('setujui-form');
+        form.action = '/admin/konseling/' + id + '/setujui';
+        
+        form.querySelector('input[name="tanggal_konseling"]').value = date || '';
+        form.querySelector('input[name="jam_konseling"]').value = time ? time.substring(0, 5) : '';
+        form.querySelector('input[name="tempat"]').value = tempat || '';
+        
+        document.getElementById('setujui-submit-btn').textContent = 'Simpan Jadwal';
+        openModal('modal-setujui');
+    }
+    function openTolak(id, name) {
+        document.getElementById('tolak-modal-title').textContent = 'Tolak Pengajuan Konseling';
+        document.getElementById('tolak-name').textContent = name;
+        document.getElementById('tolak-form').action = '/admin/konseling/' + id + '/tolak';
+        openModal('modal-tolak');
+    }
+</script>
 @endsection

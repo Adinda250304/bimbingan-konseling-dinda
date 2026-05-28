@@ -9,7 +9,7 @@ class Konseling extends Model
     protected $fillable = [
         'siswa_id', 'guru_id', 'jadwal_id', 'jenis_masalah', 'deskripsi_masalah',
         'jenis', 'status', 'link_meeting', 'tanggal_konseling',
-        'jam_konseling', 'alasan_penolakan',
+        'jam_konseling', 'tempat', 'alasan_penolakan', 'rating', 'feedback_siswa',
     ];
 
     protected $casts = [

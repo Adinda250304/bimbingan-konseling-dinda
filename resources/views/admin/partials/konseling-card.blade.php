@@ -11,7 +11,7 @@
     $jam  = $k->jam_konseling
         ? \Carbon\Carbon::parse($k->jam_konseling)->format('H:i')
         : ($k->jadwal ? \Carbon\Carbon::parse($k->jadwal->jam_mulai)->format('H:i') : '—');
-    $room = $k->jadwal?->tempat ?? ($k->jenis === 'online' ? 'Online' : 'Ruang BK');
+    $room = $k->tempat ?? ($k->jadwal?->tempat ?? ($k->jenis === 'online' ? 'Online' : 'Ruang BK'));
 @endphp
 
 <div class="flex items-start gap-3 bg-gray-100 rounded-xl p-3.5 mb-2 flex-wrap">

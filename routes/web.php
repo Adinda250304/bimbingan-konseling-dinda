@@ -5,10 +5,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\WaliKelasController;
+use App\Http\Controllers\ArtikelController;
 
 // ===== PUBLIC ROUTES =====
 Route::get('/', [AuthController::class, 'showSplash'])->name('splash');
 Route::get('/welcome', [AuthController::class, 'showWelcome'])->name('welcome');
+Route::get('/about', [AuthController::class, 'showAbout'])->name('about');
+Route::get('/layanan', [AuthController::class, 'showLayanan'])->name('layanan');
+Route::get('/alur', [AuthController::class, 'showAlur'])->name('alur');
+Route::get('/faq', [AuthController::class, 'showFaq'])->name('faq');
 
 // Auth
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -68,6 +73,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::get('/tindak-lanjut/{tindakLanjut}/pdf', [\App\Http\Controllers\TindakLanjutController::class, 'pdf'])->name('tindak-lanjut.pdf');
     Route::post('/tindak-lanjut/{tindakLanjut}/wa', [\App\Http\Controllers\TindakLanjutController::class, 'kirimWa'])->name('tindak-lanjut.wa');
     Route::post('/tindak-lanjut/{tindakLanjut}/email', [\App\Http\Controllers\TindakLanjutController::class, 'kirimEmail'])->name('tindak-lanjut.email');
+
+    // Artikel
+    Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
+    Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
+    Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
+    Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
 });
 
 // ===== SISWA ROUTES =====
@@ -77,10 +88,23 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->grou
     Route::post('/pengajuan', [SiswaController::class, 'storePengajuan'])->name('pengajuan.store');
     Route::get('/jadwal', [SiswaController::class, 'jadwal'])->name('jadwal');
     Route::get('/riwayat', [SiswaController::class, 'riwayat'])->name('riwayat');
+    Route::post('/konseling/{konseling}/rate', [SiswaController::class, 'storeFeedback'])->name('konseling.rate');
 
     // Kalender Guru BK
     Route::get('/kalender', [SiswaController::class, 'kalender'])->name('kalender');
     Route::get('/api/kalender', [SiswaController::class, 'apiKalender'])->name('api.kalender');
     Route::get('/api/slot-guru', [SiswaController::class, 'apiSlotGuru'])->name('api.slot.guru');
+
+    // Artikel
+    Route::get('/artikel', [SiswaController::class, 'artikel'])->name('artikel.index');
+    Route::get('/artikel/{id}', [SiswaController::class, 'artikelDetail'])->name('artikel.detail');
 });
+
+// ===== NOTIFICATION ROUTES =====
+Route::middleware(['auth'])->group(function () {
+    Route::get('/api/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/api/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'readAll'])->name('notifications.readAll');
+    Route::post('/api/notifications/{notification}/read', [\App\Http\Controllers\NotificationController::class, 'read'])->name('notifications.read');
+});
+
 

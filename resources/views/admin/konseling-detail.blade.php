@@ -1,229 +1,593 @@
 @extends('layouts.admin')
 @section('title', 'Detail Konseling')
-@section('nav-title', 'Selamat Datang, ' . auth()->user()->name . '!')
+@section('nav-title', 'Detail Sesi Konseling')
 
 @section('content')
 @php
-    $bc = match($konseling->status){ 'selesai'=>'bg-green-100 text-green-700','disetujui'=>'bg-pink-100 text-pink-700','ditolak'=>'bg-red-100 text-red-700', default=>'bg-yellow-100 text-yellow-700' };
-    $bl = match($konseling->status){ 'selesai'=>'Selesai','disetujui'=>'Berlangsung','ditolak'=>'Ditolak', default=>'Menunggu' };
+    $bc = match($konseling->status) {
+        'selesai' => 'bg-emerald-50 text-emerald-700 border-emerald-200/50',
+        'disetujui' => 'bg-sky-50 text-sky-700 border-sky-200/50',
+        'berlangsung' => 'bg-purple-50 text-purple-700 border-purple-200/50',
+        'ditolak' => 'bg-red-50 text-red-700 border-red-200/50',
+        default => 'bg-amber-50 text-amber-700 border-amber-200/50'
+    };
+    
+    $bl = match($konseling->status) {
+        'selesai' => 'Selesai',
+        'disetujui' => 'Terjadwal',
+        'berlangsung' => 'Berlangsung',
+        'ditolak' => 'Ditolak',
+        default => 'Menunggu Persetujuan'
+    };
+    
+    $icon = match(strtolower($konseling->jenis_masalah)) {
+        'akademik' => 'school',
+        'pribadi'  => 'psychology',
+        'sosial'   => 'groups',
+        'karir'    => 'work',
+        'keluarga' => 'family_restroom',
+        default    => 'event_available',
+    };
+    
+    $categoryColor = match(strtolower($konseling->jenis_masalah)) {
+        'akademik' => 'text-primary bg-primary/5 border-primary/20',
+        'pribadi'  => 'text-tertiary bg-tertiary/5 border-tertiary/20',
+        'sosial'   => 'text-blue-700 bg-blue-50 border-blue-200',
+        'karir'    => 'text-amber-700 bg-amber-50 border-amber-200',
+        'keluarga' => 'text-purple-700 bg-purple-50 border-purple-200',
+        default    => 'text-outline bg-surface border-outline-variant/30',
+    };
 @endphp
 
-<a href="{{ route('admin.jadwal') }}" class="inline-block text-sm text-gray-400 hover:text-blue-600 mb-4 transition">
-    &larr; Kembali
-</a>
-
-<div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-blue-600 font-bold text-xl">Detail Konseling</h2>
-        <span class="px-3 py-1 rounded-full text-sm font-semibold {{ $bc }}">{{ $bl }}</span>
-    </div>
-
-    {{-- Siswa info --}}
-    <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-xl mb-5">
-        <div class="w-11 h-11 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
-            <svg class="w-7 h-7 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-        </div>
-        <div>
-            <div class="font-bold text-gray-800">{{ $konseling->siswa->name }}</div>
-            <div class="text-sm text-gray-500">{{ $konseling->siswa->kelas ?? '—' }}</div>
-            <div class="text-xs text-gray-400">{{ $konseling->siswa->email }}</div>
-        </div>
-    </div>
-
-    <div class="space-y-3">
-        <div class="grid grid-cols-2 gap-3">
-            <div class="bg-gray-50 rounded-xl p-3">
-                <p class="text-xs text-gray-400 mb-1">Jenis Masalah</p>
-                <p class="text-sm font-semibold text-gray-800">{{ $konseling->jenis_masalah }}</p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-3">
-                <p class="text-xs text-gray-400 mb-1">Tipe Konseling</p>
-                <p class="text-sm font-semibold text-gray-800">{{ ucfirst($konseling->jenis) }}</p>
-            </div>
-        </div>
-        <div class="bg-gray-50 rounded-xl p-3">
-            <p class="text-xs text-gray-400 mb-1">Deskripsi Masalah</p>
-            <p class="text-sm text-gray-700">{{ $konseling->deskripsi_masalah }}</p>
-        </div>
-        @if($konseling->tanggal_konseling)
-        <div class="grid grid-cols-2 gap-3">
-            <div class="bg-gray-50 rounded-xl p-3">
-                <p class="text-xs text-gray-400 mb-1">Tanggal</p>
-                <p class="text-sm font-semibold text-gray-800">{{ $konseling->tanggal_konseling->format('d M Y') }}</p>
-            </div>
-            <div class="bg-gray-50 rounded-xl p-3">
-                <p class="text-xs text-gray-400 mb-1">Jam</p>
-                <p class="text-sm font-semibold text-gray-800">{{ $konseling->jam_konseling ? \Carbon\Carbon::parse($konseling->jam_konseling)->format('H:i') : '—' }}</p>
-            </div>
-        </div>
-        @endif
-        @if($konseling->alasan_penolakan)
-        <div class="bg-red-50 border border-red-100 rounded-xl p-3">
-            <p class="text-xs text-red-400 mb-1">Alasan Penolakan</p>
-            <p class="text-sm text-red-700">{{ $konseling->alasan_penolakan }}</p>
-        </div>
-        @endif
-    </div>
+<!-- Back Button & Page Header -->
+<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <a href="{{ route('admin.jadwal') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-outline-variant/30 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 hover:border-primary rounded-xl text-sm font-semibold transition-all duration-300">
+        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        Kembali ke Jadwal
+    </a>
 </div>
 
-@if($konseling->status === 'menunggu')
-<div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
-    <h3 class="font-bold text-gray-800 mb-4">Tindakan</h3>
-    <div class="flex gap-3 flex-wrap">
-        <form action="{{ route('admin.konseling.status', $konseling) }}" method="POST" class="flex-1 min-w-[140px]">
-            @csrf @method('PUT')
-            <input type="hidden" name="status" value="disetujui">
-            <input type="hidden" name="tanggal_konseling" value="{{ now()->toDateString() }}">
-            <button type="submit"
-                class="w-full py-2.5 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl text-sm transition">
-                Setujui & Jadwalkan
-            </button>
-        </form>
-        <button onclick="openModal('modal-tolak')"
-            class="flex-1 min-w-[140px] py-2.5 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-xl text-sm transition">
-            Tolak
-        </button>
-    </div>
+@if($errors->any())
+<div class="mb-6 bg-error-container/20 border border-error-container/30 text-error rounded-xl px-4 py-3 text-sm font-medium">
+    <ul class="list-disc list-inside space-y-1">
+        @foreach($errors->all() as $e)
+            <li>{{ $e }}</li>
+        @endforeach
+    </ul>
 </div>
 @endif
 
-@if($konseling->hasil)
-<div class="bg-white rounded-2xl shadow-sm p-5">
-    <h3 class="font-bold text-gray-800 mb-3">Hasil & Saran</h3>
-    <div class="space-y-3">
-        <div class="bg-gray-50 rounded-xl p-3">
-            <p class="text-xs text-gray-400 mb-1">Hasil Konseling</p>
-            <p class="text-sm text-gray-700">{{ $konseling->hasil->catatan_konselor }}</p>
-        </div>
-        <div class="bg-gray-50 rounded-xl p-3">
-            <p class="text-xs text-gray-400 mb-1">Saran & Tindak Lanjut</p>
-            <p class="text-sm text-gray-700">{{ $konseling->hasil->saran }}</p>
-        </div>
-    </div>
-</div>
-@endif
-
-{{-- Tindak Lanjut Section --}}
-@if($konseling->status === 'selesai' || $konseling->tindakLanjut->count() > 0)
-<div class="bg-white rounded-2xl shadow-sm p-5 mt-4">
-    <div class="flex items-center gap-3 mb-5">
-        <h3 class="font-bold text-gray-800 text-lg tracking-tight">Rencana Tindak Lanjut</h3>
-    </div>
-
-    @if($konseling->tindakLanjut->count() > 0)
-        <div class="space-y-4">
-            @foreach($konseling->tindakLanjut as $tl)
-            <div class="rounded-2xl p-5 border border-gray-100 hover:shadow-lg hover:border-blue-100 transition-all duration-300">
-                <div class="flex flex-col md:flex-row gap-6 md:gap-8">
-                    
-                    {{-- Kiri: Detail Dokumen --}}
-                    <div class="flex-1">
-                        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
-                            <h4 class="text-[13px] font-extrabold text-blue-900 uppercase tracking-widest">
-                                {{ $tl->jenis_label }}
-                            </h4>
-                            <div class="hidden sm:block w-1.5 h-1.5 rounded-full bg-gray-300"></div>
-                            <p class="text-[12px] font-medium text-gray-500 flex items-center gap-1.5">
-                                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                {{ $tl->created_at->format('d M Y, H:i') }}
-                            </p>
-                        </div>
-
-                        <div class="pl-4 py-2 border-l-[3px] border-blue-400 bg-gradient-to-r from-blue-50/40 to-transparent rounded-r-xl mb-5">
-                            <p class="text-[13px] text-gray-700 leading-relaxed font-medium">"{{ $tl->catatan }}"</p>
-                        </div>
-
-                        <div class="flex flex-wrap gap-4 md:gap-6">
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full flex items-center justify-center {{ $tl->status_wa === 'terkirim' ? 'bg-emerald-50 text-emerald-500' : ($tl->status_wa === 'gagal' ? 'bg-red-50 text-red-500' : 'bg-gray-100 text-gray-400') }}">
-                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase {{ $tl->status_wa === 'terkirim' ? 'text-emerald-700' : ($tl->status_wa === 'gagal' ? 'text-red-700' : 'text-gray-500') }}">
-                                    WA {{ ucfirst($tl->status_wa) }}
-                                </span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full flex items-center justify-center {{ $tl->status_email === 'terkirim' ? 'bg-blue-50 text-blue-500' : ($tl->status_email === 'gagal' ? 'bg-red-50 text-red-500' : 'bg-gray-100 text-gray-400') }}">
-                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                                </div>
-                                <span class="text-[11px] font-bold uppercase {{ $tl->status_email === 'terkirim' ? 'text-blue-700' : ($tl->status_email === 'gagal' ? 'text-red-700' : 'text-gray-500') }}">
-                                    Email {{ ucfirst($tl->status_email) }}
-                                </span>
-                            </div>
-                        </div>
+<!-- Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left Column: Details & Results -->
+    <div class="lg:col-span-8 space-y-8">
+        
+        <!-- Main Details Card -->
+        <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-outline-variant/20">
+                <div>
+                    <span class="text-xs font-bold text-outline uppercase tracking-wider">ID Konseling: #{{ $konseling->id }}</span>
+                    <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface mt-1">Detail Sesi Konseling</h3>
+                </div>
+                <span class="px-4 py-1.5 rounded-full text-xs font-bold border {{ $bc }} flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+                    {{ $bl }}
+                </span>
+            </div>
+            
+            <!-- Bento Box Information Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Kategori Masalah -->
+                <div class="border rounded-2xl p-4 flex items-center gap-4 {{ $categoryColor }}">
+                    <div class="p-2.5 bg-current/10 rounded-xl">
+                        <span class="material-symbols-outlined text-2xl">{{ $icon }}</span>
                     </div>
-
-                    {{-- Kanan: Aksi --}}
-                    <div class="flex flex-col justify-center min-w-[210px] md:pl-8 md:border-l border-dashed border-gray-200 mt-4 md:mt-0 gap-2.5">
-                        
-                        <a href="{{ route('admin.tindak-lanjut.pdf', $tl) }}" target="_blank"
-                           class="group flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-800 hover:text-white text-gray-700 rounded-xl text-xs font-semibold transition-all duration-300">
-                            <div class="flex items-center gap-2.5">
-                                <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                Buka PDF
-                            </div>
-                            <svg class="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                        </a>
-                        
-                        <form action="{{ route('admin.tindak-lanjut.wa', $tl) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="w-full group flex items-center justify-between px-4 py-3 bg-emerald-50 hover:bg-emerald-500 hover:text-white text-emerald-700 hover:shadow-md hover:shadow-emerald-200 border border-emerald-100/50 rounded-xl text-xs font-semibold transition-all duration-300">
-                                <div class="flex items-center gap-2.5">
-                                    <svg class="w-4 h-4 text-emerald-500 group-hover:text-emerald-100" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                                    Kirim WhatsApp
-                                </div>
-                                <svg class="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </button>
-                        </form>
-
-                        <form action="{{ route('admin.tindak-lanjut.email', $tl) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="w-full group flex items-center justify-between px-4 py-3 bg-blue-50 hover:bg-blue-600 hover:text-white text-blue-700 hover:shadow-md hover:shadow-blue-200 border border-blue-100/50 rounded-xl text-xs font-semibold transition-all duration-300">
-                                <div class="flex items-center gap-2.5">
-                                    <svg class="w-4 h-4 text-blue-500 group-hover:text-blue-200" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                                    Kirim via Email
-                                </div>
-                                <svg class="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                            </button>
-                        </form>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-outline-variant tracking-wider leading-none mb-1.5">Kategori Masalah</p>
+                        <p class="text-sm font-semibold capitalize">{{ $konseling->jenis_masalah }}</p>
                     </div>
-
+                </div>
+                
+                <!-- Tipe Pertemuan -->
+                <div class="border border-outline-variant/30 bg-surface-container-lowest text-on-surface rounded-2xl p-4 flex items-center gap-4">
+                    <div class="p-2.5 bg-secondary-container/20 text-secondary rounded-xl">
+                        <span class="material-symbols-outlined text-2xl">
+                            {{ $konseling->jenis === 'online' ? 'video_call' : 'room' }}
+                        </span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tipe Konseling</p>
+                        <p class="text-sm font-semibold capitalize">{{ $konseling->jenis }}</p>
+                    </div>
+                </div>
+                
+                <!-- Tanggal -->
+                <div class="border border-outline-variant/30 bg-surface-container-lowest text-on-surface rounded-2xl p-4 flex items-center gap-4">
+                    <div class="p-2.5 bg-primary/10 text-primary rounded-xl">
+                        <span class="material-symbols-outlined text-2xl">calendar_today</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tanggal Pertemuan</p>
+                        <p class="text-sm font-semibold">
+                            {{ $konseling->tanggal_konseling ? $konseling->tanggal_konseling->translatedFormat('d F Y') : 'Belum dijadwalkan' }}
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Jam -->
+                <div class="border border-outline-variant/30 bg-surface-container-lowest text-on-surface rounded-2xl p-4 flex items-center gap-4">
+                    <div class="p-2.5 bg-tertiary-container/20 text-tertiary rounded-xl">
+                        <span class="material-symbols-outlined text-2xl">schedule</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Waktu Sesi</p>
+                        <p class="text-sm font-semibold">
+                            {{ $konseling->jam_konseling ? \Carbon\Carbon::parse($konseling->jam_konseling)->format('H:i') . ' WIB' : 'Belum ditentukan' }}
+                        </p>
+                    </div>
                 </div>
             </div>
-            @endforeach
-        </div>
-    @else
-        <div class="flex flex-col items-center justify-center py-10 px-4 border border-dashed border-gray-200 rounded-xl">
-            <div class="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mb-3">
-                <svg class="w-7 h-7 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            
+            <!-- Tempat / Ruangan / Link -->
+            <div class="bg-surface-container-low/50 rounded-2xl p-4 border border-outline-variant/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-primary text-2xl">location_on</span>
+                    <div>
+                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1">Tempat / Ruangan</p>
+                        @if($konseling->jenis === 'online')
+                            <p class="text-sm font-semibold text-on-surface">Online (Virtual Meeting)</p>
+                        @else
+                            <p class="text-sm font-semibold text-on-surface">{{ $konseling->tempat ?? 'Ruang Bimbingan Konseling (BK)' }}</p>
+                        @endif
+                    </div>
+                </div>
+                @if($konseling->jenis === 'online' && $konseling->link_meeting)
+                    <a href="{{ $konseling->link_meeting }}" target="_blank" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto">
+                        <span class="material-symbols-outlined text-[16px]">video_call</span>
+                        Gabung Google Meet
+                    </a>
+                @endif
             </div>
-            <p class="text-[13px] text-gray-500 font-medium">Belum ada tindak lanjut tercatat pada sesi ini.</p>
-        </div>
-    @endif
-</div>
-@endif
 
+            <!-- Deskripsi Masalah -->
+            <div class="space-y-2">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Deskripsi Masalah dari Siswa</label>
+                <div class="relative bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 italic text-on-surface-variant leading-relaxed shadow-inner group">
+                    <span class="absolute top-4 right-6 text-primary/10 text-6xl font-serif select-none pointer-events-none">“</span>
+                    <p class="text-body-md font-medium leading-relaxed">"{{ $konseling->deskripsi_masalah }}"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hasil & Saran Card -->
+        @if($konseling->hasil)
+            <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+                <div class="pb-4 border-b border-outline-variant/20">
+                    <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Hasil & Saran Konselor</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-surface-container-lowest p-5 rounded-2xl border border-outline-variant/30 space-y-2.5">
+                        <h5 class="font-bold text-on-surface text-sm flex items-center gap-2 pb-2.5 border-b border-outline-variant/20">
+                            <span class="material-symbols-outlined text-primary text-xl">description</span>
+                            Ringkasan Hasil Sesi
+                        </h5>
+                        <p class="text-body-sm text-on-surface-variant italic leading-relaxed">
+                            "{{ $konseling->hasil->catatan_konselor ?? 'Belum ada catatan.' }}"
+                        </p>
+                    </div>
+                    <div class="bg-primary/5 p-5 rounded-2xl border border-primary/10 space-y-2.5">
+                        <h5 class="font-bold text-primary text-sm flex items-center gap-2 pb-2.5 border-b border-primary/20">
+                            <span class="material-symbols-outlined text-xl">lightbulb</span>
+                            Rekomendasi & Saran
+                        </h5>
+                        @if($konseling->hasil->saran)
+                            @php
+                                $saranLines = explode("\n", str_replace("\r", "", trim($konseling->hasil->saran)));
+                            @endphp
+                            <ul class="text-body-sm text-on-surface-variant space-y-2 list-disc pl-4 leading-relaxed font-medium">
+                                @foreach($saranLines as $line)
+                                    @if(trim($line))
+                                        <li>{{ ltrim(trim($line), '-*• ') }}</li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-body-sm text-on-surface-variant italic leading-relaxed">Tidak ada saran khusus.</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- Rencana Tindak Lanjut Card -->
+        @if($konseling->status === 'selesai' || $konseling->tindakLanjut->count() > 0)
+            <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+                <div class="flex justify-between items-center pb-4 border-b border-outline-variant/20">
+                    <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Rencana Tindak Lanjut</h3>
+                    @if($konseling->status === 'selesai')
+                        <button onclick="openModal('modal-tindak-lanjut')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all flex items-center gap-1.5 shadow-sm cursor-pointer">
+                            <span class="material-symbols-outlined text-[16px]">add_circle</span>
+                            Buat Rencana Baru
+                        </button>
+                    @endif
+                </div>
+
+                @if($konseling->tindakLanjut->count() > 0)
+                    <div class="divide-y divide-outline-variant/20">
+                        @foreach($konseling->tindakLanjut as $tl)
+                            <div class="py-6 first:pt-0 last:pb-0 flex flex-col md:flex-row gap-6 md:gap-8 justify-between">
+                                <div class="flex-1 space-y-3.5">
+                                    <div class="flex flex-wrap items-center gap-3">
+                                        <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">
+                                            {{ $tl->jenis_label }}
+                                        </span>
+                                        <span class="text-xs text-outline font-medium flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">schedule</span>
+                                            {{ $tl->created_at->format('d M Y, H:i') }}
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="pl-4 py-2 border-l-[3px] border-primary bg-primary/5 rounded-r-xl">
+                                        <p class="text-body-sm text-on-surface-variant font-medium leading-relaxed italic">"{{ $tl->catatan }}"</p>
+                                    </div>
+                                    
+                                    <!-- Delivery statuses -->
+                                    <div class="flex flex-wrap gap-4 text-xs font-semibold">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full flex items-center justify-center {{ $tl->status_wa === 'terkirim' ? 'bg-emerald-50 text-emerald-500' : ($tl->status_wa === 'gagal' ? 'bg-red-50 text-red-500' : 'bg-surface-container-high text-outline') }}">
+                                                <span class="material-symbols-outlined text-[14px]">chat</span>
+                                            </div>
+                                            <span class="{{ $tl->status_wa === 'terkirim' ? 'text-emerald-700' : ($tl->status_wa === 'gagal' ? 'text-red-700' : 'text-outline') }}">
+                                                WhatsApp {{ $tl->status_wa === 'terkirim' ? 'Terkirim' : ($tl->status_wa === 'gagal' ? 'Gagal' : 'Belum Dikirim') }}
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-6 h-6 rounded-full flex items-center justify-center {{ $tl->status_email === 'terkirim' ? 'bg-sky-50 text-sky-500' : ($tl->status_email === 'gagal' ? 'bg-red-50 text-red-500' : 'bg-surface-container-high text-outline') }}">
+                                                <span class="material-symbols-outlined text-[14px]">mail</span>
+                                            </div>
+                                            <span class="{{ $tl->status_email === 'terkirim' ? 'text-sky-700' : ($tl->status_email === 'gagal' ? 'text-red-700' : 'text-outline') }}">
+                                                Email {{ $tl->status_email === 'terkirim' ? 'Terkirim' : ($tl->status_email === 'gagal' ? 'Gagal' : 'Belum Dikirim') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Document actions -->
+                                <div class="flex flex-row md:flex-col justify-center gap-2 min-w-[210px] shrink-0">
+                                    <a href="{{ route('admin.tindak-lanjut.pdf', $tl) }}" target="_blank" class="flex-1 md:flex-initial px-4 py-2.5 bg-surface-container hover:bg-on-surface hover:text-white text-on-surface rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-outline-variant/30">
+                                        <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                                        Buka PDF
+                                    </a>
+                                    
+                                    <form action="{{ route('admin.tindak-lanjut.wa', $tl) }}" method="POST" class="flex-1 md:flex-initial">
+                                        @csrf
+                                        <button type="submit" class="w-full px-4 py-2.5 bg-[#25D366]/10 hover:bg-[#25D366] hover:text-white text-[#128C7E] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#25D366]/20 shadow-sm cursor-pointer font-sans">
+                                            <span class="material-symbols-outlined text-[16px] font-bold">chat</span>
+                                            Kirim WA
+                                        </button>
+                                    </form>
+
+                                    <form action="{{ route('admin.tindak-lanjut.email', $tl) }}" method="POST" class="flex-1 md:flex-initial">
+                                        @csrf
+                                        <button type="submit" class="w-full px-4 py-2.5 bg-[#1a73e8]/10 hover:bg-[#1a73e8] hover:text-white text-[#1a73e8] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#1a73e8]/20 shadow-sm cursor-pointer font-sans">
+                                            <span class="material-symbols-outlined text-[16px]">mail</span>
+                                            Kirim Email
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="flex flex-col items-center justify-center py-10 px-4 border border-dashed border-outline-variant/40 rounded-2xl bg-surface-container-lowest">
+                        <div class="w-14 h-14 bg-surface-container-low rounded-full flex items-center justify-center mb-3 text-outline">
+                            <span class="material-symbols-outlined text-3xl">description</span>
+                        </div>
+                        <p class="text-body-sm text-outline font-semibold">Belum ada tindak lanjut tercatat pada sesi ini.</p>
+                        <p class="text-[11px] text-outline-variant mt-1">Silakan gunakan tombol di atas untuk membuat dokumen tindak lanjut.</p>
+                    </div>
+                @endif
+            </div>
+        @endif
+    </div>
+
+    <!-- Right Column: Student Profile & Quick Actions -->
+    <div class="lg:col-span-4 space-y-6">
+        
+        <!-- Student Profile Card -->
+        <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+            <div class="pb-4 border-b border-outline-variant/20">
+                <h4 class="font-bold text-on-surface text-base">Profil Siswa</h4>
+            </div>
+            
+            <div class="flex flex-col items-center text-center space-y-3">
+                @php
+                    $words = explode(' ', $konseling->siswa->name);
+                    $initials = '';
+                    if (count($words) >= 2) {
+                        $initials = strtoupper(substr($words[0], 0, 1) . substr($words[1], 0, 1));
+                    } else {
+                        $initials = strtoupper(substr($konseling->siswa->name, 0, 2));
+                    }
+                @endphp
+                <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg shadow-inner">
+                    {{ $initials }}
+                </div>
+                <div>
+                    <h5 class="font-bold text-on-surface text-base leading-tight">{{ $konseling->siswa->name }}</h5>
+                    <p class="text-xs text-outline font-semibold mt-1">Kelas {{ $konseling->siswa->kelas ?? '—' }}</p>
+                </div>
+            </div>
+            
+            <div class="space-y-3 pt-2">
+                <div class="flex items-center gap-3 text-body-sm text-on-surface-variant bg-surface-container-low/50 p-3 rounded-xl">
+                    <span class="material-symbols-outlined text-outline text-[20px]">mail</span>
+                    <span class="truncate w-full" title="{{ $konseling->siswa->email }}">{{ $konseling->siswa->email }}</span>
+                </div>
+                <div class="flex items-center gap-3 text-body-sm text-on-surface-variant bg-surface-container-low/50 p-3 rounded-xl">
+                    <span class="material-symbols-outlined text-outline text-[20px]">call</span>
+                    <span>{{ $konseling->siswa->no_telp ?? 'Tidak ada nomor telepon' }}</span>
+                </div>
+            </div>
+            
+            @if($konseling->siswa->no_telp)
+                @php
+                    $cleanPhone = preg_replace('/[^0-9]/', '', $konseling->siswa->no_telp);
+                    if (str_starts_with($cleanPhone, '0')) {
+                        $cleanPhone = '62' . substr($cleanPhone, 1);
+                    }
+                    $waUrl = "https://wa.me/" . $cleanPhone . "?text=" . urlencode("Halo {$konseling->siswa->name}, saya Guru BK terkait pengajuan bimbingan konseling Anda...");
+                @endphp
+                <a href="{{ $waUrl }}" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20 rounded-2xl text-xs font-bold transition-all duration-300 shadow-sm font-sans">
+                    <span class="material-symbols-outlined text-[16px] font-bold">chat</span>
+                    Hubungi via WhatsApp
+                </a>
+            @endif
+        </div>
+        
+        <!-- Action Timeline / Quick Controls Card -->
+        <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+            <div class="pb-4 border-b border-outline-variant/20">
+                <h4 class="font-bold text-on-surface text-base">Alur &amp; Tindakan Sesi</h4>
+            </div>
+
+            <!-- If status is waiting (menunggu) -->
+            @if($konseling->status === 'menunggu')
+                <div class="space-y-4">
+                    <div class="p-4 bg-amber-50 text-amber-800 rounded-2xl border border-amber-200/50 flex gap-3">
+                        <span class="material-symbols-outlined text-amber-600 shrink-0">info</span>
+                        <div class="space-y-1">
+                            <p class="text-xs font-bold">Menunggu Persetujuan</p>
+                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Silakan tentukan jadwal (tanggal, jam, dan lokasi) untuk menyetujui pengajuan ini.</p>
+                        </div>
+                    </div>
+                    
+                    <form action="{{ route('admin.konseling.setujui', $konseling) }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="space-y-3">
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-outline uppercase tracking-wider">Tanggal Pertemuan</label>
+                                <input type="date" name="tanggal_konseling" required min="{{ today()->toDateString() }}"
+                                       class="w-full bg-surface border border-outline-variant/40 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs font-medium outline-none">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-outline uppercase tracking-wider">Jam Konseling</label>
+                                <input type="time" name="jam_konseling" required
+                                       class="w-full bg-surface border border-outline-variant/40 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs font-medium outline-none">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[10px] font-bold text-outline uppercase tracking-wider">Tempat / Ruangan</label>
+                                <input type="text" name="tempat" required value="Ruang Bimbingan Konseling (BK)"
+                                       class="w-full bg-surface border border-outline-variant/40 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs font-medium outline-none">
+                            </div>
+                        </div>
+                        
+                        <div class="pt-2 flex flex-col gap-2">
+                            <button type="submit" class="w-full py-3.5 bg-primary hover:bg-primary-container text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer font-sans">
+                                <span class="material-symbols-outlined text-[16px] font-bold">check_circle</span>
+                                Setujui &amp; Jadwalkan Sesi
+                            </button>
+                            <button type="button" onclick="openModal('modal-tolak')" class="w-full py-3.5 border border-error/30 hover:bg-error/5 text-error font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer font-sans">
+                                <span class="material-symbols-outlined text-[16px] font-bold">cancel</span>
+                                Tolak Pengajuan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @endif
+
+            <!-- If status is scheduled (disetujui) -->
+            @if($konseling->status === 'disetujui')
+                <div class="space-y-4">
+                    <div class="p-4 bg-sky-50 text-sky-800 rounded-2xl border border-sky-200/50 flex gap-3">
+                        <span class="material-symbols-outlined text-sky-600 shrink-0">event_available</span>
+                        <div class="space-y-1">
+                            <p class="text-xs font-bold">Terjadwal &amp; Disetujui</p>
+                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Sesi telah dijadwalkan. Silakan mulai sesi konseling jika siswa sudah hadir.</p>
+                        </div>
+                    </div>
+                    
+                    <form action="{{ route('admin.konseling.advance', $konseling) }}" method="POST" id="form-mulai-detail">
+                        @csrf
+                        <button type="button" onclick="confirmMulaiDetail('{{ addslashes($konseling->siswa->name) }}')"
+                                class="w-full py-3.5 bg-secondary hover:opacity-95 text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer font-sans">
+                            <span class="material-symbols-outlined text-[16px] font-bold">play_arrow</span>
+                            Mulai Sesi Konseling
+                        </button>
+                    </form>
+                </div>
+            @endif
+
+            <!-- If status is in progress (berlangsung) -->
+            @if($konseling->status === 'berlangsung')
+                <div class="space-y-4">
+                    <div class="p-4 bg-purple-50 text-purple-800 rounded-2xl border border-purple-200/50 flex gap-3">
+                        <span class="material-symbols-outlined text-purple-600 shrink-0">play_circle</span>
+                        <div class="space-y-1">
+                            <p class="text-xs font-bold">Sesi Sedang Berlangsung</p>
+                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Sesi konseling saat ini sedang aktif. Setelah selesai, silakan catat hasil &amp; saran.</p>
+                        </div>
+                    </div>
+                    
+                    <a href="{{ route('admin.konseling.hasil', $konseling) }}"
+                       class="w-full py-3.5 bg-primary hover:bg-primary-container text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5">
+                        <span class="material-symbols-outlined text-[16px] font-bold">rate_review</span>
+                        Tulis Hasil &amp; Saran
+                    </a>
+                </div>
+            @endif
+
+            <!-- If status is finished (selesai) -->
+            @if($konseling->status === 'selesai')
+                <div class="space-y-4">
+                    <div class="p-4 bg-emerald-50 text-emerald-800 rounded-2xl border border-emerald-200/50 flex gap-3">
+                        <span class="material-symbols-outlined text-emerald-600 shrink-0">check_circle</span>
+                        <div class="space-y-1">
+                            <p class="text-xs font-bold">Sesi Selesai</p>
+                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Sesi konseling telah diselesaikan dengan sukses. Catatan hasil dan rencana tindak lanjut tersedia di panel kiri.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col gap-2">
+                        <a href="{{ route('admin.konseling.hasil', $konseling) }}" class="w-full py-3 border border-outline-variant/40 hover:bg-surface-container-low text-on-surface-variant font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px] font-bold">edit</span>
+                            Edit Hasil &amp; Saran
+                        </a>
+                    </div>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('modals')
-<div id="modal-tolak" class="hidden fixed inset-0 bg-black/40 z-[100] items-center justify-center p-4">
-    <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
-        <h3 class="font-bold text-lg text-gray-800 mb-4">Alasan Penolakan</h3>
-        <form action="{{ route('admin.konseling.status', $konseling) }}" method="POST">
-            @csrf @method('PUT')
-            <input type="hidden" name="status" value="ditolak">
-            <textarea name="alasan_penolakan" rows="4" required placeholder="Tuliskan alasan penolakan..."
-                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-sm outline-none focus:border-blue-400 font-poppins resize-y mb-4 transition"></textarea>
-            <div class="flex gap-3 justify-end">
-                <button type="button" onclick="closeModal('modal-tolak')"
-                    class="px-6 py-2.5 border-2 border-gray-300 rounded-xl text-sm font-semibold text-gray-700 hover:border-gray-500 bg-white transition">Batal</button>
+{{-- Modal: Tolak Pengajuan --}}
+<div id="modal-tolak" class="hidden fixed inset-0 bg-black/40 backdrop-blur-md z-[100] items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative border border-outline-variant/30">
+        <button onclick="closeModal('modal-tolak')" class="absolute top-6 right-6 text-outline hover:text-on-surface flex items-center justify-center">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Tolak Pengajuan Konseling</h3>
+        <p class="text-body-sm text-outline mb-6">Berikan alasan penolakan atau instruksi alternatif bagi siswa terkait pembatalan ini.</p>
+        
+        <form action="{{ route('admin.konseling.tolak', $konseling) }}" method="POST" class="space-y-4">
+            @csrf
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Alasan Penolakan</label>
+                <textarea name="alasan_penolakan" rows="4" required placeholder="Tuliskan alasan penolakan..."
+                          class="w-full px-4 py-3 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none"></textarea>
+            </div>
+            
+            <div class="pt-4 flex gap-3">
+                <button type="button" onclick="closeModal('modal-tolak')" 
+                        class="flex-1 py-3 text-center border border-outline-variant/50 rounded-xl text-sm font-bold text-outline hover:bg-surface-container-low transition-all">
+                    Batal
+                </button>
                 <button type="submit"
-                    class="px-6 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm font-semibold transition">Tolak</button>
+                        class="flex-1 py-3 bg-error hover:bg-red-700 text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer font-sans">
+                    <span class="material-symbols-outlined text-[18px]">cancel</span>
+                    Tolak Sesi
+                </button>
             </div>
         </form>
     </div>
 </div>
 
+{{-- Modal: Buat Rencana Tindak Lanjut --}}
+<div id="modal-tindak-lanjut" class="hidden fixed inset-0 bg-black/40 backdrop-blur-md z-[100] items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl relative border border-outline-variant/30">
+        <button onclick="closeModal('modal-tindak-lanjut')" class="absolute top-6 right-6 text-outline hover:text-on-surface flex items-center justify-center">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+        
+        <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Buat Rencana Tindak Lanjut</h3>
+        <p class="text-body-sm text-outline mb-6">Dokumen resmi (pemanggilan orang tua, surat mediasi, atau rujukan) akan dibuat otomatis.</p>
+        
+        <form action="{{ route('admin.konseling.tindak-lanjut.store', $konseling) }}" method="POST" class="space-y-4">
+            @csrf
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Jenis Dokumen</label>
+                <select name="jenis" required class="w-full px-4 py-3 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none cursor-pointer">
+                    <option value="pemanggilan_ortu">Pemanggilan Orang Tua</option>
+                    <option value="mediasi">Surat Mediasi</option>
+                    <option value="rujukan">Rujukan Profesional</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </div>
+            
+            <div class="space-y-1">
+                <label class="text-xs font-bold text-outline uppercase tracking-wider">Catatan / Keterangan</label>
+                <textarea name="catatan" rows="5" required minlength="10" placeholder="Tuliskan detail surat, instruksi kehadiran, atau catatan rujukan... (min 10 karakter)"
+                          class="w-full px-4 py-3 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none"></textarea>
+            </div>
+            
+            <div class="pt-4 flex gap-3">
+                <button type="button" onclick="closeModal('modal-tindak-lanjut')" 
+                        class="flex-1 py-3 text-center border border-outline-variant/50 rounded-xl text-sm font-bold text-outline hover:bg-surface-container-low transition-all">
+                    Batal
+                </button>
+                <button type="submit"
+                        class="flex-1 py-3 bg-primary hover:bg-primary-container text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer font-sans">
+                    <span class="material-symbols-outlined text-[18px]">save</span>
+                    Simpan Rencana
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    function openModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.style.transition = 'opacity 0.25s ease-out';
+                modal.style.opacity = '1';
+            }, 10);
+        }
+    }
+
+    // Direct close function
+    function closeModal(id) {
+        const modal = document.getElementById(id);
+        if (modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 250);
+        }
+    }
+
+    function confirmMulaiDetail(name) {
+        Swal.fire({
+            title: 'Mulai Sesi Konseling?',
+            text: `Apakah Anda yakin ingin memulai sesi khusus untuk ${name}? Pastikan siswa sudah siap/hadir.`,
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#005050', // primary
+            cancelButtonColor: '#6f7979', // outline
+            confirmButtonText: 'Ya, Mulai Sesi!',
+            cancelButtonText: 'Batal',
+            customClass: {
+                popup: 'rounded-2xl',
+                confirmButton: 'rounded-xl shadow-sm px-5 py-2.5 text-sm font-bold',
+                cancelButton: 'rounded-xl px-4 py-2.5 text-sm font-bold'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('form-mulai-detail').submit();
+            }
+        });
+    }
+</script>
 @endsection

@@ -25,6 +25,38 @@ class AuthController extends Controller
         return view('auth.welcome');
     }
 
+    public function showAbout()
+    {
+        if (Auth::check()) {
+            return redirect()->route($this->getDashboardRoute(Auth::user()));
+        }
+        return view('auth.about');
+    }
+
+    public function showLayanan()
+    {
+        if (Auth::check()) {
+            return redirect()->route($this->getDashboardRoute(Auth::user()));
+        }
+        return view('auth.layanan');
+    }
+
+    public function showAlur()
+    {
+        if (Auth::check()) {
+            return redirect()->route($this->getDashboardRoute(Auth::user()));
+        }
+        return view('auth.alur');
+    }
+
+    public function showFaq()
+    {
+        if (Auth::check()) {
+            return redirect()->route($this->getDashboardRoute(Auth::user()));
+        }
+        return view('auth.faq');
+    }
+
     public function showLogin()
     {
         if (Auth::check()) {
@@ -47,12 +79,24 @@ class AuthController extends Controller
             'name'     => 'required|string|max:255',
             'username' => 'required|string|max:100|unique:users',
             'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'password' => [
+                'required',
+                'min:8',
+                'max:20',
+                'confirmed',
+                'regex:/[A-Z]/',      // minimal 1 huruf besar
+                'regex:/[a-z]/',      // minimal 1 huruf kecil
+                'regex:/[0-9]/',      // minimal 1 angka
+                'regex:/[@$!%*#?&^]/', // minimal 1 karakter spesial
+            ],
             'kelas'    => 'nullable|string|max:100',
         ], [
-            'username.unique' => 'Username sudah digunakan.',
-            'email.unique'    => 'Email sudah terdaftar.',
+            'username.unique'    => 'Username sudah digunakan.',
+            'email.unique'       => 'Email sudah terdaftar.',
             'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password.min'       => 'Kata sandi minimal 8 karakter.',
+            'password.max'       => 'Kata sandi maksimal 20 karakter.',
+            'password.regex'     => 'Kata sandi harus mengandung huruf besar, huruf kecil, angka, dan karakter spesial (@$!%*#?&^).',
         ]);
 
         $user = User::create([
@@ -72,10 +116,12 @@ class AuthController extends Controller
     {
         $request->validate([
             'login'    => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|string|min:8|max:20',
         ], [
             'login.required'    => 'Username atau email wajib diisi.',
             'password.required' => 'Password wajib diisi.',
+            'password.min'      => 'Kata sandi minimal 8 karakter.',
+            'password.max'      => 'Kata sandi maksimal 20 karakter.',
         ]);
 
         $login = trim($request->login);

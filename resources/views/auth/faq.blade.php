@@ -4,13 +4,13 @@
 
 @section('content')
     <!-- FAQ Section -->
-    <section class="py-24 pt-36 max-w-4xl mx-auto px-6 text-center min-h-[80vh] flex flex-col justify-center">
+    <section class="pt-32 pb-16 max-w-4xl mx-auto px-6 text-center w-full min-h-screen flex flex-col justify-center">
         <div class="mb-16">
             <span class="text-primary font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-primary/10 rounded-full border border-primary/20">Tanya Jawab</span>
-            <h2 class="font-headline-lg text-3xl font-extrabold text-on-background mt-4 leading-tight">
+            <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[26px] xl:text-[32px] font-extrabold text-on-background mt-4 leading-tight">
                 Pertanyaan yang Sering Diajukan
             </h2>
-            <p class="text-xs sm:text-sm text-on-surface-variant mt-2 font-medium">
+            <p class="text-xs sm:text-sm text-on-surface-variant mt-2 font-medium text-justify">
                 Ketahui beberapa hal penting sebelum kamu memulai sesi konseling pertamamu.
             </p>
         </div>
@@ -24,7 +24,7 @@
                     <span class="material-symbols-outlined text-outline transition-transform duration-300 faq-icon">expand_more</span>
                 </button>
                 <div class="faq-content hidden max-h-0 overflow-hidden transition-all duration-300 bg-background/50 border-t border-outline-variant/20">
-                    <p class="px-6 py-4 text-xs sm:text-sm text-on-surface-variant leading-relaxed font-medium">
+                    <p class="px-6 py-4 text-xs sm:text-sm text-on-surface-variant leading-relaxed font-medium text-justify">
                         Tentu saja. Sesuai prinsip kode etik bimbingan konseling, kerahasiaan informasi siswa adalah yang utama. Seluruh cerita hanya diketahui oleh siswa dan Guru BK pendamping.
                     </p>
                 </div>
@@ -37,7 +37,7 @@
                     <span class="material-symbols-outlined text-outline transition-transform duration-300 faq-icon">expand_more</span>
                 </button>
                 <div class="faq-content hidden max-h-0 overflow-hidden transition-all duration-300 bg-background/50 border-t border-outline-variant/20">
-                    <p class="px-6 py-4 text-xs sm:text-sm text-on-surface-variant leading-relaxed font-medium">
+                    <p class="px-6 py-4 text-xs sm:text-sm text-on-surface-variant leading-relaxed font-medium text-justify">
                         Platform ini digunakan untuk booking jadwal. Setelah pengajuan disetujui Guru BK, kamu bisa datang langsung ke ruang BK di sekolah sesuai jam pilihanmu atau berkoordinasi untuk bimbingan lewat jalur lain.
                     </p>
                 </div>
@@ -50,7 +50,7 @@
                     <span class="material-symbols-outlined text-outline transition-transform duration-300 faq-icon">expand_more</span>
                 </button>
                 <div class="faq-content hidden max-h-0 overflow-hidden transition-all duration-300 bg-background/50 border-t border-outline-variant/20">
-                    <p class="px-6 py-4 text-xs sm:text-sm text-on-surface-variant leading-relaxed font-medium">
+                    <p class="px-6 py-4 text-xs sm:text-sm text-on-surface-variant leading-relaxed font-medium text-justify">
                         Bisa. Kamu bisa memantau status pengajuan atau melakukan pembatalan sesi bimbingan melalui menu Riwayat Konseling yang ada di dashboard siswamu.
                     </p>
                 </div>

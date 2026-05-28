@@ -36,7 +36,7 @@
     </style>
     @yield('styles')
 </head>
-<body class="bg-background text-on-background font-sans overflow-x-hidden custom-scrollbar">
+<body class="bg-background text-on-background font-sans overflow-x-hidden custom-scrollbar flex flex-col min-h-screen">
 
     <!-- Header / Navbar -->
     <header id="main-header" class="fixed top-0 left-0 w-full z-50 bg-background/90 border-b border-outline-variant/30 transition-all duration-300">
@@ -109,7 +109,7 @@
     </header>
 
     <!-- Main Content Area -->
-    <main class="min-h-[80vh]">
+    <main class="flex-grow">
         @yield('content')
     </main>
 
@@ -130,7 +130,7 @@
                     Layanan terintegrasi bimbingan dan konseling YPML. Siap membantu seluruh siswa dalam menyelesaikan problematika sekolah, pribadi, sosial, serta karir secara bijaksana.
                 </p>
                 <p class="text-xs text-outline mt-4 font-semibold">
-                    © {{ date('Y') }} YPML · Teman BK. All rights reserved.
+                    © YPML · Teman BK. All rights reserved.
                 </p>
             </div>
             

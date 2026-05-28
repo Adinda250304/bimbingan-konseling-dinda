@@ -136,16 +136,16 @@
     <table class="signature-area">
         <tr>
             <td style="width: 50%; text-align: center; vertical-align: bottom;">
-                <p>Mengetahui,<br>Kepala Sekolah</p>
-                <br><br><br><br>
-                <p><strong>( ________________________ )</strong></p>
-            </td>
-            <td style="width: 50%; text-align: center; vertical-align: bottom;">
                 <p>Guru Bimbingan Konseling</p>
                 <div class="qrcode-wrapper">
                     <img src="data:image/svg+xml;base64,{{ base64_encode($qrCode) }}" width="75" height="75" alt="QR Code">
                 </div>
                 <p><strong>{{ $konseling->guru?->name ?? 'Guru BK' }}</strong></p>
+            </td>
+            <td style="width: 50%; text-align: center; vertical-align: bottom;">
+                <p>Mengetahui,<br>Kepala Sekolah</p>
+                <br><br><br><br>
+                <p><strong>( ________________________ )</strong></p>
             </td>
         </tr>
     </table>
