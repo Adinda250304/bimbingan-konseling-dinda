@@ -20,34 +20,45 @@ class UserSeeder extends Seeder
             $admin->assignRole('admin');
         }
 
-        // Wali Kelas
-        $wali = User::firstOrCreate(['email' => 'wali1@smkypml.sch.id'], [
-            'name'     => 'Wali Kelas XII MIPA 1',
-            'username' => 'wali_mipa1',
-            'password' => Hash::make('walimipa123'),
-            'kelas'    => 'XII MIPA 1'
-        ]);
-        if (!$wali->hasRole('wali_kelas')) {
-            $wali->assignRole('wali_kelas');
-        }
-        // Siswa
-        $siswa = [
-            ['name' => 'Adinda Putri',   'username' => 'adinda', 'email' => 'adinda@siswa.sch.id',  'kelas' => 'XII MIPA 1'],
-            ['name' => 'Otty Ramadhani', 'username' => 'otty',   'email' => 'otty@siswa.sch.id',    'kelas' => 'XII MIPA 1'],
-            ['name' => 'Yubi Santoso',   'username' => 'yubi',   'email' => 'yubi@siswa.sch.id',    'kelas' => 'XII MIPA 1'],
-            ['name' => 'Budi Prasetyo',  'username' => 'budi',   'email' => 'budi@siswa.sch.id',    'kelas' => 'XI TKJ 1'],
-            ['name' => 'Siti Rahayu',    'username' => 'siti',   'email' => 'siti@siswa.sch.id',    'kelas' => 'XI TKJ 1'],
-        ];
+        $faker = \Faker\Factory::create('id_ID');
 
-        foreach ($siswa as $s) {
-            $u = User::firstOrCreate(['email' => $s['email']], [
-                'name'     => $s['name'],
-                'username' => $s['username'],
-                'password' => Hash::make('siswa123'),
-                'kelas'    => $s['kelas'],
-            ]);
-            if (!$u->hasRole('siswa')) {
-                $u->assignRole('siswa');
+        $tingkats = ['X', 'XI', 'XII'];
+        $jurusans = ['DKV', 'TKJ'];
+        $uruts = [1, 2, 3];
+
+        foreach ($tingkats as $tingkat) {
+            foreach ($jurusans as $jurusan) {
+                foreach ($uruts as $urut) {
+                    $kelasFull = "{$tingkat} {$jurusan} {$urut}";
+                    
+                    // Format username (contoh: walixdkv1, walixiitkj3)
+                    $kodeLower = strtolower($tingkat . $jurusan . $urut);
+                    
+                    // Buat 1 Wali Kelas untuk masing-masing kelas
+                    $wali = User::firstOrCreate(['email' => "wali{$kodeLower}@smkypml.sch.id"], [
+                        'name'     => "Wali Kelas {$kelasFull}",
+                        'username' => "wali{$kodeLower}",
+                        'password' => Hash::make("wali123"),
+                        'kelas'    => $kelasFull
+                    ]);
+                    if (!$wali->hasRole('wali_kelas')) {
+                        $wali->assignRole('wali_kelas');
+                    }
+
+                    // Buat 9 Siswa untuk masing-masing kelas
+                    for ($i = 1; $i <= 9; $i++) {
+                        $siswaUsername = "siswa{$kodeLower}" . $i;
+                        $siswa = User::firstOrCreate(['email' => "{$siswaUsername}@siswa.sch.id"], [
+                            'name'     => $faker->name(),
+                            'username' => $siswaUsername,
+                            'password' => Hash::make('siswa123'),
+                            'kelas'    => $kelasFull,
+                        ]);
+                        if (!$siswa->hasRole('siswa')) {
+                            $siswa->assignRole('siswa');
+                        }
+                    }
+                }
             }
         }
     }

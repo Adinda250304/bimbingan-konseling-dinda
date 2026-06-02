@@ -139,12 +139,23 @@
                             <span class="material-symbols-outlined text-[1.125rem]">school</span>
                             Kelas
                         </label>
-                        <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
+                        <select class="w-full bg-surface-container-low border border-outline-variant rounded-[1rem] px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all text-on-surface-variant cursor-pointer" 
                                id="kelas" 
                                name="kelas" 
-                               value="{{ old('kelas') }}"
-                               placeholder="Contoh: XII MIPA 1" 
-                               type="text"/>
+                               required>
+                            <option value="">— Pilih Kelas —</option>
+                            @foreach(['X', 'XI', 'XII'] as $tingkat)
+                                <optgroup label="Kelas {{ $tingkat }}">
+                                    @foreach(['DKV', 'TKJ'] as $jurusan)
+                                        @foreach([1, 2, 3] as $urut)
+                                            <option value="{{ $tingkat }} {{ $jurusan }} {{ $urut }}" {{ old('kelas') == "{$tingkat} {$jurusan} {$urut}" ? 'selected' : '' }}>
+                                                {{ $tingkat }} {{ $jurusan }} {{ $urut }}
+                                            </option>
+                                        @endforeach
+                                    @endforeach
+                                </optgroup>
+                            @endforeach
+                        </select>
                     </div>
 
                     <!-- Password & Konfirmasi (Samping-sampingan dengan font proporsional agar hemat ruang vertikal) -->

@@ -173,7 +173,19 @@
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Jurusan</label>
-                    <input id="userJurusan" name="jurusan" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Contoh: DKV 1, TKJ 1" type="text"/>
+                    <select id="userJurusan" name="jurusan" class="w-full bg-background border-none rounded-[1rem] py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm cursor-pointer">
+                        <option value="">— Pilih Jurusan —</option>
+                        <optgroup label="Desain Komunikasi Visual">
+                            <option value="DKV 1">DKV 1</option>
+                            <option value="DKV 2">DKV 2</option>
+                            <option value="DKV 3">DKV 3</option>
+                        </optgroup>
+                        <optgroup label="Teknik Komputer & Jaringan">
+                            <option value="TKJ 1">TKJ 1</option>
+                            <option value="TKJ 2">TKJ 2</option>
+                            <option value="TKJ 3">TKJ 3</option>
+                        </optgroup>
+                    </select>
                 </div>
             </div>
             
