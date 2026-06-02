@@ -20,7 +20,16 @@ class UserSeeder extends Seeder
             $admin->assignRole('admin');
         }
 
-
+        // Wali Kelas
+        $wali = User::firstOrCreate(['email' => 'wali1@smkypml.sch.id'], [
+            'name'     => 'Wali Kelas XII MIPA 1',
+            'username' => 'wali_mipa1',
+            'password' => Hash::make('walimipa123'),
+            'kelas'    => 'XII MIPA 1'
+        ]);
+        if (!$wali->hasRole('wali_kelas')) {
+            $wali->assignRole('wali_kelas');
+        }
         // Siswa
         $siswa = [
             ['name' => 'Adinda Putri',   'username' => 'adinda', 'email' => 'adinda@siswa.sch.id',  'kelas' => 'XII MIPA 1'],

@@ -38,6 +38,7 @@
                 onchange="this.form.submit()">
             <option value="semua" {{ $role === 'semua' ? 'selected' : '' }}>Semua Peran</option>
             <option value="admin" {{ $role === 'admin' ? 'selected' : '' }}>Admin / Guru BK</option>
+            <option value="wali_kelas" {{ $role === 'wali_kelas' ? 'selected' : '' }}>Wali Kelas</option>
             <option value="siswa" {{ $role === 'siswa' ? 'selected' : '' }}>Siswa</option>
         </select>
     </div>
@@ -72,6 +73,8 @@
                         <td class="px-6 py-5">
                             @if($u->hasRole('admin'))
                                 <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-primary/10 text-primary uppercase">Guru BK</span>
+                            @elseif($u->hasRole('wali_kelas'))
+                                <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-700 uppercase">Wali Kelas</span>
                             @else
                                 <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-700 uppercase">Siswa</span>
                             @endif
@@ -79,6 +82,8 @@
                         <td class="px-6 py-5">
                             @if($u->hasRole('admin'))
                                 <span class="text-sm text-on-surface-variant">Konseling & Kesiswaan</span>
+                            @elseif($u->hasRole('wali_kelas'))
+                                <span class="text-sm text-on-surface-variant">Wali {{ $u->kelas ?? 'Kelas' }}</span>
                             @else
                                 <span class="text-sm text-on-surface-variant">{{ $u->kelas ?? '—' }}</span>
                             @endif
@@ -145,6 +150,7 @@
                     <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Peran</label>
                     <select id="userRole" name="role" required class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm cursor-pointer" onchange="toggleRoleFields()">
                         <option value="siswa">Siswa</option>
+                        <option value="wali_kelas">Wali Kelas</option>
                         <option value="admin">Guru BK</option>
                     </select>
                 </div>
@@ -167,7 +173,7 @@
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Jurusan</label>
-                    <input id="userJurusan" name="jurusan" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Contoh: IPA 2, TKJ 1" type="text"/>
+                    <input id="userJurusan" name="jurusan" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Contoh: DKV 1, TKJ 1" type="text"/>
                 </div>
             </div>
             
@@ -233,7 +239,7 @@
 function toggleRoleFields() {
     var role = document.getElementById('userRole').value;
     var fields = document.getElementById('siswaFields');
-    if (role === 'siswa') {
+    if (role === 'siswa' || role === 'wali_kelas') {
         fields.classList.remove('hidden');
     } else {
         fields.classList.add('hidden');

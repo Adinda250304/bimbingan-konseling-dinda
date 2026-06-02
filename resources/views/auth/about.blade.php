@@ -16,7 +16,7 @@
             
             <!-- Right: Text Content & Empathy Points -->
             <div class="lg:col-span-7 bk-sahabat-text flex flex-col items-start">
-                <span class="text-secondary font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-secondary-container/20 rounded-full border border-secondary/20">BK Bukan Polisi Sekolah</span>
+                <span class="text-secondary font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-secondary-container/20 rounded-full border border-secondary/20">BK (Bukan Polisi Sekolah)</span>
                 <h2 class="font-headline-lg text-lg sm:text-xl lg:text-[22px] xl:text-[26px] font-extrabold text-on-background mt-4 leading-tight text-left">
                     Tempat Nyaman Berbagi Cerita &amp; Solusi
                 </h2>

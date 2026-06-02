@@ -8,8 +8,8 @@ use App\Http\Controllers\WaliKelasController;
 use App\Http\Controllers\ArtikelController;
 
 // ===== PUBLIC ROUTES =====
-Route::get('/', [AuthController::class, 'showSplash'])->name('splash');
-Route::get('/welcome', [AuthController::class, 'showWelcome'])->name('welcome');
+Route::get('/welcome', [AuthController::class, 'showSplash'])->name('splash');
+Route::get('/', [AuthController::class, 'showWelcome'])->name('welcome');
 Route::get('/about', [AuthController::class, 'showAbout'])->name('about');
 Route::get('/layanan', [AuthController::class, 'showLayanan'])->name('layanan');
 Route::get('/alur', [AuthController::class, 'showAlur'])->name('alur');
@@ -98,6 +98,16 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->grou
     // Artikel
     Route::get('/artikel', [SiswaController::class, 'artikel'])->name('artikel.index');
     Route::get('/artikel/{id}', [SiswaController::class, 'artikelDetail'])->name('artikel.detail');
+});
+
+// ===== WALI KELAS ROUTES =====
+Route::prefix('wali')->name('wali.')->middleware(['auth', 'role:wali_kelas'])->group(function () {
+    Route::get('/dashboard', [WaliKelasController::class, 'dashboard'])->name('dashboard');
+    Route::get('/siswa', [WaliKelasController::class, 'siswa'])->name('siswa');
+    Route::get('/rujuk/{siswa_id}', [WaliKelasController::class, 'rujuk'])->name('rujuk');
+    Route::post('/rujuk/{siswa_id}', [WaliKelasController::class, 'storeRujukan'])->name('rujuk.store');
+    Route::get('/jadwal', [WaliKelasController::class, 'jadwal'])->name('jadwal');
+    Route::get('/riwayat', [WaliKelasController::class, 'riwayat'])->name('riwayat');
 });
 
 // ===== NOTIFICATION ROUTES =====

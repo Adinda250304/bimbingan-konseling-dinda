@@ -224,14 +224,14 @@
                 </div>
                 <h4 class="font-bold text-on-surface">Butuh bantuan segera?</h4>
                 <p class="text-body-sm text-on-surface-variant">Jika Anda berada dalam situasi darurat atau krisis emosional, silakan hubungi kontak darurat kami segera.</p>
-                <a class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all" href="#">
+                <a class="text-primary font-bold flex items-center gap-2 hover:gap-3 transition-all" target="_blank" href="https://wa.me/6285775658758?text=Halo%20Bapak/Ibu,%20saya%20butuh%20bantuan%20darurat%20sekarang.">
                     Hubungi Hotline Layanan <span class="material-symbols-outlined">arrow_forward</span>
                 </a>
             </div>
 
             <!-- Decorative Graphic -->
             <div class="rounded-[24px] aspect-[4/3] overflow-hidden card-shadow">
-                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFOVHWoLiLUkS561V28COaBTOZoKoRZ3QChgVhtBlIm0nzhlWTVNonYHettTlpm-18MUdghxI7oZYMwaJ4uNkm0xnoE7id7Ix4ZNaziaTJSWZwJ8mVp5dZtJQEbQEbNAryhl-7PsUBilhU9s9pSGR0AqByqJ7tnNRt69HMlwpmA2tw4pUbAZIYi8bVGxY-s7ELvWozJ4RApY54Rb3_zuoKDL0ooebXDMlx8ymjOgC1p3ZmSt__bJNS8MzKlRyCFX0JTsjWCkG1szU" alt="Serene view" />
+                <img class="w-full h-full object-cover scale-[1.35] origin-center" src="{{ asset('img/hotline_support.png') }}" alt="Hotline Support" />
             </div>
         </aside>
     </form>
@@ -453,9 +453,15 @@
                 if (window.Swal) {
                     Swal.fire({
                         title: 'Form Belum Lengkap',
-                        html: `<ul class="text-left list-disc list-inside text-sm text-gray-700 space-y-1">${errors.map(err => `<li>${err}</li>`).join('')}</ul>`,
+                        html: `<ul class="text-left list-disc list-inside text-sm text-on-surface-variant space-y-1">${errors.map(err => `<li>${err}</li>`).join('')}</ul>`,
                         icon: 'warning',
-                        confirmButtonColor: '#005050'
+                        customClass: {
+                            popup: 'impeccable-swal font-poppins',
+                            title: 'impeccable-title',
+                            htmlContainer: 'impeccable-content',
+                            confirmButton: 'impeccable-confirm bg-error text-white hover:bg-error/90 transition-colors',
+                        },
+                        buttonsStyling: false,
                     });
                 } else {
                     alert(errors.join('\n'));

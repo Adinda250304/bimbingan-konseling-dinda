@@ -14,6 +14,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return redirect()->route($this->getDashboardRoute(Auth::user()));
         }
+        session(['splash_seen' => true]);
         return view('auth.splash');
     }
 
@@ -21,6 +22,9 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             return redirect()->route($this->getDashboardRoute(Auth::user()));
+        }
+        if (!session('splash_seen')) {
+            return redirect()->route('splash');
         }
         return view('auth.welcome');
     }
@@ -154,6 +158,7 @@ class AuthController extends Controller
     private function getDashboardRoute(User $user): string
     {
         if ($user->hasRole('admin')) return 'admin.dashboard';
+        if ($user->hasRole('wali_kelas')) return 'wali.dashboard';
         return 'siswa.dashboard';
     }
 }

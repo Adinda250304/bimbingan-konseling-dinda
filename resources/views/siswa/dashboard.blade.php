@@ -165,7 +165,7 @@
     <!-- Right Column: Articles (5 cols wide) -->
     <section class="lg:col-span-5 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
         <div class="flex justify-between items-center mb-6">
-            <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tips &amp; Artikel Kesehatan</h3>
+            <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tips &amp; Artikel</h3>
             <a href="{{ route('siswa.artikel.index') }}" class="text-xs text-primary font-semibold hover:underline inline-flex items-center gap-1">
                 Lihat Semua
                 <span class="material-symbols-outlined text-[14px]">arrow_forward</span>

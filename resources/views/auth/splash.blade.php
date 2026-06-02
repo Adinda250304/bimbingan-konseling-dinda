@@ -4,103 +4,12 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Teman BK - Splash</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Tailwind CSS via Vite -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "outline": "#6f7979",
-                        "on-surface": "#1a1c1b",
-                        "on-primary-container": "#9be7e6",
-                        "on-primary-fixed-variant": "#004f50",
-                        "error": "#ba1a1a",
-                        "tertiary-container": "#8b502f",
-                        "inverse-surface": "#2f3130",
-                        "error-container": "#ffdad6",
-                        "primary-fixed-dim": "#88d3d3",
-                        "on-tertiary": "#ffffff",
-                        "on-error": "#ffffff",
-                        "surface-container": "#eeeeec",
-                        "outline-variant": "#bec9c8",
-                        "on-tertiary-container": "#ffd0b9",
-                        "surface-container-high": "#e8e8e6",
-                        "on-primary-fixed": "#002020",
-                        "on-primary": "#ffffff",
-                        "inverse-primary": "#88d3d3",
-                        "on-tertiary-fixed-variant": "#6e3819",
-                        "on-tertiary-fixed": "#341100",
-                        "surface-bright": "#f9f9f7",
-                        "on-secondary-fixed-variant": "#6a3a2e",
-                        "surface-dim": "#dadad8",
-                        "primary-container": "#106a6a",
-                        "surface-tint": "#0e6969",
-                        "secondary-container": "#feb9a9",
-                        "inverse-on-surface": "#f1f1ef",
-                        "surface-variant": "#e2e3e1",
-                        "on-secondary-fixed": "#351007",
-                        "secondary-fixed-dim": "#fbb6a6",
-                        "on-error-container": "#93000a",
-                        "primary": "#005050",
-                        "on-background": "#1a1c1b",
-                        "surface-container-highest": "#e2e3e1",
-                        "secondary-fixed": "#ffdad2",
-                        "tertiary": "#6e391a",
-                        "surface": "#f9f9f7",
-                        "primary-fixed": "#a4f0ef",
-                        "on-secondary": "#ffffff",
-                        "tertiary-fixed-dim": "#ffb690",
-                        "background": "#f9f9f7",
-                        "surface-container-lowest": "#ffffff",
-                        "surface-container-low": "#f4f4f2",
-                        "tertiary-fixed": "#ffdbca",
-                        "secondary": "#865044",
-                        "on-surface-variant": "#3f4948",
-                        "on-secondary-container": "#7a473b"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "gutter": "24px",
-                        "container-padding": "32px",
-                        "section-margin": "48px",
-                        "unit": "4px",
-                        "card-gap": "24px"
-                    },
-                    "fontFamily": {
-                        "headline-md": ["Manrope"],
-                        "headline-lg": ["Manrope"],
-                        "body-sm": ["Inter"],
-                        "headline-sm": ["Manrope"],
-                        "label-md": ["Inter"],
-                        "body-md": ["Inter"],
-                        "body-lg": ["Inter"],
-                        "display-lg": ["Manrope"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
-                        "headline-lg": ["32px", {"lineHeight": "1.25", "fontWeight": "600"}],
-                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
-                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
-                        "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
-                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
-                    }
-                },
-            },
-        }
-    </script>
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -130,11 +39,11 @@
         <!-- Logo Container -->
         <div class="mb-gutter relative flex items-center justify-center" id="logo-shell">
             <!-- Pulsing Rings (Visual Atmosphere) -->
-            <div class="absolute w-24 h-24 border border-primary/20 rounded-full" id="ring-1"></div>
-            <div class="absolute w-32 h-32 border border-primary/10 rounded-full" id="ring-2"></div>
+            <div class="absolute w-32 h-32 border border-primary/20 rounded-full" id="ring-1"></div>
+            <div class="absolute w-40 h-40 border border-primary/10 rounded-full" id="ring-2"></div>
             <!-- The Brand Identity (Using the original YPML image logo) -->
-            <div class="bg-white p-5 rounded-3xl shadow-xl flex items-center justify-center" id="logo-icon">
-                <img src="{{ asset('img/logo-ypml.png') }}" alt="Logo YPML" class="h-16 w-auto">
+            <div class="flex items-center justify-center z-10" id="logo-icon">
+                <img src="{{ asset('img/logo-ypml.png') }}" alt="Logo YPML" class="h-24 w-auto drop-shadow-xl">
             </div>
         </div>
 

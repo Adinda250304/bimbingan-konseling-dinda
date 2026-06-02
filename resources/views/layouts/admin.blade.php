@@ -25,7 +25,7 @@
             if (window.innerWidth >= 1024) {
                 var s = document.createElement('style');
                 s.id = 'sidebar-init';
-                s.textContent = '#sidebar-drawer{transform:translateX(0)!important;transition:none!important}#main-content{margin-left:16rem!important;transition:none!important}';
+                s.textContent = '#sidebar-drawer{transition:none!important}#main-content{transition:none!important}';
                 document.head.appendChild(s);
             }
         })();
@@ -78,8 +78,8 @@
         <!-- TopNavBar -->
         <header class="sticky top-0 z-30 bg-surface/70 backdrop-blur-md border-b border-outline-variant/30 px-container-padding py-4 flex items-center justify-between min-h-16">
             <div class="flex items-center gap-4">
-                <button onclick="toggleSidebar()" class="lg:hidden text-on-surface-variant hover:text-primary transition-all p-2 rounded-full hover:bg-surface-container-low" aria-label="Toggle Menu">
-                    <span class="material-symbols-outlined">menu</span>
+                <button id="sidebar-toggle-btn" onclick="toggleSidebar()" class="lg:hidden text-on-surface-variant hover:text-primary transition-all p-2 rounded-full hover:bg-surface-container-low" aria-label="Toggle Menu">
+                    <span class="material-symbols-outlined transition-transform duration-300" id="sidebar-toggle-icon">menu</span>
                 </button>
                 <div class="font-headline-md text-headline-md text-primary font-bold">@yield('nav-title', 'TEMAN BK')</div>
             </div>
@@ -142,7 +142,7 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="px-container-padding py-8 pb-12 max-w-[1280px] mx-auto min-h-[calc(100vh-4rem)]">
+        <main class="px-4 sm:px-container-padding py-6 sm:py-8 pb-12 max-w-[1280px] mx-auto min-h-[calc(100vh-4rem)]">
             @yield('content')
         </main>
     </div>
@@ -155,55 +155,72 @@
         const SIDEBAR_W = 256; // w-64 = 256px
         let isOpen = window.innerWidth >= 1024; // default open on desktop
 
-        function _applyTransitions() {
-            var el = document.getElementById('sidebar-drawer');
-            var mc = document.getElementById('main-content');
-            el.style.transition = 'transform 0.3s ease';
-            mc.style.transition = 'margin-left 0.3s ease';
+        function _updateToggleIcon() {
+            var icon = document.getElementById('sidebar-toggle-icon');
+            if (!icon) return;
+            if (isOpen && window.innerWidth < 1024) {
+                icon.textContent = 'close';
+                icon.style.transform = 'rotate(90deg)';
+            } else {
+                icon.textContent = 'menu';
+                icon.style.transform = 'rotate(0deg)';
+            }
         }
 
-        function openSidebar(animate) {
+        function openSidebar() {
             isOpen = true;
-            if (animate) _applyTransitions();
-            document.getElementById('sidebar-drawer').style.transform = 'translateX(0)';
+            document.getElementById('sidebar-drawer').classList.remove('-translate-x-full');
             if (window.innerWidth < 1024) {
                 document.getElementById('sidebar-overlay').classList.remove('hidden');
                 document.getElementById('main-content').style.marginLeft = '0';
+                document.body.style.overflow = 'hidden';
             } else {
                 document.getElementById('sidebar-overlay').classList.add('hidden');
                 document.getElementById('main-content').style.marginLeft = SIDEBAR_W + 'px';
             }
+            _updateToggleIcon();
         }
 
-        function closeSidebar(animate) {
+        function closeSidebar() {
             isOpen = false;
-            if (animate) _applyTransitions();
-            document.getElementById('sidebar-drawer').style.transform = 'translateX(-100%)';
+            document.getElementById('sidebar-drawer').classList.add('-translate-x-full');
             document.getElementById('sidebar-overlay').classList.add('hidden');
             document.getElementById('main-content').style.marginLeft = '0';
+            document.body.style.overflow = '';
+            _updateToggleIcon();
         }
 
         function toggleSidebar() {
             var initStyle = document.getElementById('sidebar-init');
             if (initStyle) initStyle.remove();
-            isOpen ? closeSidebar(true) : openSidebar(true);
+            isOpen ? closeSidebar() : openSidebar();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
             if (window.innerWidth >= 1024) {
-                document.getElementById('sidebar-drawer').style.transform = 'translateX(0)';
+                document.getElementById('sidebar-drawer').classList.remove('-translate-x-full');
                 document.getElementById('main-content').style.marginLeft = SIDEBAR_W + 'px';
             }
+            // Auto-close sidebar when a nav link is tapped on mobile
+            document.querySelectorAll('#sidebar-drawer nav a').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 1024) {
+                        closeSidebar(true);
+                    }
+                });
+            });
         });
 
         window.addEventListener('resize', function () {
             if (window.innerWidth >= 1024) {
                 document.getElementById('sidebar-overlay').classList.add('hidden');
+                document.body.style.overflow = '';
                 if (isOpen) document.getElementById('main-content').style.marginLeft = SIDEBAR_W + 'px';
                 else document.getElementById('main-content').style.marginLeft = '0';
             } else {
                 document.getElementById('main-content').style.marginLeft = '0';
             }
+            _updateToggleIcon();
         });
 
         // Modal helpers

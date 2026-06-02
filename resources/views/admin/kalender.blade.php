@@ -393,7 +393,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'timeGridWeek',
+            initialView: 'dayGridMonth',
             height: 650,
             headerToolbar: {
                 left: 'prev,next today',

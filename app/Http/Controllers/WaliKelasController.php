@@ -14,7 +14,7 @@ class WaliKelasController extends Controller
     {
         $wali        = Auth::user();
         $kelas       = $wali->kelas;
-        $siswa_ids   = User::where('role', 'siswa')->where('kelas', $kelas)->pluck('id');
+        $siswa_ids   = User::role('siswa')->where('kelas', $kelas)->pluck('id');
 
         $total_siswa = $siswa_ids->count();
         $sesi_aktif  = Konseling::whereIn('siswa_id', $siswa_ids)->where('status', 'disetujui')->count();
@@ -28,7 +28,7 @@ class WaliKelasController extends Controller
     public function jadwal(Request $request)
     {
         $kelas     = Auth::user()->kelas;
-        $siswa_ids = User::where('role', 'siswa')->where('kelas', $kelas)->pluck('id');
+        $siswa_ids = User::role('siswa')->where('kelas', $kelas)->pluck('id');
 
         $query = Konseling::with('siswa')
             ->whereIn('siswa_id', $siswa_ids)
@@ -47,7 +47,7 @@ class WaliKelasController extends Controller
         $wali  = Auth::user();
         $kelas = $wali->kelas;
 
-        $siswa_kelas = User::where('role', 'siswa')->where('kelas', $kelas)->pluck('id');
+        $siswa_kelas = User::role('siswa')->where('kelas', $kelas)->pluck('id');
         $query = Konseling::with(['siswa', 'hasil'])->whereIn('siswa_id', $siswa_kelas);
 
         if ($request->filled('status')) {
@@ -56,5 +56,45 @@ class WaliKelasController extends Controller
 
         $konselings = $query->latest()->paginate(10);
         return view('wali.riwayat', compact('konselings', 'kelas'));
+    }
+
+    public function siswa()
+    {
+        $wali  = Auth::user();
+        $kelas = $wali->kelas;
+        
+        $siswas = User::role('siswa')->where('kelas', $kelas)->orderBy('name')->get();
+        return view('wali.siswa', compact('siswas', 'kelas'));
+    }
+
+    public function rujuk($siswa_id)
+    {
+        $wali = Auth::user();
+        $siswa = User::role('siswa')->where('kelas', $wali->kelas)->findOrFail($siswa_id);
+        
+        return view('wali.rujuk', compact('siswa'));
+    }
+
+    public function storeRujukan(Request $request, $siswa_id)
+    {
+        $wali = Auth::user();
+        $siswa = User::role('siswa')->where('kelas', $wali->kelas)->findOrFail($siswa_id);
+
+        $request->validate([
+            'jenis_masalah' => 'required|string',
+            'alasan_rujukan' => 'required|string',
+        ]);
+
+        Konseling::create([
+            'siswa_id' => $siswa->id,
+            'rujukan_oleh_id' => $wali->id,
+            'jenis_masalah' => $request->jenis_masalah,
+            'deskripsi_masalah' => 'Rujukan dari Wali Kelas: ' . $wali->name,
+            'alasan_rujukan' => $request->alasan_rujukan,
+            'jenis' => 'offline',
+            'status' => 'menunggu',
+        ]);
+
+        return redirect()->route('wali.siswa')->with('success', 'Berhasil membuat rujukan konseling untuk ' . $siswa->name);
     }
 }
