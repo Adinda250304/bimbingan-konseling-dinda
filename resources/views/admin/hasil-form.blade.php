@@ -8,7 +8,7 @@
     {{-- Tombol Kembali --}}
     <a href="{{ route('admin.konseling.show', $konseling) }}"
        class="inline-flex items-center gap-1.5 text-sm font-semibold text-on-surface-variant hover:text-primary transition mb-6">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span class="material-symbols-outlined text-[1.125rem]">arrow_back</span>
         Kembali ke Detail Konseling
     </a>
 
@@ -25,12 +25,12 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-outline-variant/30">
             <div class="bg-surface-container-low rounded-xl p-3.5 border border-outline-variant/20">
-                <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Topik / Kategori Masalah</p>
+                <p class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Topik / Kategori Masalah</p>
                 <p class="text-sm font-semibold text-on-surface">{{ $konseling->jenis_masalah }}</p>
             </div>
             @if($konseling->tanggal_konseling)
             <div class="bg-surface-container-low rounded-xl p-3.5 border border-outline-variant/20">
-                <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Waktu Sesi</p>
+                <p class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Waktu Sesi</p>
                 <p class="text-sm font-semibold text-on-surface">
                     {{ $konseling->tanggal_konseling->translatedFormat('d F Y') }} • pukul {{ \Carbon\Carbon::parse($konseling->jam_konseling)->format('H:i') }} WIB
                 </p>
@@ -39,7 +39,7 @@
         </div>
         @if($konseling->deskripsi_masalah)
         <div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/20 mt-4">
-            <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Deskripsi Masalah</p>
+            <p class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Deskripsi Masalah</p>
             <p class="text-sm text-on-surface leading-relaxed">{{ $konseling->deskripsi_masalah }}</p>
         </div>
         @endif
@@ -92,7 +92,7 @@
                 
                 <div id="tl-form" class="hidden space-y-4 bg-primary-container/5 p-5 rounded-2xl border border-primary-container/20 mt-4">
                     <div class="space-y-2">
-                        <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Jenis Tindak Lanjut</label>
+                        <label class="block text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Jenis Tindak Lanjut</label>
                         <select name="tl_jenis" class="w-full bg-surface border border-outline-variant/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm outline-none cursor-pointer">
                             <option value="pemanggilan_ortu">Pemanggilan Orang Tua</option>
                             <option value="mediasi">Mediasi</option>
@@ -101,7 +101,7 @@
                         </select>
                     </div>
                     <div class="space-y-2">
-                        <label class="block text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Catatan Detail (Untuk Surat)</label>
+                        <label class="block text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Catatan Detail (Untuk Surat)</label>
                         <textarea name="tl_catatan" rows="3" placeholder="Tuliskan detail catatan / alasan tindak lanjut diputuskan..."
                             class="w-full bg-surface border border-outline-variant/60 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-sm outline-none resize-none"></textarea>
                     </div>

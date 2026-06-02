@@ -64,7 +64,7 @@
                 <!-- Spacer for vertical centering -->
                 <div class="flex-grow"></div>
                 
-                <div class="w-full max-w-[460px] bg-surface-container-lowest border border-outline-variant py-6 px-8 rounded-2xl register-card mx-auto shrink-0" id="register-card">
+                <div class="w-full max-w-[28.75rem] bg-surface-container-lowest border border-outline-variant py-6 px-8 rounded-2xl register-card mx-auto shrink-0" id="register-card">
                     
                     <!-- Brand Header -->
                 <header class="mb-5 text-center lg:text-left">
@@ -91,7 +91,7 @@
                     <!-- Nama Lengkap -->
                     <div class="space-y-1 form-element text-left">
                         <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="name">
-                            <span class="material-symbols-outlined text-[18px]">person</span>
+                            <span class="material-symbols-outlined text-[1.125rem]">person</span>
                             Nama Lengkap
                         </label>
                         <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
@@ -106,7 +106,7 @@
                     <!-- Username -->
                     <div class="space-y-1 form-element text-left">
                         <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="username">
-                            <span class="material-symbols-outlined text-[18px]">account_box</span>
+                            <span class="material-symbols-outlined text-[1.125rem]">account_box</span>
                             Username
                         </label>
                         <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
@@ -121,7 +121,7 @@
                     <!-- Email -->
                     <div class="space-y-1 form-element text-left">
                         <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="email">
-                            <span class="material-symbols-outlined text-[18px]">mail</span>
+                            <span class="material-symbols-outlined text-[1.125rem]">mail</span>
                             Email
                         </label>
                         <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
@@ -136,7 +136,7 @@
                     <!-- Kelas -->
                     <div class="space-y-1 form-element text-left">
                         <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="kelas">
-                            <span class="material-symbols-outlined text-[18px]">school</span>
+                            <span class="material-symbols-outlined text-[1.125rem]">school</span>
                             Kelas
                         </label>
                         <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
@@ -152,7 +152,7 @@
                         <!-- Password -->
                         <div class="space-y-1 form-element text-left">
                             <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="password">
-                                <span class="material-symbols-outlined text-[18px]">lock</span>
+                                <span class="material-symbols-outlined text-[1.125rem]">lock</span>
                                 Kata Sandi
                             </label>
                             <div class="relative">
@@ -165,7 +165,7 @@
                                        minlength="8"
                                        maxlength="20"/>
                                 <button id="toggle-pw" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" type="button">
-                                    <span class="material-symbols-outlined text-[18px]" id="toggle-pw-icon">visibility</span>
+                                    <span class="material-symbols-outlined text-[1.125rem]" id="toggle-pw-icon">visibility</span>
                                 </button>
                             </div>
                         </div>
@@ -173,7 +173,7 @@
                         <!-- Password Confirmation -->
                         <div class="space-y-1 form-element text-left">
                             <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="password_confirmation">
-                                <span class="material-symbols-outlined text-[18px]">lock_clock</span>
+                                <span class="material-symbols-outlined text-[1.125rem]">lock_clock</span>
                                 Konfirmasi
                             </label>
                             <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
@@ -190,31 +190,31 @@
                     <!-- Password Strength Indicator -->
                     <div class="form-element text-left" id="pw-requirements">
                         <div class="bg-surface-container-low rounded-xl p-3 border border-outline-variant/30">
-                            <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Persyaratan Kata Sandi:</p>
+                            <p class="text-[0.625rem] font-bold text-on-surface-variant uppercase tracking-wider mb-2">Persyaratan Kata Sandi:</p>
                             <div class="grid grid-cols-2 gap-x-4 gap-y-1">
                                 <div class="flex items-center gap-1.5" id="req-length">
-                                    <span class="material-symbols-outlined text-[14px] text-outline-variant" id="icon-length">circle</span>
-                                    <span class="text-[10px] text-on-surface-variant">8–20 karakter</span>
+                                    <span class="material-symbols-outlined text-[0.875rem] text-outline-variant" id="icon-length">circle</span>
+                                    <span class="text-[0.625rem] text-on-surface-variant">8–20 karakter</span>
                                 </div>
                                 <div class="flex items-center gap-1.5" id="req-upper">
-                                    <span class="material-symbols-outlined text-[14px] text-outline-variant" id="icon-upper">circle</span>
-                                    <span class="text-[10px] text-on-surface-variant">Huruf besar (A-Z)</span>
+                                    <span class="material-symbols-outlined text-[0.875rem] text-outline-variant" id="icon-upper">circle</span>
+                                    <span class="text-[0.625rem] text-on-surface-variant">Huruf besar (A-Z)</span>
                                 </div>
                                 <div class="flex items-center gap-1.5" id="req-lower">
-                                    <span class="material-symbols-outlined text-[14px] text-outline-variant" id="icon-lower">circle</span>
-                                    <span class="text-[10px] text-on-surface-variant">Huruf kecil (a-z)</span>
+                                    <span class="material-symbols-outlined text-[0.875rem] text-outline-variant" id="icon-lower">circle</span>
+                                    <span class="text-[0.625rem] text-on-surface-variant">Huruf kecil (a-z)</span>
                                 </div>
                                 <div class="flex items-center gap-1.5" id="req-number">
-                                    <span class="material-symbols-outlined text-[14px] text-outline-variant" id="icon-number">circle</span>
-                                    <span class="text-[10px] text-on-surface-variant">Angka (0-9)</span>
+                                    <span class="material-symbols-outlined text-[0.875rem] text-outline-variant" id="icon-number">circle</span>
+                                    <span class="text-[0.625rem] text-on-surface-variant">Angka (0-9)</span>
                                 </div>
                                 <div class="flex items-center gap-1.5" id="req-special">
-                                    <span class="material-symbols-outlined text-[14px] text-outline-variant" id="icon-special">circle</span>
-                                    <span class="text-[10px] text-on-surface-variant">Spesial (@$!%*#?&^)</span>
+                                    <span class="material-symbols-outlined text-[0.875rem] text-outline-variant" id="icon-special">circle</span>
+                                    <span class="text-[0.625rem] text-on-surface-variant">Spesial (@$!%*#?&^)</span>
                                 </div>
                                 <div class="flex items-center gap-1.5" id="req-match">
-                                    <span class="material-symbols-outlined text-[14px] text-outline-variant" id="icon-match">circle</span>
-                                    <span class="text-[10px] text-on-surface-variant">Konfirmasi cocok</span>
+                                    <span class="material-symbols-outlined text-[0.875rem] text-outline-variant" id="icon-match">circle</span>
+                                    <span class="text-[0.625rem] text-on-surface-variant">Konfirmasi cocok</span>
                                 </div>
                             </div>
                             <!-- Strength Bar -->
@@ -235,10 +235,10 @@
 
                 <!-- Support Footer -->
                 <footer class="mt-4 pt-3 border-t border-outline-variant text-center form-element">
-                    <p class="font-body-sm text-on-surface-variant mb-1 text-[11px]">Sudah memiliki akun siswa?</p>
-                    <a class="font-label-md text-primary hover:underline inline-flex items-center gap-1 font-semibold text-[11px]" href="{{ route('login') }}">
+                    <p class="font-body-sm text-on-surface-variant mb-1 text-[0.6875rem]">Sudah memiliki akun siswa?</p>
+                    <a class="font-label-md text-primary hover:underline inline-flex items-center gap-1 font-semibold text-[0.6875rem]" href="{{ route('login') }}">
                         Masuk Ke Portal
-                        <span class="material-symbols-outlined text-[14px]">login</span>
+                        <span class="material-symbols-outlined text-[0.875rem]">login</span>
                     </a>
                 </footer>
             </div>

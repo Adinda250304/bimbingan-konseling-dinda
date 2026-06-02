@@ -11,14 +11,14 @@
         </div>
         <form method="GET">
             <div class="relative">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">filter_list</span>
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[1.125rem]">filter_list</span>
                 <select name="status" onchange="this.form.submit()"
                     class="pl-10 pr-10 py-2.5 bg-surface border border-outline-variant/50 rounded-xl text-sm font-medium text-on-surface outline-none cursor-pointer focus:ring-2 focus:ring-primary appearance-none transition-all shadow-sm">
                     <option value="">Semua (Aktif)</option>
                     <option value="menunggu"  {{ request('status')==='menunggu'  ? 'selected' : '' }}>Menunggu Persetujuan</option>
                     <option value="disetujui" {{ request('status')==='disetujui' ? 'selected' : '' }}>Terjadwal</option>
                 </select>
-                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[1.125rem] pointer-events-none">expand_more</span>
             </div>
         </form>
     </div>
@@ -48,17 +48,17 @@
                     <div class="flex-1 min-w-0">
                         <div class="font-bold text-base text-on-surface truncate">{{ $k->siswa->name }}</div>
                         <div class="text-xs font-medium text-on-surface-variant mt-0.5 inline-flex items-center gap-1">
-                            <span class="material-symbols-outlined text-[14px]">category</span>
+                            <span class="material-symbols-outlined text-[0.875rem]">category</span>
                             {{ $k->jenis_masalah }}
                         </div>
                     </div>
-                    <span class="flex-shrink-0 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase {{ $bc }}">{{ $bl }}</span>
+                    <span class="flex-shrink-0 px-3 py-1 rounded-full text-[0.6875rem] font-bold tracking-wide uppercase {{ $bc }}">{{ $bl }}</span>
                 </div>
                 
                 <div class="pt-3 border-t border-outline-variant/20">
                     @if($k->tanggal_konseling)
                     <div class="flex items-center gap-2 text-sm text-on-surface-variant bg-surface-container-low p-2.5 rounded-xl">
-                        <span class="material-symbols-outlined text-primary text-[18px]">calendar_today</span>
+                        <span class="material-symbols-outlined text-primary text-[1.125rem]">calendar_today</span>
                         <div>
                             <span class="font-bold text-on-surface">{{ $k->tanggal_konseling->translatedFormat('d M Y') }}</span>
                             @if($k->jam_konseling)
@@ -69,7 +69,7 @@
                     </div>
                     @else
                     <div class="flex items-center gap-2 text-sm text-on-surface-variant bg-surface-container-low p-2.5 rounded-xl">
-                        <span class="material-symbols-outlined text-[18px] opacity-70">hourglass_empty</span>
+                        <span class="material-symbols-outlined text-[1.125rem] opacity-70">hourglass_empty</span>
                         <span>Menunggu admin menentukan jadwal</span>
                     </div>
                     @endif

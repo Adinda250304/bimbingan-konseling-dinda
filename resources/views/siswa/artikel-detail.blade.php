@@ -15,7 +15,7 @@
     <!-- Back Button -->
     <div>
         <a href="{{ route('siswa.artikel.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-container transition-colors cursor-pointer group">
-            <span class="material-symbols-outlined text-[18px] group-hover:-translate-x-1 transition-transform">arrow_back</span>
+            <span class="material-symbols-outlined text-[1.125rem] group-hover:-translate-x-1 transition-transform">arrow_back</span>
             Kembali ke Daftar Artikel
         </a>
     </div>
@@ -36,7 +36,7 @@
                     Oleh: {{ $artikel->author->name }}
                 </span>
                 <span class="flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+                    <span class="material-symbols-outlined text-[1rem]">calendar_today</span>
                     {{ $artikel->created_at->format('d M Y') }}
                 </span>
 
@@ -71,7 +71,7 @@
                             <h5 class="font-bold text-on-surface text-sm line-clamp-2 hover:text-primary transition-colors">
                                 <a href="{{ route('siswa.artikel.detail', $rek->id) }}">{{ $rek->judul }}</a>
                             </h5>
-                            <div class="flex justify-between items-center text-[11px] text-on-surface-variant pt-2 border-t border-outline-variant/10">
+                            <div class="flex justify-between items-center text-[0.6875rem] text-on-surface-variant pt-2 border-t border-outline-variant/10">
                                 <span>{{ $rek->created_at->format('d M Y') }}</span>
                                 <a href="{{ route('siswa.artikel.detail', $rek->id) }}" class="font-bold text-primary hover:underline cursor-pointer">Baca</a>
                             </div>

@@ -11,7 +11,7 @@
         </div>
         <form method="GET">
             <div class="relative">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">filter_list</span>
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[1.125rem]">filter_list</span>
                 <select name="status" onchange="this.form.submit()"
                     class="pl-10 pr-10 py-2.5 bg-surface border border-outline-variant/50 rounded-xl text-sm font-medium text-on-surface outline-none cursor-pointer focus:ring-2 focus:ring-primary appearance-none transition-all shadow-sm">
                     <option value="">Semua Status</option>
@@ -20,7 +20,7 @@
                     <option value="selesai"   {{ request('status')==='selesai'   ? 'selected' : '' }}>Selesai</option>
                     <option value="ditolak"   {{ request('status')==='ditolak'   ? 'selected' : '' }}>Ditolak</option>
                 </select>
-                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px] pointer-events-none">expand_more</span>
+                <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[1.125rem] pointer-events-none">expand_more</span>
             </div>
         </form>
     </div>
@@ -37,25 +37,25 @@
             <div class="flex items-start justify-between gap-4">
                 <div class="flex items-start gap-4 flex-1 min-w-0">
                     <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 text-on-surface-variant">
-                        <span class="material-symbols-outlined text-[24px]">{{ $icon }}</span>
+                        <span class="material-symbols-outlined text-[1.5rem]">{{ $icon }}</span>
                     </div>
                     <div>
                         <div class="font-bold text-base text-on-surface">{{ $k->siswa->name }}</div>
                         <div class="text-sm font-medium text-on-surface-variant mt-0.5 flex items-center gap-2 flex-wrap">
-                            <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">category</span> {{ $k->jenis_masalah }}</span>
+                            <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[0.875rem]">category</span> {{ $k->jenis_masalah }}</span>
                             <span>•</span>
-                            <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">calendar_today</span> {{ $k->created_at->format('d M Y') }}</span>
+                            <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[0.875rem]">calendar_today</span> {{ $k->created_at->format('d M Y') }}</span>
                         </div>
                     </div>
                 </div>
-                <span class="flex-shrink-0 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase {{ $bc }}">{{ $bl }}</span>
+                <span class="flex-shrink-0 px-3 py-1 rounded-full text-[0.6875rem] font-bold tracking-wide uppercase {{ $bc }}">{{ $bl }}</span>
             </div>
 
             {{-- Hasil Review Guru BK (hanya tampil jika selesai dan ada hasil) --}}
             @if($k->status === 'selesai' && $k->hasil)
             <div class="mt-5 pt-5 border-t border-outline-variant/20 ml-16">
                 <p class="text-xs font-bold text-primary uppercase tracking-wide mb-3 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-[16px]">verified</span> Hasil Review Guru BK
+                    <span class="material-symbols-outlined text-[1rem]">verified</span> Hasil Review Guru BK
                 </p>
 
                 <div class="space-y-4">
@@ -81,7 +81,7 @@
             <div class="mt-5 pt-5 border-t border-outline-variant/20 ml-16">
                 <div class="bg-error/5 border border-error/20 rounded-xl p-4">
                     <p class="text-xs font-bold text-error mb-1 uppercase tracking-wide flex items-center gap-1">
-                        <span class="material-symbols-outlined text-[14px]">info</span> Alasan Penolakan
+                        <span class="material-symbols-outlined text-[0.875rem]">info</span> Alasan Penolakan
                     </p>
                     <p class="text-sm text-on-surface">{{ $k->alasan_penolakan }}</p>
                 </div>

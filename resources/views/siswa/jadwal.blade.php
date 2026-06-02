@@ -30,13 +30,13 @@
         <div class="bg-surface-container-lowest rounded-2xl p-8 border border-surface-variant shadow-subtle max-w-3xl mx-auto text-center my-12">
             <div class="py-8">
                 <div class="w-16 h-16 bg-surface-container rounded-full flex items-center justify-center mx-auto mb-4 text-outline-variant">
-                    <span class="material-symbols-outlined text-[32px]">calendar_today</span>
+                    <span class="material-symbols-outlined text-[2rem]">calendar_today</span>
                 </div>
                 <h3 class="font-bold text-on-surface text-base mb-1">Tidak Ada Jadwal Aktif</h3>
                 <p class="text-xs text-on-surface-variant max-w-xs mx-auto mb-6">Kamu belum memiliki sesi konseling yang sedang berjalan atau menunggu persetujuan.</p>
                 <a href="{{ route('siswa.pengajuan') }}"
                    class="inline-flex items-center gap-1.5 px-6 py-3 bg-primary hover:bg-primary-container text-white font-bold rounded-xl text-sm transition shadow-md hover:scale-105 active:scale-95">
-                    <span class="material-symbols-outlined text-[18px]">add</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">add</span>
                     Ajukan Konseling Sekarang
                 </a>
             </div>
@@ -147,7 +147,7 @@
                             <div class="bg-surface-container-low p-3 rounded-2xl">
                                 <span class="material-symbols-outlined text-primary">{{ $icon }}</span>
                             </div>
-                            <span class="px-3 py-1 rounded-full text-[12px] font-bold {{ $statusClass }}">{{ $statusLabel }}</span>
+                            <span class="px-3 py-1 rounded-full text-[0.75rem] font-bold {{ $statusClass }}">{{ $statusLabel }}</span>
                         </div>
                         <p class="text-label-md text-on-surface-variant mb-1 font-semibold">
                             @if($k->tanggal_konseling)
@@ -156,7 +156,7 @@
                                 Menunggu Konfirmasi Jadwal
                             @endif
                         </p>
-                        <h5 class="font-headline-sm text-[18px] text-on-surface mb-2 truncate" title="{{ $k->jenis_masalah }}">
+                        <h5 class="font-headline-sm text-[1.125rem] text-on-surface mb-2 truncate" title="{{ $k->jenis_masalah }}">
                             {{ $k->jenis_masalah }}
                         </h5>
                         <p class="text-xs text-on-surface-variant line-clamp-2 leading-relaxed mb-4 italic">
@@ -170,14 +170,14 @@
                                 {{ strtoupper(substr($k->guru ? $k->guru->name : 'BK', 0, 2)) }}
                             </div>
                             <div>
-                                <p class="text-body-sm font-semibold text-on-surface truncate max-w-[150px]" title="{{ $k->guru ? $k->guru->name : 'Guru BK' }}">
+                                <p class="text-body-sm font-semibold text-on-surface truncate max-w-[9.375rem]" title="{{ $k->guru ? $k->guru->name : 'Guru BK' }}">
                                     {{ $k->guru ? $k->guru->name : 'Guru BK' }}
                                 </p>
-                                <p class="text-[12px] text-on-surface-variant">Guru BK Sekolah</p>
+                                <p class="text-[0.75rem] text-on-surface-variant">Guru BK Sekolah</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-2 text-body-sm text-on-surface-variant">
-                            <span class="material-symbols-outlined text-[18px]">schedule</span>
+                            <span class="material-symbols-outlined text-[1.125rem]">schedule</span>
                             @if($k->jam_konseling)
                                 {{ \Carbon\Carbon::parse($k->jam_konseling)->format('H:i') }} WIB
                             @else
@@ -193,9 +193,9 @@
     @endif
 
     <!-- Reassuring Bottom Card -->
-    <section class="mt-16 bg-surface-container rounded-[40px] p-10 flex flex-col md:flex-row items-center gap-10">
+    <section class="mt-16 bg-surface-container rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-10">
         <div class="w-full md:w-1/3">
-            <img class="w-full aspect-square rounded-[32px] object-cover shadow-2xl" data-alt="Two students and a counselor sitting in a circle in a bright, modern school lounge area." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCff3GiosqqrBb8ObPEFzIE6QYXewZJcIf9std3c_uDYnjIyuKxJi5tzcGbAUEoxOarAooNEkwbLPbhqRCYBqd7gmm_Nmp6srrgRiZoZsN-MQ6DSG5J0SJMhA5D3XRrvSjkFtzD-o36NcyC7W7_ryoeeXxdd2D3sxZkvhVb_yDcRNg15tlzb63Nkc3v5gPjkbYBpP77rYr_WCx3NGoNW_aZ0pPCBbC193cIdZJ0AK_xAyabpbqnl0pnWATD9yELVLiNLoorqoCkrwQ"/>
+            <img class="w-full aspect-square rounded-[2rem] object-cover shadow-2xl" data-alt="Two students and a counselor sitting in a circle in a bright, modern school lounge area." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCff3GiosqqrBb8ObPEFzIE6QYXewZJcIf9std3c_uDYnjIyuKxJi5tzcGbAUEoxOarAooNEkwbLPbhqRCYBqd7gmm_Nmp6srrgRiZoZsN-MQ6DSG5J0SJMhA5D3XRrvSjkFtzD-o36NcyC7W7_ryoeeXxdd2D3sxZkvhVb_yDcRNg15tlzb63Nkc3v5gPjkbYBpP77rYr_WCx3NGoNW_aZ0pPCBbC193cIdZJ0AK_xAyabpbqnl0pnWATD9yELVLiNLoorqoCkrwQ"/>
         </div>
         <div class="flex-1">
             <h3 class="font-headline-lg text-headline-lg text-primary mb-4">Butuh bantuan di luar jadwal?</h3>

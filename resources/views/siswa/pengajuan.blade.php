@@ -36,7 +36,7 @@
         <!-- Left Column: Form Steps -->
         <div class="lg:col-span-8 space-y-8">
             <!-- Step 1: Kategori Masalah -->
-            <div class="bg-white rounded-[24px] p-8 card-shadow border border-surface-variant/30 space-y-6">
+            <div class="bg-white rounded-[1.5rem] p-8 card-shadow border border-surface-variant/30 space-y-6">
                 <div class="flex items-center gap-3">
                     <span class="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
                     <h4 class="font-headline-sm text-headline-sm">Apa yang sedang kamu pikirkan?</h4>
@@ -70,7 +70,7 @@
             </div>
 
             <!-- Step 2: Counselor Selection -->
-            <div class="bg-white rounded-[24px] p-8 card-shadow border border-surface-variant/30 space-y-6">
+            <div class="bg-white rounded-[1.5rem] p-8 card-shadow border border-surface-variant/30 space-y-6">
                 <div class="flex items-center gap-3">
                     <span class="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
                     <h4 class="font-headline-sm text-headline-sm">Pilih Guru BK</h4>
@@ -111,7 +111,7 @@
                                     <p class="text-body-sm text-on-surface-variant mb-2">{{ $specialty }}</p>
                                 </div>
                                 <div class="flex items-center gap-1 mt-auto">
-                                    <span class="material-symbols-outlined text-[16px] text-amber-500" style="font-variation-settings: 'FILL' 1;">star</span>
+                                    <span class="material-symbols-outlined text-[1rem] text-amber-500" style="font-variation-settings: 'FILL' 1;">star</span>
                                     <span class="text-label-md text-xs sm:text-sm">{{ $rating }} ({{ $sessions }} sesi)</span>
                                 </div>
                             </div>
@@ -124,7 +124,7 @@
             </div>
 
             <!-- Step 3: Date & Details -->
-            <div class="bg-white rounded-[24px] p-8 card-shadow border border-surface-variant/30 space-y-8">
+            <div class="bg-white rounded-[1.5rem] p-8 card-shadow border border-surface-variant/30 space-y-8">
                 <div class="flex items-center gap-3">
                     <span class="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
                     <h4 class="font-headline-sm text-headline-sm">Jadwal & Catatan</h4>
@@ -184,7 +184,7 @@
         <!-- Right Column: Summary / Support -->
         <aside class="lg:col-span-4 space-y-6">
             <!-- Session Summary Card -->
-            <div class="bg-surface-container-low/50 backdrop-blur-md rounded-[24px] p-6 border border-white/50 space-y-6">
+            <div class="bg-surface-container-low/50 backdrop-blur-md rounded-[1.5rem] p-6 border border-white/50 space-y-6">
                 <h4 class="font-headline-sm text-headline-sm">Ringkasan Pilihan</h4>
                 <div class="space-y-4">
                     <div class="flex items-start gap-3">
@@ -218,9 +218,9 @@
             </div>
 
             <!-- Additional Support Card -->
-            <div class="bg-white rounded-[24px] p-6 card-shadow border border-surface-variant/30 space-y-4 relative overflow-hidden group">
+            <div class="bg-white rounded-[1.5rem] p-6 card-shadow border border-surface-variant/30 space-y-4 relative overflow-hidden group">
                 <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <span class="material-symbols-outlined text-[80px]">clinical_notes</span>
+                    <span class="material-symbols-outlined text-[5rem]">clinical_notes</span>
                 </div>
                 <h4 class="font-bold text-on-surface">Butuh bantuan segera?</h4>
                 <p class="text-body-sm text-on-surface-variant">Jika Anda berada dalam situasi darurat atau krisis emosional, silakan hubungi kontak darurat kami segera.</p>
@@ -230,7 +230,7 @@
             </div>
 
             <!-- Decorative Graphic -->
-            <div class="rounded-[24px] aspect-[4/3] overflow-hidden card-shadow">
+            <div class="rounded-[1.5rem] aspect-[4/3] overflow-hidden card-shadow">
                 <img class="w-full h-full object-cover scale-[1.35] origin-center" src="{{ asset('img/hotline_support.png') }}" alt="Hotline Support" />
             </div>
         </aside>

@@ -39,7 +39,7 @@
                 </div>
                 <div class="p-6 flex-1 flex flex-col justify-between">
                     <div class="space-y-3">
-                        <p class="text-[10px] font-bold text-primary uppercase tracking-wider">Oleh: {{ $artikel->author->name }}</p>
+                        <p class="text-[0.625rem] font-bold text-primary uppercase tracking-wider">Oleh: {{ $artikel->author->name }}</p>
                         <h4 class="font-bold text-on-surface text-base line-clamp-2 leading-snug hover:text-primary transition-colors">
                             <a href="{{ route('siswa.artikel.detail', $artikel->id) }}">{{ $artikel->judul }}</a>
                         </h4>
@@ -51,7 +51,7 @@
                         <span class="text-xs text-on-surface-variant">{{ $artikel->created_at->format('d M Y') }}</span>
                         <a href="{{ route('siswa.artikel.detail', $artikel->id) }}" class="text-xs font-bold text-primary hover:underline inline-flex items-center gap-1 cursor-pointer">
                             Baca Selengkapnya
-                            <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                            <span class="material-symbols-outlined text-[0.875rem]">arrow_forward</span>
                         </a>
                     </div>
                 </div>

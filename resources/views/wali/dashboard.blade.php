@@ -7,7 +7,7 @@
     {{-- Siswa Kelas --}}
     <div class="bg-surface rounded-3xl p-6 border border-outline-variant/30 shadow-sm flex items-center gap-4 transition-transform hover:-translate-y-1 duration-300">
         <div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner">
-            <span class="material-symbols-outlined text-[28px]">groups</span>
+            <span class="material-symbols-outlined text-[1.75rem]">groups</span>
         </div>
         <div>
             <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-0.5">Siswa Kelas</p>
@@ -17,7 +17,7 @@
     {{-- Sesi Aktif --}}
     <div class="bg-surface rounded-3xl p-6 border border-outline-variant/30 shadow-sm flex items-center gap-4 transition-transform hover:-translate-y-1 duration-300">
         <div class="w-12 h-12 bg-secondary-container text-on-secondary-container rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner">
-            <span class="material-symbols-outlined text-[28px]">event_available</span>
+            <span class="material-symbols-outlined text-[1.75rem]">event_available</span>
         </div>
         <div>
             <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-0.5">Sesi Aktif</p>
@@ -27,7 +27,7 @@
     {{-- Menunggu --}}
     <div class="bg-surface rounded-3xl p-6 border border-outline-variant/30 shadow-sm flex items-center gap-4 transition-transform hover:-translate-y-1 duration-300">
         <div class="w-12 h-12 bg-tertiary-container text-on-tertiary-container rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner">
-            <span class="material-symbols-outlined text-[28px]">pending_actions</span>
+            <span class="material-symbols-outlined text-[1.75rem]">pending_actions</span>
         </div>
         <div>
             <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-0.5">Menunggu</p>
@@ -37,7 +37,7 @@
     {{-- Selesai --}}
     <div class="bg-surface rounded-3xl p-6 border border-outline-variant/30 shadow-sm flex items-center gap-4 transition-transform hover:-translate-y-1 duration-300">
         <div class="w-12 h-12 bg-green-100 text-green-700 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner">
-            <span class="material-symbols-outlined text-[28px]">task_alt</span>
+            <span class="material-symbols-outlined text-[1.75rem]">task_alt</span>
         </div>
         <div>
             <p class="text-xs text-on-surface-variant font-bold uppercase tracking-wider mb-0.5">Selesai</p>
@@ -60,7 +60,7 @@
         @endphp
         <div class="p-5 flex items-center gap-4 hover:bg-surface-container-lowest transition-colors">
             <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 text-on-surface-variant">
-                <span class="material-symbols-outlined text-[20px]">{{ $icon }}</span>
+                <span class="material-symbols-outlined text-[1.25rem]">{{ $icon }}</span>
             </div>
             <div class="flex-1 min-w-0">
                 <div class="font-bold text-on-surface text-sm truncate">{{ $k->siswa->name }}</div>

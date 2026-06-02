@@ -58,7 +58,7 @@
         </div>
 
         <!-- Progress Indicator (Minimalist) -->
-        <div class="mt-section-margin w-48 h-[2px] bg-outline-variant/30 rounded-full overflow-hidden relative" id="loader-track">
+        <div class="mt-section-margin w-48 h-[0.125rem] bg-outline-variant/30 rounded-full overflow-hidden relative" id="loader-track">
             <div class="absolute left-0 top-0 h-full w-0 bg-primary rounded-full" id="loader-bar"></div>
         </div>
 

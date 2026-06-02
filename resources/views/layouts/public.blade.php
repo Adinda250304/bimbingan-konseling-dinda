@@ -46,7 +46,7 @@
                 <img src="{{ asset('img/logo-ypml.png') }}" alt="Logo" class="h-10 w-auto">
                 <div>
                     <h1 class="font-headline-lg text-headline-sm font-extrabold text-primary tracking-tight leading-none">TEMAN BK</h1>
-                    <span class="text-[10px] text-on-surface-variant font-semibold tracking-wider uppercase">Bimbingan &amp; Konseling YPML</span>
+                    <span class="text-[0.625rem] text-on-surface-variant font-semibold tracking-wider uppercase">Bimbingan &amp; Konseling YPML</span>
                 </div>
             </a>
             
@@ -123,7 +123,7 @@
                     <img src="{{ asset('img/logo-ypml.png') }}" alt="Logo" class="h-9 w-auto">
                     <div>
                         <h1 class="font-headline-md text-headline-sm font-extrabold text-primary tracking-tight leading-none">TEMAN BK</h1>
-                        <span class="text-[10px] text-on-surface-variant font-medium tracking-wide uppercase">Bimbingan &amp; Konseling YPML</span>
+                        <span class="text-[0.625rem] text-on-surface-variant font-medium tracking-wide uppercase">Bimbingan &amp; Konseling YPML</span>
                     </div>
                 </a>
                 <p class="text-xs text-on-surface-variant font-medium max-w-sm leading-relaxed mt-2">

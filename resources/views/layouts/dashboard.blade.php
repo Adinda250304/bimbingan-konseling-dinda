@@ -100,13 +100,13 @@
                     <button onclick="toggleDd('notification-menu')" class="text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors relative flex items-center justify-center">
                         <span class="material-symbols-outlined">notifications</span>
                         <!-- Unread Dot Badge -->
-                        <span id="notif-badge" class="hidden absolute top-1 right-1 min-w-4 h-4 px-1 bg-error text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
+                        <span id="notif-badge" class="hidden absolute top-1 right-1 min-w-4 h-4 px-1 bg-error text-white text-[0.5625rem] font-bold rounded-full flex items-center justify-center">0</span>
                     </button>
  
                     <div id="notification-menu" class="hidden dd-menu absolute right-0 mt-3 w-[calc(100vw-2rem)] max-w-xs sm:max-w-none sm:w-80 bg-surface-container-lowest border border-outline-variant/30 rounded-2xl shadow-xl py-1 z-50 overflow-hidden text-left origin-top-right transition-all">
                         <div class="px-4 py-3 bg-surface-container-low flex justify-between items-center">
                             <p class="text-xs font-bold text-on-surface">Notifikasi</p>
-                            <button onclick="markAllNotifRead()" class="text-[11px] text-primary font-bold hover:underline cursor-pointer">Tandai semua dibaca</button>
+                            <button onclick="markAllNotifRead()" class="text-[0.6875rem] text-primary font-bold hover:underline cursor-pointer">Tandai semua dibaca</button>
                         </div>
                         <hr class="border-outline-variant/30">
                         <div id="notif-list" class="max-h-64 overflow-y-auto py-1">
@@ -145,7 +145,7 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="px-4 sm:px-container-padding py-6 sm:py-8 pb-12 max-w-[1280px] mx-auto min-h-[calc(100vh-4rem)] w-full">
+        <main class="px-4 sm:px-container-padding py-6 sm:py-8 pb-12 max-w-[80rem] mx-auto min-h-[calc(100vh-4rem)] w-full">
             @yield('content')
         </main>
     </div>
@@ -276,7 +276,7 @@
                                 <div class="flex-1">
                                     <p class="text-xs ${textWeight} text-on-surface">${n.title}</p>
                                     <p class="text-xs text-outline leading-snug mt-0.5">${n.message}</p>
-                                    <span class="text-[10px] text-outline/80 mt-1 block">${timeStr}</span>
+                                    <span class="text-[0.625rem] text-outline/80 mt-1 block">${timeStr}</span>
                                 </div>
                                 <span class="w-2 h-2 rounded-full ${dotClass} mt-1.5 flex-shrink-0"></span>
                             </div>

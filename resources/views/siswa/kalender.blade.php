@@ -23,15 +23,15 @@
         <div class="bg-white border border-outline-variant/30 rounded-2xl p-4 flex gap-6 shadow-sm">
             <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-primary/20 border border-primary/40"></span>
-                <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Tersedia (Available)</span>
+                <span class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Tersedia (Available)</span>
             </div>
             <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-surface-container-highest"></span>
-                <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Terisi (Booked)</span>
+                <span class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Terisi (Booked)</span>
             </div>
             <div class="flex items-center gap-2">
                 <span class="w-3 h-3 rounded-full bg-secondary-container/50 border border-secondary/20"></span>
-                <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Libur (Holiday)</span>
+                <span class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Libur (Holiday)</span>
             </div>
         </div>
     </div>
@@ -77,7 +77,7 @@
                     <a href="{{ route('siswa.pengajuan') }}" class="inline-block bg-white text-primary px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider hover:bg-primary-fixed transition-colors mt-2">Buat Pengajuan Sekarang</a>
                 </div>
                 <div class="absolute -right-4 -bottom-4 opacity-15">
-                    <span class="material-symbols-outlined text-[100px]">forum</span>
+                    <span class="material-symbols-outlined text-[6.25rem]">forum</span>
                 </div>
             </div>
         </div>
@@ -286,13 +286,13 @@
                 if (hasHoliday) {
                     cell.className = 'aspect-square bg-secondary-container/20 border border-secondary/20 rounded-2xl p-2 flex flex-col items-center justify-between';
                     const lbl = document.createElement('span');
-                    lbl.className = 'text-[10px] text-secondary font-bold uppercase';
+                    lbl.className = 'text-[0.625rem] text-secondary font-bold uppercase';
                     lbl.textContent = 'Libur';
                     cell.appendChild(lbl);
                 } else if (availableSlots.length > 0) {
                     cell.className = 'aspect-square bg-primary-container/10 border border-primary/40 rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer hover:bg-primary-container/20 transition-all group';
                     const lbl = document.createElement('span');
-                    lbl.className = 'text-[10px] text-primary font-bold uppercase';
+                    lbl.className = 'text-[0.625rem] text-primary font-bold uppercase';
                     lbl.textContent = `${availableSlots.length} Slots`;
                     cell.appendChild(lbl);
                 } else if (hasBooked) {
@@ -359,7 +359,7 @@
                 btn.className = 'p-4 bg-white border border-outline-variant/30 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group';
                 btn.innerHTML = `
                     <p class="text-body-md font-bold text-on-surface-variant group-hover:text-primary transition-colors">${timeLabel}</p>
-                    <span class="text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest mt-1 block">Tersedia</span>
+                    <span class="text-[0.625rem] font-semibold text-on-surface-variant uppercase tracking-widest mt-1 block">Tersedia</span>
                 `;
 
                 btn.addEventListener('click', () => {
@@ -368,13 +368,13 @@
                     slotsList.querySelectorAll('div').forEach(b => {
                         b.className = 'p-4 bg-white border border-outline-variant/30 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group';
                         b.querySelector('p').className = 'text-body-md font-bold text-on-surface-variant group-hover:text-primary transition-colors';
-                        b.querySelector('span').className = 'text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest mt-1 block';
+                        b.querySelector('span').className = 'text-[0.625rem] font-semibold text-on-surface-variant uppercase tracking-widest mt-1 block';
                         b.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
                     });
 
                     btn.className = 'p-4 bg-primary/10 border border-primary rounded-2xl text-center cursor-pointer transition-all ring-2 ring-primary ring-offset-2';
                     btn.querySelector('p').className = 'text-body-md font-bold text-primary';
-                    btn.querySelector('span').className = 'text-[10px] font-bold text-primary uppercase tracking-widest mt-1 block';
+                    btn.querySelector('span').className = 'text-[0.625rem] font-bold text-primary uppercase tracking-widest mt-1 block';
 
                     selectedSlot = {
                         date: dateStr,
@@ -445,7 +445,7 @@
             slotsList.querySelectorAll('div').forEach(b => {
                 b.className = 'p-4 bg-white border border-outline-variant/30 rounded-2xl text-center cursor-pointer hover:border-primary transition-all group';
                 b.querySelector('p').className = 'text-body-md font-bold text-on-surface-variant group-hover:text-primary transition-colors';
-                b.querySelector('span').className = 'text-[10px] font-semibold text-on-surface-variant uppercase tracking-widest mt-1 block';
+                b.querySelector('span').className = 'text-[0.625rem] font-semibold text-on-surface-variant uppercase tracking-widest mt-1 block';
                 b.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
             });
             selectedSlot = null;

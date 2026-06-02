@@ -12,7 +12,7 @@
     </div>
     <a href="{{ route('siswa.pengajuan') }}" 
        class="relative z-10 w-full sm:w-auto bg-primary hover:bg-primary-container text-white rounded-xl px-6 py-3 flex items-center justify-center gap-2 font-bold text-sm transition-colors shadow-md shrink-0">
-        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'wght' 600;">add</span>
+        <span class="material-symbols-outlined text-[1.25rem]" style="font-variation-settings: 'wght' 600;">add</span>
         Ajukan Konseling Baru
     </a>
 </section>
@@ -137,18 +137,18 @@
                     </div>
                     
                     <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/30 mt-2">
-                        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Topik / Kategori Masalah: {{ $k->jenis_masalah }}</p>
+                        <p class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Topik / Kategori Masalah: {{ $k->jenis_masalah }}</p>
                         <p class="text-sm text-on-surface leading-relaxed italic">"{{ $k->deskripsi_masalah }}"</p>
                     </div>
 
                     @if($k->status === 'selesai' && $k->hasil && $k->hasil->catatan_konselor)
                         <div class="bg-primary/5 p-4 rounded-xl border-l-4 border-primary mt-3">
-                            <p class="text-[11px] font-bold text-primary uppercase tracking-wider mb-1">Catatan Hasil dari Guru BK:</p>
+                            <p class="text-[0.6875rem] font-bold text-primary uppercase tracking-wider mb-1">Catatan Hasil dari Guru BK:</p>
                             <p class="text-sm text-on-surface leading-relaxed">"{{ $k->hasil->catatan_konselor }}"</p>
                         </div>
                     @elseif($k->status === 'ditolak' && $k->alasan_penolakan)
                         <div class="bg-error/5 p-4 rounded-xl border-l-4 border-error mt-3">
-                            <p class="text-[11px] font-bold text-error uppercase tracking-wider mb-1">Alasan Penolakan:</p>
+                            <p class="text-[0.6875rem] font-bold text-error uppercase tracking-wider mb-1">Alasan Penolakan:</p>
                             <p class="text-sm text-on-surface leading-relaxed">"{{ $k->alasan_penolakan }}"</p>
                         </div>
                     @endif
@@ -168,7 +168,7 @@
             <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tips &amp; Artikel</h3>
             <a href="{{ route('siswa.artikel.index') }}" class="text-xs text-primary font-semibold hover:underline inline-flex items-center gap-1">
                 Lihat Semua
-                <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                <span class="material-symbols-outlined text-[0.875rem]">arrow_forward</span>
             </a>
         </div>
         <div class="flex flex-col gap-4">

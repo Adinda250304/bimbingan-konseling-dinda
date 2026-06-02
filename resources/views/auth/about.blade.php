@@ -17,7 +17,7 @@
             <!-- Right: Text Content & Empathy Points -->
             <div class="lg:col-span-7 bk-sahabat-text flex flex-col items-start">
                 <span class="text-secondary font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-secondary-container/20 rounded-full border border-secondary/20">BK (Bukan Polisi Sekolah)</span>
-                <h2 class="font-headline-lg text-lg sm:text-xl lg:text-[22px] xl:text-[26px] font-extrabold text-on-background mt-4 leading-tight text-left">
+                <h2 class="font-headline-lg text-lg sm:text-xl lg:text-[1.375rem] xl:text-[1.625rem] font-extrabold text-on-background mt-4 leading-tight text-left">
                     Tempat Nyaman Berbagi Cerita &amp; Solusi
                 </h2>
                 <p class="text-body-md text-on-surface-variant mt-4 leading-relaxed font-medium text-justify">
@@ -32,7 +32,7 @@
                         </span>
                         <div>
                             <h4 class="font-bold text-sm text-on-background">Empati &amp; Rahasia</h4>
-                            <p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed text-justify">
+                            <p class="text-[0.6875rem] text-on-surface-variant mt-1 leading-relaxed text-justify">
                                 Ceritamu dijamin 100% aman dan dirahasiakan bersama konselor pilihanmu.
                             </p>
                         </div>
@@ -43,7 +43,7 @@
                         </span>
                         <div>
                             <h4 class="font-bold text-sm text-on-background">Konsultasi Belajar</h4>
-                            <p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed text-justify">
+                            <p class="text-[0.6875rem] text-on-surface-variant mt-1 leading-relaxed text-justify">
                                 Diskusikan hambatan belajarmu agar prestasi sekolah tetap terjaga.
                             </p>
                         </div>
@@ -54,7 +54,7 @@
                         </span>
                         <div>
                             <h4 class="font-bold text-sm text-on-background">Arah Karir &amp; Kuliah</h4>
-                            <p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed text-justify">
+                            <p class="text-[0.6875rem] text-on-surface-variant mt-1 leading-relaxed text-justify">
                                 Rencanakan studi lanjutan, jurusan kuliah, serta minat bakat masa depan.
                             </p>
                         </div>
@@ -65,7 +65,7 @@
                         </span>
                         <div>
                             <h4 class="font-bold text-sm text-on-background">Hubungan Sosial &amp; Keluarga</h4>
-                            <p class="text-[11px] text-on-surface-variant mt-1 leading-relaxed text-justify">
+                            <p class="text-[0.6875rem] text-on-surface-variant mt-1 leading-relaxed text-justify">
                                 Temukan solusi konflik dengan teman sebaya atau hubungan keluarga di rumah.
                             </p>
                         </div>

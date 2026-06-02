@@ -53,7 +53,7 @@
                 <!-- Spacer for vertical centering -->
                 <div class="flex-grow"></div>
                 
-                <div class="w-full max-w-[460px] bg-surface-container-lowest border border-outline-variant p-8 rounded-2xl login-card mx-auto shrink-0" id="login-card">
+                <div class="w-full max-w-[28.75rem] bg-surface-container-lowest border border-outline-variant p-8 rounded-2xl login-card mx-auto shrink-0" id="login-card">
                     
                     <!-- Brand Header -->
                 <header class="mb-8 text-center lg:text-left">
@@ -74,7 +74,7 @@
                     <!-- Identity Field -->
                     <div class="space-y-1.5 form-element text-left">
                         <label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-2" for="login">
-                            <span class="material-symbols-outlined text-[18px]">person</span>
+                            <span class="material-symbols-outlined text-[1.125rem]">person</span>
                             Email atau Username
                         </label>
                         <input class="w-full bg-surface-container-low border {{ $errors->has('login') ? 'border-error' : 'border-outline-variant' }} rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
@@ -94,7 +94,7 @@
                     <div class="space-y-1.5 form-element text-left">
                         <div class="flex justify-between items-center">
                             <label class="font-label-md text-label-md text-on-surface-variant flex items-center gap-2" for="password">
-                                <span class="material-symbols-outlined text-[18px]">lock</span>
+                                <span class="material-symbols-outlined text-[1.125rem]">lock</span>
                                 Kata Sandi
                             </label>
                         </div>
@@ -139,7 +139,7 @@
                     <p class="font-body-sm text-body-sm text-on-surface-variant mb-1 text-xs">Belum punya akun atau kesulitan masuk?</p>
                     <a class="font-label-md text-label-md text-primary hover:underline inline-flex items-center gap-1 font-semibold text-xs" href="{{ route('register') }}">
                         Daftar Akun Siswa Baru
-                        <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                        <span class="material-symbols-outlined text-[0.875rem]">open_in_new</span>
                     </a>
                 </footer>
             </div>

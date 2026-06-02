@@ -318,11 +318,11 @@
             <label class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Preset Libur</label>
             <div class="grid grid-cols-2 gap-2">
                 <button type="button" id="btn-preset-hari-ini" onclick="setPresetLibur('hari_ini')" class="py-2.5 px-4 bg-surface-container-low hover:bg-primary/10 hover:text-primary rounded-xl text-xs font-bold transition-all text-on-surface border border-outline-variant/30 flex items-center justify-center gap-1.5 cursor-pointer">
-                    <span class="material-symbols-outlined text-[18px]">today</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">today</span>
                     Hari Ini (Seharian)
                 </button>
                 <button type="button" id="btn-preset-besok" onclick="setPresetLibur('besok')" class="py-2.5 px-4 bg-surface-container-low hover:bg-primary/10 hover:text-primary rounded-xl text-xs font-bold transition-all text-on-surface border border-outline-variant/30 flex items-center justify-center gap-1.5 cursor-pointer">
-                    <span class="material-symbols-outlined text-[18px]">event_upcoming</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">event_upcoming</span>
                     Besok (Seharian)
                 </button>
             </div>
@@ -376,7 +376,7 @@
                 </button>
                 <button type="submit"
                         class="flex-1 py-3 bg-error hover:opacity-90 text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                    <span class="material-symbols-outlined text-[18px]">event_busy</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">event_busy</span>
                     Simpan Libur
                 </button>
             </div>
@@ -425,13 +425,13 @@
 
                 if (timeText) {
                     let timeEl = document.createElement('div');
-                    timeEl.className = 'font-bold text-[9px] opacity-90 flex items-center gap-1 border-b border-current/10 pb-0.5 mb-1';
+                    timeEl.className = 'font-bold text-[0.5625rem] opacity-90 flex items-center gap-1 border-b border-current/10 pb-0.5 mb-1';
                     timeEl.innerHTML = `<svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>` + timeText;
                     container.appendChild(timeEl);
                 }
 
                 let titleEl = document.createElement('div');
-                titleEl.className = 'text-[10px] leading-tight font-semibold whitespace-normal break-words flex-1';
+                titleEl.className = 'text-[0.625rem] leading-tight font-semibold whitespace-normal break-words flex-1';
                 titleEl.innerHTML = title;
                 container.appendChild(titleEl);
 

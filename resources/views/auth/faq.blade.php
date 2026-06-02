@@ -7,7 +7,7 @@
     <section class="pt-32 pb-16 max-w-4xl mx-auto px-6 text-center w-full min-h-screen flex flex-col justify-center">
         <div class="mb-16">
             <span class="text-primary font-bold text-xs uppercase tracking-widest px-3.5 py-1.5 bg-primary/10 rounded-full border border-primary/20">Tanya Jawab</span>
-            <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[26px] xl:text-[32px] font-extrabold text-on-background mt-4 leading-tight">
+            <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[1.625rem] xl:text-[2rem] font-extrabold text-on-background mt-4 leading-tight">
                 Pertanyaan yang Sering Diajukan
             </h2>
             <p class="text-xs sm:text-sm text-on-surface-variant mt-2 font-medium text-justify">

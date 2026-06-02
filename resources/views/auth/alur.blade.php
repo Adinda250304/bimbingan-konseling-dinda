@@ -25,7 +25,7 @@
             <!-- Header Text -->
             <div class="max-w-2xl mx-auto mb-20 hero-text">
                 <span class="text-primary font-bold text-xs uppercase tracking-wider px-4 py-1.5 bg-primary/10 rounded-full border border-primary/20">Langkah Mudah</span>
-                <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[26px] xl:text-[32px] font-extrabold text-on-background mt-4 leading-tight">
+                <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[1.625rem] xl:text-[2rem] font-extrabold text-on-background mt-4 leading-tight">
                     Alur Proses Bimbingan &amp; Konseling
                 </h2>
                 <p class="text-body-md text-on-surface-variant mt-4 font-medium text-justify">
@@ -37,14 +37,14 @@
             <div class="relative w-full">
                 
                 <!-- Connecting Line (Desktop Only) -->
-                <div class="hidden lg:block absolute top-[44px] left-[8%] right-[8%] h-[2px] bg-gradient-to-r from-primary/10 via-primary/40 to-primary/10 z-0"></div>
+                <div class="hidden lg:block absolute top-[2.75rem] left-[8%] right-[8%] h-[0.125rem] bg-gradient-to-r from-primary/10 via-primary/40 to-primary/10 z-0"></div>
 
                 <!-- Timeline Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-10 text-left relative z-10" id="alur-grid">
                     
                     <!-- Langkah 1 -->
                     <div class="alur-card-wrapper">
-                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[220px]">
+                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[13.75rem]">
                             <!-- Step Badge -->
                             <div class="absolute -top-5 left-8 w-10 h-10 rounded-xl bg-primary text-white font-extrabold flex items-center justify-center shadow-md shadow-primary/20 z-20 text-sm group-hover:scale-110 transition-transform duration-300">
                                 1
@@ -64,7 +64,7 @@
 
                     <!-- Langkah 2 -->
                     <div class="alur-card-wrapper">
-                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[220px]">
+                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[13.75rem]">
                             <!-- Step Badge -->
                             <div class="absolute -top-5 left-8 w-10 h-10 rounded-xl bg-primary text-white font-extrabold flex items-center justify-center shadow-md shadow-primary/20 z-20 text-sm group-hover:scale-110 transition-transform duration-300">
                                 2
@@ -84,7 +84,7 @@
 
                     <!-- Langkah 3 -->
                     <div class="alur-card-wrapper">
-                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[220px]">
+                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[13.75rem]">
                             <!-- Step Badge -->
                             <div class="absolute -top-5 left-8 w-10 h-10 rounded-xl bg-primary text-white font-extrabold flex items-center justify-center shadow-md shadow-primary/20 z-20 text-sm group-hover:scale-110 transition-transform duration-300">
                                 3
@@ -104,7 +104,7 @@
 
                     <!-- Langkah 4 -->
                     <div class="alur-card-wrapper">
-                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[220px]">
+                        <div class="alur-card group relative bg-white p-8 rounded-3xl border border-outline-variant/30 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between min-h-[13.75rem]">
                             <!-- Step Badge -->
                             <div class="absolute -top-5 left-8 w-10 h-10 rounded-xl bg-primary text-white font-extrabold flex items-center justify-center shadow-md shadow-primary/20 z-20 text-sm group-hover:scale-110 transition-transform duration-300">
                                 4

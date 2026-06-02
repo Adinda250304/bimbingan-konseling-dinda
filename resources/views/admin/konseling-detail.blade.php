@@ -42,7 +42,7 @@
 <!-- Back Button & Page Header -->
 <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <a href="{{ route('admin.jadwal') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-outline-variant/30 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 hover:border-primary rounded-xl text-sm font-semibold transition-all duration-300">
-        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+        <span class="material-symbols-outlined text-[1.125rem]">arrow_back</span>
         Kembali ke Jadwal
     </a>
 </div>
@@ -64,7 +64,7 @@
     <div class="lg:col-span-8 space-y-8">
         
         <!-- Main Details Card -->
-        <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+        <div class="bg-white border border-outline-variant/30 rounded-[1.5rem] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-outline-variant/20">
                 <div>
                     <span class="text-xs font-bold text-outline uppercase tracking-wider">ID Konseling: #{{ $konseling->id }}</span>
@@ -84,7 +84,7 @@
                         <span class="material-symbols-outlined text-2xl">{{ $icon }}</span>
                     </div>
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-outline-variant tracking-wider leading-none mb-1.5">Kategori Masalah</p>
+                        <p class="text-[0.625rem] uppercase font-bold text-outline-variant tracking-wider leading-none mb-1.5">Kategori Masalah</p>
                         <p class="text-sm font-semibold capitalize">{{ $konseling->jenis_masalah }}</p>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                         </span>
                     </div>
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tipe Konseling</p>
+                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tipe Konseling</p>
                         <p class="text-sm font-semibold capitalize">{{ $konseling->jenis }}</p>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                         <span class="material-symbols-outlined text-2xl">calendar_today</span>
                     </div>
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tanggal Pertemuan</p>
+                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tanggal Pertemuan</p>
                         <p class="text-sm font-semibold">
                             {{ $konseling->tanggal_konseling ? $konseling->tanggal_konseling->translatedFormat('d F Y') : 'Belum dijadwalkan' }}
                         </p>
@@ -121,7 +121,7 @@
                         <span class="material-symbols-outlined text-2xl">schedule</span>
                     </div>
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Waktu Sesi</p>
+                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Waktu Sesi</p>
                         <p class="text-sm font-semibold">
                             {{ $konseling->jam_konseling ? \Carbon\Carbon::parse($konseling->jam_konseling)->format('H:i') . ' WIB' : 'Belum ditentukan' }}
                         </p>
@@ -134,7 +134,7 @@
                 <div class="flex items-center gap-3">
                     <span class="material-symbols-outlined text-primary text-2xl">location_on</span>
                     <div>
-                        <p class="text-[10px] uppercase font-bold text-outline tracking-wider leading-none mb-1">Tempat / Ruangan</p>
+                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1">Tempat / Ruangan</p>
                         @if($konseling->jenis === 'online')
                             <p class="text-sm font-semibold text-on-surface">Online (Virtual Meeting)</p>
                         @else
@@ -144,7 +144,7 @@
                 </div>
                 @if($konseling->jenis === 'online' && $konseling->link_meeting)
                     <a href="{{ $konseling->link_meeting }}" target="_blank" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto">
-                        <span class="material-symbols-outlined text-[16px]">video_call</span>
+                        <span class="material-symbols-outlined text-[1rem]">video_call</span>
                         Gabung Google Meet
                     </a>
                 @endif
@@ -162,7 +162,7 @@
 
         <!-- Hasil & Saran Card -->
         @if($konseling->hasil)
-            <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+            <div class="bg-white border border-outline-variant/30 rounded-[1.5rem] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
                 <div class="pb-4 border-b border-outline-variant/20">
                     <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Hasil & Saran Konselor</h3>
                 </div>
@@ -203,12 +203,12 @@
 
         <!-- Rencana Tindak Lanjut Card -->
         @if($konseling->status === 'selesai' || $konseling->tindakLanjut->count() > 0)
-            <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+            <div class="bg-white border border-outline-variant/30 rounded-[1.5rem] p-6 md:p-8 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
                 <div class="flex justify-between items-center pb-4 border-b border-outline-variant/20">
                     <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Rencana Tindak Lanjut</h3>
                     @if($konseling->status === 'selesai')
                         <button onclick="openModal('modal-tindak-lanjut')" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all flex items-center gap-1.5 shadow-sm cursor-pointer">
-                            <span class="material-symbols-outlined text-[16px]">add_circle</span>
+                            <span class="material-symbols-outlined text-[1rem]">add_circle</span>
                             Buat Rencana Baru
                         </button>
                     @endif
@@ -229,7 +229,7 @@
                                         </span>
                                     </div>
                                     
-                                    <div class="pl-4 py-2 border-l-[3px] border-primary bg-primary/5 rounded-r-xl">
+                                    <div class="pl-4 py-2 border-l-[0.1875rem] border-primary bg-primary/5 rounded-r-xl">
                                         <p class="text-body-sm text-on-surface-variant font-medium leading-relaxed italic">"{{ $tl->catatan }}"</p>
                                     </div>
                                     
@@ -237,7 +237,7 @@
                                     <div class="flex flex-wrap gap-4 text-xs font-semibold">
                                         <div class="flex items-center gap-2">
                                             <div class="w-6 h-6 rounded-full flex items-center justify-center {{ $tl->status_wa === 'terkirim' ? 'bg-emerald-50 text-emerald-500' : ($tl->status_wa === 'gagal' ? 'bg-red-50 text-red-500' : 'bg-surface-container-high text-outline') }}">
-                                                <span class="material-symbols-outlined text-[14px]">chat</span>
+                                                <span class="material-symbols-outlined text-[0.875rem]">chat</span>
                                             </div>
                                             <span class="{{ $tl->status_wa === 'terkirim' ? 'text-emerald-700' : ($tl->status_wa === 'gagal' ? 'text-red-700' : 'text-outline') }}">
                                                 WhatsApp {{ $tl->status_wa === 'terkirim' ? 'Terkirim' : ($tl->status_wa === 'gagal' ? 'Gagal' : 'Belum Dikirim') }}
@@ -245,7 +245,7 @@
                                         </div>
                                         <div class="flex items-center gap-2">
                                             <div class="w-6 h-6 rounded-full flex items-center justify-center {{ $tl->status_email === 'terkirim' ? 'bg-sky-50 text-sky-500' : ($tl->status_email === 'gagal' ? 'bg-red-50 text-red-500' : 'bg-surface-container-high text-outline') }}">
-                                                <span class="material-symbols-outlined text-[14px]">mail</span>
+                                                <span class="material-symbols-outlined text-[0.875rem]">mail</span>
                                             </div>
                                             <span class="{{ $tl->status_email === 'terkirim' ? 'text-sky-700' : ($tl->status_email === 'gagal' ? 'text-red-700' : 'text-outline') }}">
                                                 Email {{ $tl->status_email === 'terkirim' ? 'Terkirim' : ($tl->status_email === 'gagal' ? 'Gagal' : 'Belum Dikirim') }}
@@ -255,16 +255,16 @@
                                 </div>
                                 
                                 <!-- Document actions -->
-                                <div class="flex flex-row md:flex-col justify-center gap-2 min-w-[210px] shrink-0">
+                                <div class="flex flex-row md:flex-col justify-center gap-2 min-w-[13.125rem] shrink-0">
                                     <a href="{{ route('admin.tindak-lanjut.pdf', $tl) }}" target="_blank" class="flex-1 md:flex-initial px-4 py-2.5 bg-surface-container hover:bg-on-surface hover:text-white text-on-surface rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-outline-variant/30">
-                                        <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
+                                        <span class="material-symbols-outlined text-[1rem]">picture_as_pdf</span>
                                         Buka PDF
                                     </a>
                                     
                                     <form action="{{ route('admin.tindak-lanjut.wa', $tl) }}" method="POST" class="flex-1 md:flex-initial">
                                         @csrf
                                         <button type="submit" class="w-full px-4 py-2.5 bg-[#25D366]/10 hover:bg-[#25D366] hover:text-white text-[#128C7E] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#25D366]/20 shadow-sm cursor-pointer font-sans">
-                                            <span class="material-symbols-outlined text-[16px] font-bold">chat</span>
+                                            <span class="material-symbols-outlined text-[1rem] font-bold">chat</span>
                                             Kirim WA
                                         </button>
                                     </form>
@@ -272,7 +272,7 @@
                                     <form action="{{ route('admin.tindak-lanjut.email', $tl) }}" method="POST" class="flex-1 md:flex-initial">
                                         @csrf
                                         <button type="submit" class="w-full px-4 py-2.5 bg-[#1a73e8]/10 hover:bg-[#1a73e8] hover:text-white text-[#1a73e8] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#1a73e8]/20 shadow-sm cursor-pointer font-sans">
-                                            <span class="material-symbols-outlined text-[16px]">mail</span>
+                                            <span class="material-symbols-outlined text-[1rem]">mail</span>
                                             Kirim Email
                                         </button>
                                     </form>
@@ -286,7 +286,7 @@
                             <span class="material-symbols-outlined text-3xl">description</span>
                         </div>
                         <p class="text-body-sm text-outline font-semibold">Belum ada tindak lanjut tercatat pada sesi ini.</p>
-                        <p class="text-[11px] text-outline-variant mt-1">Silakan gunakan tombol di atas untuk membuat dokumen tindak lanjut.</p>
+                        <p class="text-[0.6875rem] text-outline-variant mt-1">Silakan gunakan tombol di atas untuk membuat dokumen tindak lanjut.</p>
                     </div>
                 @endif
             </div>
@@ -297,7 +297,7 @@
     <div class="lg:col-span-4 space-y-6">
         
         <!-- Student Profile Card -->
-        <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+        <div class="bg-white border border-outline-variant/30 rounded-[1.5rem] p-6 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
             <div class="pb-4 border-b border-outline-variant/20">
                 <h4 class="font-bold text-on-surface text-base">Profil Siswa</h4>
             </div>
@@ -323,11 +323,11 @@
             
             <div class="space-y-3 pt-2">
                 <div class="flex items-center gap-3 text-body-sm text-on-surface-variant bg-surface-container-low/50 p-3 rounded-xl">
-                    <span class="material-symbols-outlined text-outline text-[20px]">mail</span>
+                    <span class="material-symbols-outlined text-outline text-[1.25rem]">mail</span>
                     <span class="truncate w-full" title="{{ $konseling->siswa->email }}">{{ $konseling->siswa->email }}</span>
                 </div>
                 <div class="flex items-center gap-3 text-body-sm text-on-surface-variant bg-surface-container-low/50 p-3 rounded-xl">
-                    <span class="material-symbols-outlined text-outline text-[20px]">call</span>
+                    <span class="material-symbols-outlined text-outline text-[1.25rem]">call</span>
                     <span>{{ $konseling->siswa->no_telp ?? 'Tidak ada nomor telepon' }}</span>
                 </div>
             </div>
@@ -341,14 +341,14 @@
                     $waUrl = "https://wa.me/" . $cleanPhone . "?text=" . urlencode("Halo {$konseling->siswa->name}, saya Guru BK terkait pengajuan bimbingan konseling Anda...");
                 @endphp
                 <a href="{{ $waUrl }}" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20 rounded-2xl text-xs font-bold transition-all duration-300 shadow-sm font-sans">
-                    <span class="material-symbols-outlined text-[16px] font-bold">chat</span>
+                    <span class="material-symbols-outlined text-[1rem] font-bold">chat</span>
                     Hubungi via WhatsApp
                 </a>
             @endif
         </div>
         
         <!-- Action Timeline / Quick Controls Card -->
-        <div class="bg-white border border-outline-variant/30 rounded-[24px] p-6 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
+        <div class="bg-white border border-outline-variant/30 rounded-[1.5rem] p-6 shadow-[0px_4px_20px_rgba(16,106,106,0.02)] space-y-6">
             <div class="pb-4 border-b border-outline-variant/20">
                 <h4 class="font-bold text-on-surface text-base">Alur &amp; Tindakan Sesi</h4>
             </div>
@@ -360,7 +360,7 @@
                         <span class="material-symbols-outlined text-amber-600 shrink-0">info</span>
                         <div class="space-y-1">
                             <p class="text-xs font-bold">Menunggu Persetujuan</p>
-                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Silakan tentukan jadwal (tanggal, jam, dan lokasi) untuk menyetujui pengajuan ini.</p>
+                            <p class="text-[0.6875rem] leading-relaxed text-on-surface-variant">Silakan tentukan jadwal (tanggal, jam, dan lokasi) untuk menyetujui pengajuan ini.</p>
                         </div>
                     </div>
                     
@@ -368,17 +368,17 @@
                         @csrf
                         <div class="space-y-3">
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-outline uppercase tracking-wider">Tanggal Pertemuan</label>
+                                <label class="text-[0.625rem] font-bold text-outline uppercase tracking-wider">Tanggal Pertemuan</label>
                                 <input type="date" name="tanggal_konseling" required min="{{ today()->toDateString() }}"
                                        class="w-full bg-surface border border-outline-variant/40 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs font-medium outline-none">
                             </div>
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-outline uppercase tracking-wider">Jam Konseling</label>
+                                <label class="text-[0.625rem] font-bold text-outline uppercase tracking-wider">Jam Konseling</label>
                                 <input type="time" name="jam_konseling" required
                                        class="w-full bg-surface border border-outline-variant/40 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs font-medium outline-none">
                             </div>
                             <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-outline uppercase tracking-wider">Tempat / Ruangan</label>
+                                <label class="text-[0.625rem] font-bold text-outline uppercase tracking-wider">Tempat / Ruangan</label>
                                 <input type="text" name="tempat" required value="Ruang Bimbingan Konseling (BK)"
                                        class="w-full bg-surface border border-outline-variant/40 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-primary focus:border-primary transition-all text-xs font-medium outline-none">
                             </div>
@@ -386,11 +386,11 @@
                         
                         <div class="pt-2 flex flex-col gap-2">
                             <button type="submit" class="w-full py-3.5 bg-primary hover:bg-primary-container text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer font-sans">
-                                <span class="material-symbols-outlined text-[16px] font-bold">check_circle</span>
+                                <span class="material-symbols-outlined text-[1rem] font-bold">check_circle</span>
                                 Setujui &amp; Jadwalkan Sesi
                             </button>
                             <button type="button" onclick="openModal('modal-tolak')" class="w-full py-3.5 border border-error/30 hover:bg-error/5 text-error font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer font-sans">
-                                <span class="material-symbols-outlined text-[16px] font-bold">cancel</span>
+                                <span class="material-symbols-outlined text-[1rem] font-bold">cancel</span>
                                 Tolak Pengajuan
                             </button>
                         </div>
@@ -405,7 +405,7 @@
                         <span class="material-symbols-outlined text-sky-600 shrink-0">event_available</span>
                         <div class="space-y-1">
                             <p class="text-xs font-bold">Terjadwal &amp; Disetujui</p>
-                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Sesi telah dijadwalkan. Silakan mulai sesi konseling jika siswa sudah hadir.</p>
+                            <p class="text-[0.6875rem] leading-relaxed text-on-surface-variant">Sesi telah dijadwalkan. Silakan mulai sesi konseling jika siswa sudah hadir.</p>
                         </div>
                     </div>
                     
@@ -413,7 +413,7 @@
                         @csrf
                         <button type="button" onclick="confirmMulaiDetail('{{ addslashes($konseling->siswa->name) }}')"
                                 class="w-full py-3.5 bg-secondary hover:opacity-95 text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer font-sans">
-                            <span class="material-symbols-outlined text-[16px] font-bold">play_arrow</span>
+                            <span class="material-symbols-outlined text-[1rem] font-bold">play_arrow</span>
                             Mulai Sesi Konseling
                         </button>
                     </form>
@@ -427,13 +427,13 @@
                         <span class="material-symbols-outlined text-purple-600 shrink-0">play_circle</span>
                         <div class="space-y-1">
                             <p class="text-xs font-bold">Sesi Sedang Berlangsung</p>
-                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Sesi konseling saat ini sedang aktif. Setelah selesai, silakan catat hasil &amp; saran.</p>
+                            <p class="text-[0.6875rem] leading-relaxed text-on-surface-variant">Sesi konseling saat ini sedang aktif. Setelah selesai, silakan catat hasil &amp; saran.</p>
                         </div>
                     </div>
                     
                     <a href="{{ route('admin.konseling.hasil', $konseling) }}"
                        class="w-full py-3.5 bg-primary hover:bg-primary-container text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5">
-                        <span class="material-symbols-outlined text-[16px] font-bold">rate_review</span>
+                        <span class="material-symbols-outlined text-[1rem] font-bold">rate_review</span>
                         Tulis Hasil &amp; Saran
                     </a>
                 </div>
@@ -446,13 +446,13 @@
                         <span class="material-symbols-outlined text-emerald-600 shrink-0">check_circle</span>
                         <div class="space-y-1">
                             <p class="text-xs font-bold">Sesi Selesai</p>
-                            <p class="text-[11px] leading-relaxed text-on-surface-variant">Sesi konseling telah diselesaikan dengan sukses. Catatan hasil dan rencana tindak lanjut tersedia di panel kiri.</p>
+                            <p class="text-[0.6875rem] leading-relaxed text-on-surface-variant">Sesi konseling telah diselesaikan dengan sukses. Catatan hasil dan rencana tindak lanjut tersedia di panel kiri.</p>
                         </div>
                     </div>
                     
                     <div class="flex flex-col gap-2">
                         <a href="{{ route('admin.konseling.hasil', $konseling) }}" class="w-full py-3 border border-outline-variant/40 hover:bg-surface-container-low text-on-surface-variant font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-1.5">
-                            <span class="material-symbols-outlined text-[16px] font-bold">edit</span>
+                            <span class="material-symbols-outlined text-[1rem] font-bold">edit</span>
                             Edit Hasil &amp; Saran
                         </a>
                     </div>
@@ -489,7 +489,7 @@
                 </button>
                 <button type="submit"
                         class="flex-1 py-3 bg-error hover:bg-red-700 text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer font-sans">
-                    <span class="material-symbols-outlined text-[18px]">cancel</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">cancel</span>
                     Tolak Sesi
                 </button>
             </div>
@@ -532,7 +532,7 @@
                 </button>
                 <button type="submit"
                         class="flex-1 py-3 bg-primary hover:bg-primary-container text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer font-sans">
-                    <span class="material-symbols-outlined text-[18px]">save</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">save</span>
                     Simpan Rencana
                 </button>
             </div>

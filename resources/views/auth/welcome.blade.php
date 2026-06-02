@@ -14,7 +14,7 @@
                     Teman Belajar &amp; Tumbuh Siswa
                 </div>
                 
-                <h1 class="font-headline-lg text-xl sm:text-2xl lg:text-[26px] xl:text-[32px] font-extrabold text-on-background tracking-tight leading-[1.15] mb-5">
+                <h1 class="font-headline-lg text-xl sm:text-2xl lg:text-[1.625rem] xl:text-[2rem] font-extrabold text-on-background tracking-tight leading-[1.15] mb-5">
                     Ruang Aman Curhat &amp; <span class="text-primary">Bimbingan Siswa YPML</span>
                 </h1>
                 

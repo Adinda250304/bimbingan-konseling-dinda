@@ -23,7 +23,7 @@
         <!-- Header content -->
         <div class="max-w-2xl mx-auto mb-16 relative z-10 hero-text">
             <span class="text-primary font-bold text-xs uppercase tracking-wider px-4 py-1.5 bg-primary/10 rounded-full border border-primary/20">Layanan Bimbingan</span>
-            <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[26px] xl:text-[32px] font-extrabold text-on-background mt-4 leading-tight">
+            <h2 class="font-headline-lg text-xl sm:text-2xl lg:text-[1.625rem] xl:text-[2rem] font-extrabold text-on-background mt-4 leading-tight">
                 Topik Konseling yang Dapat Kamu Pilih
             </h2>
             <p class="text-body-md text-on-surface-variant mt-4 font-medium text-justify">

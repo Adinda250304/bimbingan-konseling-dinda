@@ -49,7 +49,7 @@
 
 <!-- Filter & Search Bar -->
 <form method="GET" action="{{ route('admin.riwayat') }}" class="bg-white/50 backdrop-blur-md p-4 rounded-2xl border border-outline-variant/50 flex flex-wrap items-center gap-3 mb-8">
-    <div class="relative flex-grow min-w-[280px] h-12">
+    <div class="relative flex-grow min-w-[17.5rem] h-12">
         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
         <input class="w-full h-full pl-12 pr-4 bg-background border border-outline-variant/50 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-sm text-on-surface" 
                type="text" 

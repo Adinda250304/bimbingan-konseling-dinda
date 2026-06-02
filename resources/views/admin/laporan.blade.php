@@ -24,7 +24,7 @@
             <button onclick="toggleDd('filter-panel')" class="bg-white border border-outline-variant/30 px-4 py-2.5 rounded-xl flex items-center gap-3 hover:border-primary transition-all cursor-pointer shadow-sm">
                 <span class="material-symbols-outlined text-primary">calendar_today</span>
                 <span class="font-body-sm font-semibold text-on-surface">{{ $period_label }}</span>
-                <span class="material-symbols-outlined text-outline text-[18px]">expand_more</span>
+                <span class="material-symbols-outlined text-outline text-[1.125rem]">expand_more</span>
             </button>
             
             <!-- Collapsible Filter Panel -->
@@ -57,7 +57,7 @@
                 </form>
                 
                 <div class="border-t border-outline-variant/30 mt-4 pt-3 space-y-2">
-                    <span class="text-[10px] font-bold text-outline uppercase tracking-wider">Quick Filter</span>
+                    <span class="text-[0.625rem] font-bold text-outline uppercase tracking-wider">Quick Filter</span>
                     <div class="grid grid-cols-2 gap-2">
                         <a href="{{ route('admin.laporan', ['start_date' => now()->startOfMonth()->toDateString(), 'end_date' => now()->endOfMonth()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Bulan Ini</a>
                         <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(3)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">3 Bulan</a>
@@ -69,7 +69,7 @@
         </div>
 
         <button onclick="openModal('modal-buat-laporan')" class="bg-primary text-white px-6 py-2.5 rounded-xl font-semibold flex items-center gap-2 hover:opacity-90 transition-all shadow-md cursor-pointer">
-            <span class="material-symbols-outlined text-[20px]">print</span>
+            <span class="material-symbols-outlined text-[1.25rem]">print</span>
             <span class="font-body-sm font-semibold">Cetak Laporan PDF</span>
         </button>
     </div>
@@ -83,8 +83,8 @@
             <div class="bg-primary/10 p-3 rounded-xl">
                 <span class="material-symbols-outlined text-primary">analytics</span>
             </div>
-            <span class="bg-emerald-100 text-emerald-700 text-[12px] font-bold px-2 py-1 rounded-lg flex items-center gap-1">
-                <span class="material-symbols-outlined text-[14px]">{{ $stats['trend_percentage'] >= 0 ? 'trending_up' : 'trending_down' }}</span>
+            <span class="bg-emerald-100 text-emerald-700 text-[0.75rem] font-bold px-2 py-1 rounded-lg flex items-center gap-1">
+                <span class="material-symbols-outlined text-[0.875rem]">{{ $stats['trend_percentage'] >= 0 ? 'trending_up' : 'trending_down' }}</span>
                 {{ abs($stats['trend_percentage']) }}%
             </span>
         </div>
@@ -153,9 +153,9 @@
             <!-- Chart Bars/Lines representation -->
             @foreach ($stats['weekly_heights'] as $wIdx => $height)
                 <div class="flex-1 group relative flex flex-col justify-end items-center h-full">
-                    <div class="text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity mb-1">{{ $stats['weekly_counts'][$wIdx] }} Sesi</div>
+                    <div class="text-[0.625rem] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity mb-1">{{ $stats['weekly_counts'][$wIdx] }} Sesi</div>
                     <div class="bg-primary/20 hover:bg-primary/50 transition-all rounded-t-lg w-full cursor-pointer" style="height: {{ max(10, $height) }}%"></div>
-                    <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] text-outline whitespace-nowrap">Minggu {{ $wIdx + 1 }}</span>
+                    <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[0.625rem] text-outline whitespace-nowrap">Minggu {{ $wIdx + 1 }}</span>
                 </div>
             @endforeach
         </div>
@@ -170,15 +170,15 @@
         <div class="flex flex-col sm:flex-row items-center justify-around gap-6">
             <div class="relative w-48 h-48 rounded-full flex items-center justify-center shadow-inner" 
                  style="background: conic-gradient(var(--color-primary) 0% {{ $stats['pct_akademik'] }}%, var(--color-tertiary) {{ $stats['pct_akademik'] }}% {{ $stats['pct_akademik'] + $stats['pct_pribadi'] }}%, var(--color-secondary) {{ $stats['pct_akademik'] + $stats['pct_pribadi'] }}% {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] }}%, var(--color-secondary-container) {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] }}% {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] + $stats['pct_keluarga'] }}%, var(--color-outline-variant) {{ $stats['pct_akademik'] + $stats['pct_pribadi'] + $stats['pct_sosial'] + $stats['pct_keluarga'] }}% 100%)">
-                <div class="absolute inset-[16px] rounded-full bg-white flex items-center justify-center shadow">
+                <div class="absolute inset-[1rem] rounded-full bg-white flex items-center justify-center shadow">
                     <div class="text-center">
                         <span class="text-headline-lg font-bold text-primary">{{ $stats['total'] }}</span>
-                        <p class="text-[10px] text-outline uppercase tracking-wider">Kasus</p>
+                        <p class="text-[0.625rem] text-outline uppercase tracking-wider">Kasus</p>
                     </div>
                 </div>
             </div>
             <div class="space-y-3 w-full sm:w-auto">
-                <div class="flex items-center gap-3 min-w-[150px]">
+                <div class="flex items-center gap-3 min-w-[9.375rem]">
                     <div class="w-3 h-3 rounded-full bg-primary"></div>
                     <span class="text-body-sm font-semibold">Akademik</span>
                     <span class="text-body-sm text-outline ml-auto">{{ $stats['pct_akademik'] }}%</span>
@@ -214,7 +214,7 @@
         <h4 class="font-headline-sm text-on-surface">Riwayat Laporan</h4>
         <div class="flex gap-2">
             <a href="{{ route('admin.laporan.pdf', request()->query()) }}" class="px-4 py-2 bg-surface-container rounded-lg text-body-sm font-semibold hover:bg-surface-container-high transition-all flex items-center gap-1.5 shadow-sm">
-                <span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                <span class="material-symbols-outlined text-[1.125rem]">picture_as_pdf</span>
                 Export Range Ini
             </a>
         </div>
@@ -235,12 +235,12 @@
                 @php
                     $is_arsip = isset($rep['tag']) && $rep['tag'] === 'Arsip';
                 @endphp
-                <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-tighter {{ $is_arsip ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700' }}">
+                <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold uppercase tracking-tighter {{ $is_arsip ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700' }}">
                     {{ $rep['tag'] ?? 'Selesai' }}
                 </span>
                 <a href="{{ route('admin.laporan.pdf', ['start_date' => $rep['start_date'], 'end_date' => $rep['end_date']]) }}" 
                    class="flex items-center gap-2 text-primary hover:underline font-semibold text-body-sm">
-                    <span class="material-symbols-outlined text-[18px]">download</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">download</span>
                     Download
                 </a>
             </div>
@@ -300,7 +300,7 @@
                 </button>
                 <button type="submit" onclick="closeModal('modal-buat-laporan')"
                         class="flex-1 py-3 bg-primary hover:bg-primary-container text-white rounded-xl text-sm font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer">
-                    <span class="material-symbols-outlined text-[18px]">download_for_offline</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">download_for_offline</span>
                     Unduh PDF
                 </button>
             </div>

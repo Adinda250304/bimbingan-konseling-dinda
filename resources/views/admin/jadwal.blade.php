@@ -41,7 +41,7 @@
                class="pb-3 text-body-md text-on-surface-variant hover:text-primary transition-all whitespace-nowrap flex items-center gap-2 {{ $status === 'menunggu' ? 'active-tab' : '' }}">
                 Menunggu Persetujuan
                 @if($menunggu_count > 0)
-                    <span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full text-[10px] font-bold">{{ $menunggu_count }}</span>
+                    <span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full text-[0.625rem] font-bold">{{ $menunggu_count }}</span>
                 @endif
             </a>
         </div>
@@ -50,12 +50,12 @@
         <form method="GET" action="{{ route('admin.jadwal') }}" class="w-full md:w-auto">
             <input type="hidden" name="status" value="{{ $status }}">
             <div class="flex items-center gap-2 border border-outline-variant/30 rounded-xl px-4 py-2 bg-surface-container-lowest focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-all w-full md:w-64">
-                <span class="material-symbols-outlined text-on-surface-variant text-[20px] select-none">search</span>
+                <span class="material-symbols-outlined text-on-surface-variant text-[1.25rem] select-none">search</span>
                 <input type="text" name="search" value="{{ $search }}" placeholder="Cari siswa..."
                     class="text-sm border-none bg-transparent p-0 outline-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 w-full">
                 @if($search)
                     <a href="{{ route('admin.jadwal', ['status' => $status]) }}" class="text-on-surface-variant hover:text-error transition-all">
-                        <span class="material-symbols-outlined text-[18px]">close</span>
+                        <span class="material-symbols-outlined text-[1.125rem]">close</span>
                     </a>
                 @endif
             </div>
@@ -74,7 +74,7 @@
 
             @if($hari_ini->isEmpty())
                 <div class="bg-white rounded-xl p-8 text-center border border-surface-variant/40 card-shadow mb-6">
-                    <span class="material-symbols-outlined text-[40px] text-on-surface-variant/30 mb-2 select-none">calendar_today</span>
+                    <span class="material-symbols-outlined text-[2.5rem] text-on-surface-variant/30 mb-2 select-none">calendar_today</span>
                     <h4 class="text-on-surface font-semibold text-base">Tidak ada sesi untuk hari ini</h4>
                     <p class="text-sm text-on-surface-variant/70 mt-1">Semua sesi terjadwal hari ini akan tampil di sini.</p>
                 </div>
@@ -107,20 +107,20 @@
                             <div class="flex-1 min-w-0">
                                 <div class="flex flex-wrap items-center gap-2 mb-1">
                                     <h4 class="font-bold text-base text-on-surface truncate" title="{{ $k->siswa->name }}">{{ $k->siswa->name }}</h4>
-                                    <span class="bg-surface-container px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-on-surface-variant uppercase tracking-tight">
+                                    <span class="bg-surface-container px-2.5 py-0.5 rounded-full text-[0.6875rem] font-semibold text-on-surface-variant uppercase tracking-tight">
                                         {{ $k->siswa->kelas ?? 'Kelas —' }}
                                     </span>
                                 </div>
                                 <div class="space-y-1 text-sm text-on-surface-variant">
                                     <div class="flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-[18px] text-primary">schedule</span>
+                                        <span class="material-symbols-outlined text-[1.125rem] text-primary">schedule</span>
                                         <span class="font-semibold text-primary">
                                             {{ $k->jam_konseling ? \Carbon\Carbon::parse($k->jam_konseling)->format('H:i') : '' }} WIB
                                         </span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         @if($k->jenis === 'online')
-                                            <span class="material-symbols-outlined text-[18px] text-blue-500">video_camera_front</span>
+                                            <span class="material-symbols-outlined text-[1.125rem] text-blue-500">video_camera_front</span>
                                             <span class="truncate">
                                                 @if($k->link_meeting)
                                                     <a href="{{ $k->link_meeting }}" target="_blank" class="text-blue-600 hover:underline">Google Meet</a>
@@ -129,12 +129,12 @@
                                                 @endif
                                             </span>
                                         @else
-                                            <span class="material-symbols-outlined text-[18px] text-on-surface-variant">location_on</span>
+                                            <span class="material-symbols-outlined text-[1.125rem] text-on-surface-variant">location_on</span>
                                             <span class="truncate">{{ $k->tempat ?? ($k->jadwal->tempat ?? 'Ruang Konseling') }}</span>
                                         @endif
                                     </div>
                                     <div class="flex items-center gap-2 pt-0.5">
-                                        <span class="material-symbols-outlined text-[18px] text-on-surface-variant/60">label</span>
+                                        <span class="material-symbols-outlined text-[1.125rem] text-on-surface-variant/60">label</span>
                                         <span class="italic text-on-surface-variant/80 truncate">{{ $k->jenis_masalah }}</span>
                                     </div>
                                 </div>
@@ -147,14 +147,14 @@
                                         @csrf
                                         <button type="button" onclick="confirmMulai('{{ $k->id }}', '{{ addslashes($k->siswa->name) }}')"
                                             class="bg-secondary text-white px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-1 hover:opacity-90 active:scale-95 transition-all shadow-sm">
-                                            <span class="material-symbols-outlined text-[16px]">play_arrow</span>
+                                            <span class="material-symbols-outlined text-[1rem]">play_arrow</span>
                                             Mulai Sesi
                                         </button>
                                     </form>
                                 @elseif($k->status === 'berlangsung')
                                     <a href="{{ route('admin.konseling.hasil', $k) }}" 
                                        class="bg-primary text-white px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-1 hover:bg-primary-container transition-all shadow-sm">
-                                        <span class="material-symbols-outlined text-[16px]">edit_note</span>
+                                        <span class="material-symbols-outlined text-[1rem]">edit_note</span>
                                         Catatan / Selesai
                                     </a>
                                 @endif
@@ -184,14 +184,14 @@
 
         @if($konselings->isEmpty())
             <div class="bg-white rounded-xl p-12 text-center border border-surface-variant/40 card-shadow">
-                <span class="material-symbols-outlined text-[44px] text-on-surface-variant/30 mb-2 select-none">inbox</span>
+                <span class="material-symbols-outlined text-[2.75rem] text-on-surface-variant/30 mb-2 select-none">inbox</span>
                 <h4 class="text-on-surface font-semibold text-base">Tidak ada data sesi</h4>
                 <p class="text-sm text-on-surface-variant/70 mt-1">Gunakan tombol + di kanan bawah untuk membuat sesi baru.</p>
             </div>
         @else
             <div class="bg-white rounded-xl border border-surface-variant/40 card-shadow overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[800px]">
+                    <table class="w-full text-left border-collapse min-w-[50rem]">
                         <thead>
                             <tr class="bg-surface-container-low border-b border-surface-variant/40">
                                 <th class="px-6 py-4 font-label-md text-on-surface-variant uppercase tracking-wider text-xs font-semibold">Tanggal</th>
@@ -235,7 +235,7 @@
                                             </div>
                                             <div>
                                                 <span class="font-body-md font-semibold text-on-surface text-sm">{{ $k->siswa->name }}</span>
-                                                <p class="text-[10px] text-on-surface-variant/70">{{ $k->siswa->kelas }}</p>
+                                                <p class="text-[0.625rem] text-on-surface-variant/70">{{ $k->siswa->kelas }}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -248,13 +248,13 @@
                                     {{-- Status --}}
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if($k->status === 'menunggu')
-                                            <span class="bg-secondary-fixed text-on-secondary-container px-3 py-1 rounded-full text-[11px] font-bold">Persetujuan</span>
+                                            <span class="bg-secondary-fixed text-on-secondary-container px-3 py-1 rounded-full text-[0.6875rem] font-bold">Persetujuan</span>
                                         @elseif($k->status === 'disetujui')
-                                            <span class="bg-primary-fixed/30 text-primary px-3 py-1 rounded-full text-[11px] font-bold">Terjadwal</span>
+                                            <span class="bg-primary-fixed/30 text-primary px-3 py-1 rounded-full text-[0.6875rem] font-bold">Terjadwal</span>
                                         @elseif($k->status === 'berlangsung')
-                                            <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[11px] font-bold">Berlangsung</span>
+                                            <span class="bg-tertiary-fixed text-on-tertiary-fixed-variant px-3 py-1 rounded-full text-[0.6875rem] font-bold">Berlangsung</span>
                                         @else
-                                            <span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[11px] font-bold">{{ $k->status_label }}</span>
+                                            <span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-full text-[0.6875rem] font-bold">{{ $k->status_label }}</span>
                                         @endif
                                     </td>
 
@@ -285,7 +285,7 @@
                                             @elseif($k->status === 'berlangsung')
                                                 <a href="{{ route('admin.konseling.hasil', $k) }}" 
                                                    class="text-primary hover:underline hover:text-primary-container text-xs flex items-center gap-1">
-                                                    <span class="material-symbols-outlined text-[16px]">edit_note</span> Selesaikan
+                                                    <span class="material-symbols-outlined text-[1rem]">edit_note</span> Selesaikan
                                                 </a>
                                             @endif
                                         </div>
@@ -304,7 +304,7 @@
 <button onclick="openCreate()" 
         class="fixed bottom-10 right-10 w-16 h-16 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40"
         title="Tambah Sesi Konseling Baru">
-    <span class="material-symbols-outlined text-[32px]">add</span>
+    <span class="material-symbols-outlined text-[2rem]">add</span>
 </button>
 @endsection
 

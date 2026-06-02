@@ -138,12 +138,12 @@
                             <!-- Session Details -->
                             <div>
                                 <div class="flex items-center gap-2 mb-1.5 flex-wrap">
-                                    <span class="px-2.5 py-0.5 {{ $categoryClass }} rounded text-[10px] font-bold uppercase tracking-wider">{{ $k->jenis_masalah }}</span>
-                                    <span class="px-2.5 py-0.5 {{ $bc }} rounded text-[10px] font-bold uppercase tracking-wider">{{ $bl }}</span>
+                                    <span class="px-2.5 py-0.5 {{ $categoryClass }} rounded text-[0.625rem] font-bold uppercase tracking-wider">{{ $k->jenis_masalah }}</span>
+                                    <span class="px-2.5 py-0.5 {{ $bc }} rounded text-[0.625rem] font-bold uppercase tracking-wider">{{ $bl }}</span>
                                     @if($k->rating)
-                                        <span class="flex items-center gap-0.5 text-[11px] text-amber-500 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                                        <span class="flex items-center gap-0.5 text-[0.6875rem] text-amber-500 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                                             @for($i=1; $i<=5; $i++)
-                                                <span class="material-symbols-outlined text-[12px] {{ $i <= $k->rating ? 'text-amber-500' : 'text-gray-300' }}" style="font-variation-settings: 'FILL' {{ $i <= $k->rating ? 1 : 0 }};">star</span>
+                                                <span class="material-symbols-outlined text-[0.75rem] {{ $i <= $k->rating ? 'text-amber-500' : 'text-gray-300' }}" style="font-variation-settings: 'FILL' {{ $i <= $k->rating ? 1 : 0 }};">star</span>
                                             @endfor
                                         </span>
                                     @endif
@@ -281,12 +281,12 @@
             @empty
                 <div class="bg-white rounded-2xl p-12 border border-outline-variant/30 shadow-subtle text-center">
                     <div class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mx-auto mb-4 text-outline-variant">
-                        <span class="material-symbols-outlined text-[32px]">history</span>
+                        <span class="material-symbols-outlined text-[2rem]">history</span>
                     </div>
                     <h3 class="font-bold text-on-surface text-base mb-1">Belum Ada Riwayat Sesi</h3>
                     <p class="text-xs text-on-surface-variant max-w-xs mx-auto mb-6">Kamu belum memiliki riwayat sesi konseling yang terselesaikan.</p>
                     <a href="{{ route('siswa.pengajuan') }}" class="inline-flex items-center gap-1.5 px-6 py-3 bg-primary hover:bg-primary-container text-white font-bold rounded-xl text-sm transition shadow-md">
-                        <span class="material-symbols-outlined text-[18px]">add</span>
+                        <span class="material-symbols-outlined text-[1.125rem]">add</span>
                         Ajukan Konseling Sekarang
                     </a>
                 </div>
@@ -333,7 +333,7 @@
             <!-- Feedback comment -->
             <div class="space-y-1.5 text-left">
                 <label for="feedback_siswa" class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+                    <span class="material-symbols-outlined text-[1.125rem]">chat_bubble</span>
                     Tanggapan / Umpan Balik (Opsional)
                 </label>
                 <textarea name="feedback_siswa" id="feedback_siswa" rows="4" 

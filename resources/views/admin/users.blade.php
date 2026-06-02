@@ -27,7 +27,7 @@
 <!-- Filter Panel -->
 <form action="{{ route('admin.users') }}" method="GET" class="grid grid-cols-12 gap-gutter mb-8">
     <div class="col-span-12 md:col-span-8 relative">
-        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+        <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-[1.25rem]">search</span>
         <input name="search" value="{{ $search }}" 
                class="w-full bg-white border border-outline-variant/50 rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm" 
                placeholder="Cari berdasarkan nama, email, atau ID..." type="text"
@@ -50,10 +50,10 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="bg-surface-variant border-b border-outline-variant/30">
-                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest">Pengguna</th>
-                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest">Peran</th>
-                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest">Departemen / Relasi</th>
-                    <th class="px-6 py-4 text-[11px] font-semibold text-on-surface-variant uppercase tracking-widest text-right">Aksi</th>
+                    <th class="px-6 py-4 text-[0.6875rem] font-semibold text-on-surface-variant uppercase tracking-widest">Pengguna</th>
+                    <th class="px-6 py-4 text-[0.6875rem] font-semibold text-on-surface-variant uppercase tracking-widest">Peran</th>
+                    <th class="px-6 py-4 text-[0.6875rem] font-semibold text-on-surface-variant uppercase tracking-widest">Departemen / Relasi</th>
+                    <th class="px-6 py-4 text-[0.6875rem] font-semibold text-on-surface-variant uppercase tracking-widest text-right">Aksi</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-outline-variant/10">
@@ -66,17 +66,17 @@
                                 </div>
                                 <div>
                                     <div class="font-bold text-on-surface text-sm">{{ $u->name }}</div>
-                                    <div class="text-[12px] text-on-surface-variant">{{ $u->email }}</div>
+                                    <div class="text-[0.75rem] text-on-surface-variant">{{ $u->email }}</div>
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-5">
                             @if($u->hasRole('admin'))
-                                <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-primary/10 text-primary uppercase">Guru BK</span>
+                                <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold bg-primary/10 text-primary uppercase">Guru BK</span>
                             @elseif($u->hasRole('wali_kelas'))
-                                <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-amber-100 text-amber-700 uppercase">Wali Kelas</span>
+                                <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold bg-amber-100 text-amber-700 uppercase">Wali Kelas</span>
                             @else
-                                <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-700 uppercase">Siswa</span>
+                                <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold bg-blue-100 text-blue-700 uppercase">Siswa</span>
                             @endif
                         </td>
                         <td class="px-6 py-5">
@@ -92,12 +92,12 @@
                             <div class="flex justify-end gap-2">
                                 <button class="w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-primary/10 transition-all"
                                         onclick="openEditModal({{ $u->id }}, '{{ addslashes($u->name) }}', '{{ $u->username }}', '{{ $u->email }}', '{{ $u->roles->first()?->name }}', '{{ $u->kelas }}', '{{ $u->no_telp }}')">
-                                    <span class="material-symbols-outlined text-[20px]">edit</span>
+                                    <span class="material-symbols-outlined text-[1.25rem]">edit</span>
                                 </button>
                                 @if(auth()->id() !== $u->id)
                                     <button class="w-8 h-8 flex items-center justify-center rounded-full text-error hover:bg-error/10 transition-all"
                                             onclick="openDeleteModal({{ $u->id }}, '{{ addslashes($u->name) }}')">
-                                        <span class="material-symbols-outlined text-[20px]">delete</span>
+                                        <span class="material-symbols-outlined text-[1.25rem]">delete</span>
                                     </button>
                                 @endif
                             </div>
@@ -116,7 +116,7 @@
 
     <!-- Pagination -->
     <div class="px-6 py-5 border-t border-outline-variant/20 flex justify-between items-center bg-white flex-wrap gap-4">
-        <p class="text-[13px] text-on-surface-variant">
+        <p class="text-[0.8125rem] text-on-surface-variant">
             Menampilkan <span class="font-bold text-on-surface">{{ $users->firstItem() ?? 0 }}</span> - <span class="font-bold text-on-surface">{{ $users->lastItem() ?? 0 }}</span> dari <span class="font-bold text-on-surface">{{ $users->total() }}</span> pengguna
         </p>
         @if($users->hasPages())
@@ -186,7 +186,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Password</label>
                     <input id="userPassword" name="password" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="••••••••" type="password" minlength="8" maxlength="20"/>
-                    <p class="text-[10px] text-on-surface-variant mt-1" id="pwHelp">8-20 karakter, huruf besar, kecil, angka & spesial.</p>
+                    <p class="text-[0.625rem] text-on-surface-variant mt-1" id="pwHelp">8-20 karakter, huruf besar, kecil, angka & spesial.</p>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">No. Telepon</label>
@@ -212,7 +212,7 @@
     <div class="relative bg-white w-full max-w-sm rounded-2xl shadow-xl overflow-hidden border border-outline-variant/20">
         <div class="px-6 pt-6 pb-5 text-center">
             <div class="w-12 h-12 bg-error-container/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <span class="material-symbols-outlined text-error text-[28px]">delete</span>
+                <span class="material-symbols-outlined text-error text-[1.75rem]">delete</span>
             </div>
             <h3 class="font-bold text-on-surface text-base mb-1">Hapus Pengguna?</h3>
             <p id="deleteLabel" class="text-sm text-on-surface-variant"></p>
