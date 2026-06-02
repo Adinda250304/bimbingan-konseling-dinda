@@ -571,6 +571,39 @@
                 updateAjax(info.event);
             }
         });
+
+       
+        if (window.innerWidth >= 1024) {
+            const observer = new MutationObserver((mutations) => {
+                let toUpdate = new Set();
+                mutations.forEach(m => {
+                    if (m.attributeName === 'style') {
+                        const el = m.target;
+                        if (el.classList.contains('fc-daygrid-event-harness') || el.classList.contains('fc-timegrid-event-harness')) {
+                            if (el.style.getPropertyValue('--zoomed') !== '1') {
+                                toUpdate.add(el);
+                            }
+                        }
+                    }
+                });
+
+                if (toUpdate.size > 0) {
+                    observer.disconnect(); // prevent infinite loop
+                    toUpdate.forEach(el => {
+                        ['left', 'right', 'top', 'bottom', 'margin-top'].forEach(prop => {
+                            let val = el.style[prop];
+                            if (val && val.endsWith('px') && val !== '0px') {
+                                el.style[prop] = (parseFloat(val) * 1.25) + 'px';
+                            }
+                        });
+                        el.style.setProperty('--zoomed', '1');
+                    });
+                    observer.observe(calendarEl, { attributes: true, subtree: true, attributeFilter: ['style'] });
+                }
+            });
+            observer.observe(calendarEl, { attributes: true, subtree: true, attributeFilter: ['style'] });
+        }
+
         calendar.render();
     });
 
