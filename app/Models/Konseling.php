@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Konseling extends Model
 {
     protected $fillable = [
-        'siswa_id', 'guru_id', 'jadwal_id', 'jenis_masalah', 'deskripsi_masalah',
-        'jenis', 'status', 'link_meeting', 'tanggal_konseling',
-        'jam_konseling', 'tempat', 'alasan_penolakan', 'rating', 'feedback_siswa',
+        'siswa_id', 'guru_id', 'jadwal_id', 'rujukan_oleh_id', 'jenis_masalah', 'deskripsi_masalah',
+        'alasan_rujukan', 'status', 'tanggal_konseling', 'tempat',
+        'jam_konseling', 'alasan_penolakan', 'rating', 'feedback_siswa',
     ];
 
     protected $casts = [

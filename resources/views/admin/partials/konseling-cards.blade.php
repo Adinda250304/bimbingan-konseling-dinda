@@ -10,7 +10,7 @@
     };
     $tanggal  = $k->tanggal_konseling ? $k->tanggal_konseling->translatedFormat('l, j F Y') : ($k->jadwal ? $k->jadwal->hari : '—');
     $jam      = $k->jam_konseling ? \Carbon\Carbon::parse($k->jam_konseling)->format('H.i') : ($k->jadwal ? \Carbon\Carbon::parse($k->jadwal->jam_mulai)->format('H.i') : '—');
-    $tempat   = $k->tempat ?? ($k->jadwal ? $k->jadwal->tempat : ($k->jenis === 'online' ? 'Online' : 'Ruang BK'));
+    $tempat   = $k->tempat ?? ($k->jadwal ? $k->jadwal->tempat : 'Ruang BK');
 @endphp
 
 <div class="k-card">

@@ -389,15 +389,13 @@ class AdminController extends Controller
         ]);
          Konseling::create([
             'siswa_id'          => $request->siswa_id,
-            'guru_id'           => Auth::id(),
+            'guru_id'           => auth()->id(),
             'jenis_masalah'     => $request->jenis_masalah,
             'deskripsi_masalah' => $request->jenis_masalah,
-            'jenis'             => 'offline',
             'status'            => 'disetujui',
             'tanggal_konseling' => $request->tanggal_konseling,
             'jam_konseling'     => $request->jam_konseling,
             'tempat'            => $request->tempat,
-            'link_meeting'      => null,
         ]);
 
         \App\Models\Notification::create([
@@ -622,7 +620,6 @@ class AdminController extends Controller
             'alasan_penolakan'    => 'nullable|string',
             'tanggal_konseling'   => 'nullable|date',
             'jam_konseling'       => 'nullable',
-            'link_meeting'        => 'nullable|url',
             'jadwal_id'           => 'nullable|exists:jadwal_konselings,id',
         ]);
 
@@ -631,7 +628,6 @@ class AdminController extends Controller
             'alasan_penolakan'  => $request->alasan_penolakan,
             'tanggal_konseling' => $request->tanggal_konseling,
             'jam_konseling'     => $request->jam_konseling,
-            'link_meeting'      => $request->link_meeting,
             'jadwal_id'         => $request->jadwal_id,
         ]);
 

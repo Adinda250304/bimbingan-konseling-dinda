@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
                     $wali = User::firstOrCreate(['email' => "wali{$kodeLower}@smkypml.sch.id"], [
                         'name'     => "Wali Kelas {$kelasFull}",
                         'username' => "wali{$kodeLower}",
-                        'password' => Hash::make("wali123"),
+                        'password' => Hash::make("walikelas123"),
                         'kelas'    => $kelasFull
                     ]);
                     if (!$wali->hasRole('wali_kelas')) {

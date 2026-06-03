@@ -78,17 +78,10 @@
                         </div>
                     </div>
                     <div class="mt-8 md:mt-0 flex flex-col gap-3 shrink-0">
-                        @if($sesi_hari_ini->link_meeting)
-                            <a href="{{ $sesi_hari_ini->link_meeting }}" target="_blank" class="px-8 py-4 bg-white text-primary font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined">video_call</span>
-                                Gabung Video Call
-                            </a>
-                        @else
-                            <button class="px-8 py-4 bg-white text-primary font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined">directions</span>
-                                Petunjuk Lokasi
-                            </button>
-                        @endif
+                        <button class="px-8 py-4 bg-white text-primary font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2">
+                            <span class="material-symbols-outlined">directions</span>
+                            Petunjuk Lokasi
+                        </button>
                         @if($sesi_hari_ini->guru && $sesi_hari_ini->guru->no_telp)
                             <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $sesi_hari_ini->guru->no_telp) }}" target="_blank" class="px-8 py-4 border border-white/40 text-white font-semibold rounded-2xl hover:bg-white/10 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2">
                                 <span class="material-symbols-outlined">chat</span>

@@ -11,15 +11,19 @@ return new class extends Migration
         Schema::create('konselings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('siswa_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('guru_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('rujukan_oleh_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('jadwal_id')->nullable()->constrained('jadwal_konselings')->onDelete('set null');
-            $table->string('jenis_masalah'); // akademik, karir, sosial, pribadi
+            $table->string('jenis_masalah'); // akademik, karir, sosial, pribadi, keluarga
             $table->text('deskripsi_masalah');
-            $table->enum('jenis', ['online', 'offline'])->default('offline');
-            $table->enum('status', ['menunggu', 'disetujui', 'berlangsung', 'ditolak', 'selesai'])->default('menunggu');
-            $table->string('link_meeting')->nullable(); // untuk online
+            $table->text('alasan_rujukan')->nullable();
+            $table->enum('status', ['menunggu', 'disetujui', 'berlangsung', 'ditolak', 'selesai', 'tidak_hadir'])->default('menunggu');
             $table->date('tanggal_konseling')->nullable();
             $table->time('jam_konseling')->nullable();
+            $table->string('tempat')->nullable();
             $table->text('alasan_penolakan')->nullable();
+            $table->tinyInteger('rating')->nullable();
+            $table->text('feedback_siswa')->nullable();
             $table->timestamps();
         });
     }

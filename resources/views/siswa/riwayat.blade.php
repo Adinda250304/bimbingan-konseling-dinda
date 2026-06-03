@@ -262,9 +262,6 @@
                                     Silakan datang tepat waktu untuk sesi konseling Anda di:
                                     <br><strong>Lokasi / Ruangan:</strong> {{ $k->tempat ?? ($k->jadwal ? $k->jadwal->tempat : 'Ruang Bimbingan Konseling (BK)') }}
                                     <br><strong>Waktu:</strong> {{ $k->jam_konseling ? \Carbon\Carbon::parse($k->jam_konseling)->format('H:i') . ' WIB' : 'TBD' }}
-                                    @if($k->link_meeting)
-                                        <br><strong>Link Virtual Meeting:</strong> <a href="{{ $k->link_meeting }}" target="_blank" class="text-primary hover:underline font-bold">{{ $k->link_meeting }}</a>
-                                    @endif
                                 </p>
                             </div>
                         @else

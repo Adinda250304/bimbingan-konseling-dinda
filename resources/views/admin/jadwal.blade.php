@@ -119,19 +119,8 @@
                                         </span>
                                     </div>
                                     <div class="flex items-center gap-2">
-                                        @if($k->jenis === 'online')
-                                            <span class="material-symbols-outlined text-[1.125rem] text-blue-500">video_camera_front</span>
-                                            <span class="truncate">
-                                                @if($k->link_meeting)
-                                                    <a href="{{ $k->link_meeting }}" target="_blank" class="text-blue-600 hover:underline">Google Meet</a>
-                                                @else
-                                                    Google Meet
-                                                @endif
-                                            </span>
-                                        @else
-                                            <span class="material-symbols-outlined text-[1.125rem] text-on-surface-variant">location_on</span>
-                                            <span class="truncate">{{ $k->tempat ?? ($k->jadwal->tempat ?? 'Ruang Konseling') }}</span>
-                                        @endif
+                                        <span class="material-symbols-outlined text-[1.125rem] text-on-surface-variant">location_on</span>
+                                        <span class="truncate">{{ $k->tempat ?? ($k->jadwal?->tempat ?? 'Ruang Konseling') }}</span>
                                     </div>
                                     <div class="flex items-center gap-2 pt-0.5">
                                         <span class="material-symbols-outlined text-[1.125rem] text-on-surface-variant/60">label</span>

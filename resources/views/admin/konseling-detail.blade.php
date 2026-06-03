@@ -89,16 +89,14 @@
                     </div>
                 </div>
                 
-                <!-- Tipe Pertemuan -->
+                <!-- Lokasi -->
                 <div class="border border-outline-variant/30 bg-surface-container-lowest text-on-surface rounded-2xl p-4 flex items-center gap-4">
                     <div class="p-2.5 bg-secondary-container/20 text-secondary rounded-xl">
-                        <span class="material-symbols-outlined text-2xl">
-                            {{ $konseling->jenis === 'online' ? 'video_call' : 'room' }}
-                        </span>
+                        <span class="material-symbols-outlined text-2xl">room</span>
                     </div>
                     <div>
-                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Tipe Konseling</p>
-                        <p class="text-sm font-semibold capitalize">{{ $konseling->jenis }}</p>
+                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1.5">Lokasi</p>
+                        <p class="text-sm font-semibold">{{ $konseling->tempat ?? 'Ruang Bimbingan Konseling (BK)' }}</p>
                     </div>
                 </div>
                 
@@ -129,25 +127,13 @@
                 </div>
             </div>
             
-            <!-- Tempat / Ruangan / Link -->
-            <div class="bg-surface-container-low/50 rounded-2xl p-4 border border-outline-variant/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined text-primary text-2xl">location_on</span>
-                    <div>
-                        <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1">Tempat / Ruangan</p>
-                        @if($konseling->jenis === 'online')
-                            <p class="text-sm font-semibold text-on-surface">Online (Virtual Meeting)</p>
-                        @else
-                            <p class="text-sm font-semibold text-on-surface">{{ $konseling->tempat ?? 'Ruang Bimbingan Konseling (BK)' }}</p>
-                        @endif
-                    </div>
+            <!-- Tempat / Ruangan -->
+            <div class="bg-surface-container-low/50 rounded-2xl p-4 border border-outline-variant/20 flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-2xl">location_on</span>
+                <div>
+                    <p class="text-[0.625rem] uppercase font-bold text-outline tracking-wider leading-none mb-1">Tempat / Ruangan</p>
+                    <p class="text-sm font-semibold text-on-surface">{{ $konseling->tempat ?? 'Ruang Bimbingan Konseling (BK)' }}</p>
                 </div>
-                @if($konseling->jenis === 'online' && $konseling->link_meeting)
-                    <a href="{{ $konseling->link_meeting }}" target="_blank" class="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all flex items-center gap-1.5 shadow-sm self-start sm:self-auto">
-                        <span class="material-symbols-outlined text-[1rem]">video_call</span>
-                        Gabung Google Meet
-                    </a>
-                @endif
             </div>
 
             <!-- Deskripsi Masalah -->

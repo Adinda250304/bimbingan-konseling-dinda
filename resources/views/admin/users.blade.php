@@ -197,7 +197,12 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Password</label>
-                    <input id="userPassword" name="password" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="••••••••" type="password" minlength="8" maxlength="20"/>
+                    <div class="relative">
+                        <input id="userPassword" name="password" class="w-full bg-background border-none rounded-xl py-3 px-4 pr-10 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="••••••••" type="password" minlength="8" maxlength="20"/>
+                        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" onclick="togglePasswordVisibility()">
+                            <span class="material-symbols-outlined text-[1.25rem]" id="eyeIcon">visibility_off</span>
+                        </button>
+                    </div>
                     <p class="text-[0.625rem] text-on-surface-variant mt-1" id="pwHelp">8-20 karakter, huruf besar, kecil, angka & spesial.</p>
                 </div>
                 <div>
@@ -255,6 +260,18 @@ function toggleRoleFields() {
         fields.classList.remove('hidden');
     } else {
         fields.classList.add('hidden');
+    }
+}
+
+function togglePasswordVisibility() {
+    const input = document.getElementById('userPassword');
+    const icon = document.getElementById('eyeIcon');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility';
+    } else {
+        input.type = 'password';
+        icon.textContent = 'visibility_off';
     }
 }
 
