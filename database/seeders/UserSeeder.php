@@ -10,15 +10,16 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        // Reset cached roles & permissions to avoid stale cache issues
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         // Akun Guru BK (Bimbingan Konseling)
         $admin = User::firstOrCreate(['email' => 'admin@smkypml.sch.id'], [
             'name'     => 'Guru BK',
             'username' => 'admin',
             'password' => Hash::make('admin123'),
         ]);
-        if (!$admin->hasRole('admin')) {
-            $admin->assignRole('admin');
-        }
+        $admin->syncRoles(['admin']);
 
         $faker = \Faker\Factory::create('id_ID');
 
@@ -30,20 +31,16 @@ class UserSeeder extends Seeder
             foreach ($jurusans as $jurusan) {
                 foreach ($uruts as $urut) {
                     $kelasFull = "{$tingkat} {$jurusan} {$urut}";
-                    
-                    // Format username (contoh: walixdkv1, walixiitkj3)
                     $kodeLower = strtolower($tingkat . $jurusan . $urut);
-                    
+
                     // Buat 1 Wali Kelas untuk masing-masing kelas
                     $wali = User::firstOrCreate(['email' => "wali{$kodeLower}@smkypml.sch.id"], [
                         'name'     => "Wali Kelas {$kelasFull}",
                         'username' => "wali{$kodeLower}",
                         'password' => Hash::make("walikelas123"),
-                        'kelas'    => $kelasFull
+                        'kelas'    => $kelasFull,
                     ]);
-                    if (!$wali->hasRole('wali_kelas')) {
-                        $wali->assignRole('wali_kelas');
-                    }
+                    $wali->syncRoles(['wali_kelas']);
 
                     // Buat 9 Siswa untuk masing-masing kelas
                     for ($i = 1; $i <= 9; $i++) {
@@ -54,10 +51,12 @@ class UserSeeder extends Seeder
                             'password' => Hash::make('siswa123'),
                             'kelas'    => $kelasFull,
                         ]);
-                        if (!$siswa->hasRole('siswa')) {
-                            $siswa->assignRole('siswa');
-                        }
+                        $siswa->syncRoles(['siswa']);
                     }
+
+                    // Keep DB connection alive between batches
+                    \Illuminate\Support\Facades\DB::reconnect();
+                    app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
                 }
             }
         }
