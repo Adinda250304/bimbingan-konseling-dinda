@@ -158,6 +158,7 @@ class AuthController extends Controller
     private function getDashboardRoute(User $user): string
     {
         if ($user->hasRole('admin')) return 'admin.dashboard';
+        if ($user->hasRole('guru_bk')) return 'guru_bk.dashboard';
         if ($user->hasRole('wali_kelas')) return 'wali.dashboard';
         return 'siswa.dashboard';
     }

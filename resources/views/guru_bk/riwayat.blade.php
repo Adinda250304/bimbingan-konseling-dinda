@@ -48,7 +48,7 @@
 </div>
 
 <!-- Filter & Search Bar -->
-<form method="GET" action="{{ route('admin.riwayat') }}" class="bg-white/50 backdrop-blur-md p-4 rounded-2xl border border-outline-variant/50 flex flex-wrap items-center gap-3 mb-8">
+<form method="GET" action="{{ route('guru_bk.riwayat') }}" class="bg-white/50 backdrop-blur-md p-4 rounded-2xl border border-outline-variant/50 flex flex-wrap items-center gap-3 mb-8">
     <div class="relative flex-grow min-w-[17.5rem] h-12">
         <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
         <input class="w-full h-full pl-12 pr-4 bg-background border border-outline-variant/50 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-body-sm text-on-surface" 
@@ -99,7 +99,7 @@
     </button>
 
     @if(request()->filled('search') || request()->filled('kelas') || request()->filled('jenis_masalah') || request()->filled('status') || request()->filled('tanggal'))
-        <a href="{{ route('admin.riwayat') }}" class="flex items-center justify-center gap-1.5 h-12 px-4 bg-error-container/20 text-error rounded-xl font-semibold hover:bg-error-container/30 transition-all text-body-sm shrink-0">
+        <a href="{{ route('guru_bk.riwayat') }}" class="flex items-center justify-center gap-1.5 h-12 px-4 bg-error-container/20 text-error rounded-xl font-semibold hover:bg-error-container/30 transition-all text-body-sm shrink-0">
             <span class="material-symbols-outlined text-lg">close</span>
             Reset
         </a>
@@ -190,7 +190,7 @@
                         <td class="px-6 py-5 text-right">
                             <div class="flex justify-end gap-2">
                                 <!-- Detail action -->
-                                <a href="{{ route('admin.konseling.show', $k) }}" class="p-2 text-outline hover:text-primary hover:bg-primary/10 rounded-lg transition-all shrink-0" title="Lihat Detail">
+                                <a href="{{ route('guru_bk.konseling.show', $k) }}" class="p-2 text-outline hover:text-primary hover:bg-primary/10 rounded-lg transition-all shrink-0" title="Lihat Detail">
                                     <span class="material-symbols-outlined">visibility</span>
                                 </a>
                             </div>

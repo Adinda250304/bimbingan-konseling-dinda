@@ -30,7 +30,7 @@
             <!-- Collapsible Filter Panel -->
             <div id="filter-panel" class="hidden dd-menu absolute right-0 mt-3 w-80 bg-white border border-outline-variant/30 rounded-2xl shadow-xl p-5 z-50 text-left origin-top-right transition-all">
                 <h5 class="font-semibold text-sm text-on-surface mb-3">Filter Periode &amp; Status</h5>
-                <form method="GET" action="{{ route('admin.laporan') }}" class="space-y-4">
+                <form method="GET" action="{{ route('guru_bk.laporan') }}" class="space-y-4">
                     <div class="space-y-1">
                         <label class="text-xs font-bold text-outline uppercase tracking-wider">Mulai Dari</label>
                         <input type="date" name="start_date" value="{{ $start_date }}" class="w-full px-3 py-2 border border-outline-variant/50 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
@@ -51,7 +51,7 @@
                     </div>
                     
                     <div class="pt-2 flex gap-2">
-                        <a href="{{ route('admin.laporan') }}" class="flex-1 py-2 text-center border border-outline-variant/50 rounded-xl text-xs font-bold text-outline hover:bg-surface-container-low transition-all">Reset</a>
+                        <a href="{{ route('guru_bk.laporan') }}" class="flex-1 py-2 text-center border border-outline-variant/50 rounded-xl text-xs font-bold text-outline hover:bg-surface-container-low transition-all">Reset</a>
                         <button type="submit" class="flex-1 py-2 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-container transition-all">Terapkan</button>
                     </div>
                 </form>
@@ -59,10 +59,10 @@
                 <div class="border-t border-outline-variant/30 mt-4 pt-3 space-y-2">
                     <span class="text-[0.625rem] font-bold text-outline uppercase tracking-wider">Quick Filter</span>
                     <div class="grid grid-cols-2 gap-2">
-                        <a href="{{ route('admin.laporan', ['start_date' => now()->startOfMonth()->toDateString(), 'end_date' => now()->endOfMonth()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Bulan Ini</a>
-                        <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(3)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">3 Bulan</a>
-                        <a href="{{ route('admin.laporan', ['start_date' => now()->subMonths(6)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">6 Bulan</a>
-                        <a href="{{ route('admin.laporan', ['start_date' => now()->startOfYear()->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Tahun Ini</a>
+                        <a href="{{ route('guru_bk.laporan', ['start_date' => now()->startOfMonth()->toDateString(), 'end_date' => now()->endOfMonth()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Bulan Ini</a>
+                        <a href="{{ route('guru_bk.laporan', ['start_date' => now()->subMonths(3)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">3 Bulan</a>
+                        <a href="{{ route('guru_bk.laporan', ['start_date' => now()->subMonths(6)->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">6 Bulan</a>
+                        <a href="{{ route('guru_bk.laporan', ['start_date' => now()->startOfYear()->toDateString(), 'end_date' => now()->toDateString()]) }}" class="py-1.5 text-center bg-surface-container-low rounded-lg text-xs font-semibold hover:bg-primary/10 hover:text-primary transition-all">Tahun Ini</a>
                     </div>
                 </div>
             </div>
@@ -213,7 +213,7 @@
     <div class="p-8 border-b border-outline-variant/30 flex justify-between items-center">
         <h4 class="font-headline-sm text-on-surface">Riwayat Laporan</h4>
         <div class="flex gap-2">
-            <a href="{{ route('admin.laporan.pdf', request()->query()) }}" class="px-4 py-2 bg-surface-container rounded-lg text-body-sm font-semibold hover:bg-surface-container-high transition-all flex items-center gap-1.5 shadow-sm">
+            <a href="{{ route('guru_bk.laporan.pdf', request()->query()) }}" class="px-4 py-2 bg-surface-container rounded-lg text-body-sm font-semibold hover:bg-surface-container-high transition-all flex items-center gap-1.5 shadow-sm">
                 <span class="material-symbols-outlined text-[1.125rem]">picture_as_pdf</span>
                 Export Range Ini
             </a>
@@ -238,7 +238,7 @@
                 <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold uppercase tracking-tighter {{ $is_arsip ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700' }}">
                     {{ $rep['tag'] ?? 'Selesai' }}
                 </span>
-                <a href="{{ route('admin.laporan.pdf', ['start_date' => $rep['start_date'], 'end_date' => $rep['end_date']]) }}" 
+                <a href="{{ route('guru_bk.laporan.pdf', ['start_date' => $rep['start_date'], 'end_date' => $rep['end_date']]) }}" 
                    class="flex items-center gap-2 text-primary hover:underline font-semibold text-body-sm">
                     <span class="material-symbols-outlined text-[1.125rem]">download</span>
                     Download
@@ -252,7 +252,7 @@
         @endforelse
     </div>
     <div class="p-6 bg-surface-container-lowest text-center">
-        <a href="{{ route('admin.riwayat') }}" class="text-primary font-bold text-body-sm hover:underline">Lihat Semua Konseling</a>
+        <a href="{{ route('guru_bk.riwayat') }}" class="text-primary font-bold text-body-sm hover:underline">Lihat Semua Konseling</a>
     </div>
 </div>
 
@@ -269,7 +269,7 @@
         <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Cetak Rekap Laporan PDF</h3>
         <p class="text-body-sm text-outline mb-6">Pilih kriteria untuk mengekspor rekap laporan aktivitas konseling siswa ke format PDF.</p>
         
-        <form action="{{ route('admin.laporan.pdf') }}" method="GET" class="space-y-4" target="_blank">
+        <form action="{{ route('guru_bk.laporan.pdf') }}" method="GET" class="space-y-4" target="_blank">
             <div class="space-y-1">
                 <label class="text-xs font-bold text-outline uppercase tracking-wider">Mulai Dari</label>
                 <input type="date" name="start_date" value="{{ now()->startOfMonth()->toDateString() }}" required

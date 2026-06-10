@@ -38,7 +38,7 @@
     {{-- Right Actions --}}
     <div class="flex flex-col items-end gap-2.5">
         <div class="flex items-center gap-2 flex-wrap justify-end">
-            <a href="{{ route('admin.konseling.show', $k) }}"
+            <a href="{{ route('guru_bk.konseling.show', $k) }}"
                class="px-3 py-1.5 rounded-xl border border-outline-variant/50 bg-surface-container-lowest text-xs font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors flex items-center gap-1">
                 <span class="material-symbols-outlined text-[1rem]">print</span> Cetak
             </a>

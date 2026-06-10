@@ -206,7 +206,7 @@
                 <p class="text-sm mb-4 leading-normal">
                     {{ $sesi_terdekat->tanggal_konseling->translatedFormat('l, d M Y') }} • {{ substr($sesi_terdekat->jam_konseling, 0, 5) }} WIB
                 </p>
-                <a href="{{ route('admin.jadwal', ['status' => 'hari_ini']) }}" class="inline-block text-xs font-bold px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors">
+                <a href="{{ route('guru_bk.jadwal', ['status' => 'hari_ini']) }}" class="inline-block text-xs font-bold px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-colors">
                     Lihat Detail
                 </a>
             </div>
@@ -408,7 +408,7 @@
             editable: true,
             displayEventEnd: true,
             eventDisplay: 'block',
-            events: '/admin/api/kalender',
+            events: '/guru-bk/api/kalender',
             eventTimeFormat: {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -619,7 +619,7 @@
             _token: document.querySelector('meta[name="csrf-token"]').content
         };
 
-        const url = id ? `/admin/api/kalender/${id}` : `/admin/api/kalender`;
+        const url = id ? `/guru-bk/api/kalender/${id}` : `/guru-bk/api/kalender`;
         const method = id ? 'PUT' : 'POST';
 
         fetch(url, {
@@ -661,7 +661,7 @@
             cancelButtonText: 'Batal'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/admin/api/kalender/${id}`, {
+                fetch(`/guru-bk/api/kalender/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -711,7 +711,7 @@
             _token: document.querySelector('meta[name="csrf-token"]').content
         };
 
-        fetch(`/admin/api/kalender/${dbId}`, {
+        fetch(`/guru-bk/api/kalender/${dbId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -853,7 +853,7 @@
             _token: document.querySelector('meta[name="csrf-token"]').content
         };
 
-        fetch('/admin/api/kalender', {
+        fetch('/guru-bk/api/kalender', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

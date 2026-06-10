@@ -52,10 +52,10 @@
             @php
                 if (auth()->user()->hasRole('wali_kelas')) {
                     $items = [
-                        ['route' => 'wali.dashboard', 'label' => 'Dashboard Wali',   'icon' => 'dashboard'],
+                        ['route' => 'wali.dashboard', 'label' => 'Dashboard',   'icon' => 'dashboard'],
                         ['route' => 'wali.siswa',     'label' => 'Data Siswa',       'icon' => 'groups'],
-                        ['route' => 'wali.jadwal',    'label' => 'Jadwal Panggilan', 'icon' => 'event_available'],
-                        ['route' => 'wali.riwayat',   'label' => 'Rekap Konseling',  'icon' => 'history'],
+                        ['route' => 'wali.jadwal',    'label' => 'Jadwal Konseling Kelas', 'icon' => 'event_available'],
+                        ['route' => 'wali.riwayat',   'label' => 'Riwayat Konseling Kelas',  'icon' => 'history'],
                     ];
                 } else {
                     $items = [
@@ -64,7 +64,6 @@
                         ['route' => 'siswa.kalender',  'label' => 'Kalender Guru BK', 'icon' => 'calendar_month'],
                         ['route' => 'siswa.jadwal',    'label' => 'Jadwal Konseling',  'icon' => 'event_available'],
                         ['route' => 'siswa.riwayat',   'label' => 'Riwayat Konseling', 'icon' => 'history'],
-                        ['route' => 'siswa.artikel.index', 'label' => 'Artikel Siswa',    'icon' => 'article'],
                     ];
                 }
             @endphp

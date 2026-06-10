@@ -10,11 +10,6 @@
         <h2 class="font-headline-lg text-headline-lg text-primary mb-2">Halo, {{ auth()->user()->name }}!</h2>
         <p class="font-body-md text-body-md text-on-surface-variant">Ada yang ingin kamu ceritakan atau konsultasikan hari ini? Teman BK selalu ada untukmu.</p>
     </div>
-    <a href="{{ route('siswa.pengajuan') }}" 
-       class="relative z-10 w-full sm:w-auto bg-primary hover:bg-primary-container text-white rounded-xl px-6 py-3 flex items-center justify-center gap-2 font-bold text-sm transition-colors shadow-md shrink-0">
-        <span class="material-symbols-outlined text-[1.25rem]" style="font-variation-settings: 'wght' 600;">add</span>
-        Ajukan Konseling Baru
-    </a>
 </section>
 
 <!-- Key Metrics Grid -->
@@ -89,8 +84,8 @@
 
 <!-- Main Grid -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-card-gap">
-    <!-- Left Column: Recent Activity (7 cols wide) -->
-    <section class="lg:col-span-7 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
+    <!-- Left Column: Recent Activity (Full width) -->
+    <section class="lg:col-span-12 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
         <div class="flex justify-between items-center mb-6">
             <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Aktivitas Konseling Saya</h3>
             <a href="{{ route('siswa.riwayat') }}" 
@@ -162,37 +157,5 @@
         </div>
     </section>
 
-    <!-- Right Column: Articles (5 cols wide) -->
-    <section class="lg:col-span-5 bg-surface-container-lowest rounded-2xl border border-surface-variant shadow-subtle p-6 flex flex-col">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tips &amp; Artikel</h3>
-            <a href="{{ route('siswa.artikel.index') }}" class="text-xs text-primary font-semibold hover:underline inline-flex items-center gap-1">
-                Lihat Semua
-                <span class="material-symbols-outlined text-[0.875rem]">arrow_forward</span>
-            </a>
-        </div>
-        <div class="flex flex-col gap-4">
-            @forelse($artikels as $artikel)
-                <!-- Article Card -->
-                <a href="{{ route('siswa.artikel.detail', $artikel->id) }}" class="flex gap-4 group cursor-pointer p-3 rounded-xl hover:bg-surface-container-low transition-colors border border-transparent hover:border-outline-variant/30">
-                    <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface-variant">
-                        <img alt="{{ $artikel->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="{{ $artikel->thumbnail }}"/>
-                    </div>
-                    <div class="flex flex-col justify-center">
-                        <h5 class="font-body-md text-body-md font-semibold text-on-surface group-hover:text-primary transition-colors line-clamp-2">{{ $artikel->judul }}</h5>
-                        <p class="font-label-md text-label-md text-on-surface-variant mt-1.5">{{ $artikel->created_at->format('d M Y') }}</p>
-                    </div>
-                </a>
-                @if(!$loop->last)
-                    <hr class="border-outline-variant/30"/>
-                @endif
-            @empty
-                <div class="flex flex-col items-center justify-center py-12 text-center">
-                    <span class="material-symbols-outlined text-outline-variant text-4xl mb-2">article</span>
-                    <p class="font-body-sm text-body-sm text-on-surface-variant">Belum ada artikel yang diterbitkan.</p>
-                </div>
-            @endforelse
-        </div>
-    </section>
 </div>
 @endsection

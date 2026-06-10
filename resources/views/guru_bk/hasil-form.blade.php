@@ -6,7 +6,7 @@
 <div class="max-w-3xl mx-auto">
 
     {{-- Tombol Kembali --}}
-    <a href="{{ route('admin.konseling.show', $konseling) }}"
+    <a href="{{ route('guru_bk.konseling.show', $konseling) }}"
        class="inline-flex items-center gap-1.5 text-sm font-semibold text-on-surface-variant hover:text-primary transition mb-6">
         <span class="material-symbols-outlined text-[1.125rem]">arrow_back</span>
         Kembali ke Detail Konseling
@@ -55,7 +55,7 @@
         </div>
         @endif
 
-        <form action="{{ route('admin.konseling.hasil.store', $konseling) }}" method="POST" class="space-y-6">
+        <form action="{{ route('guru_bk.konseling.hasil.store', $konseling) }}" method="POST" class="space-y-6">
             @csrf
 
             <div class="space-y-2">
@@ -109,7 +109,7 @@
             </div>
 
             <div class="flex gap-4 pt-4 border-t border-outline-variant/30">
-                <a href="{{ route('admin.jadwal') }}"
+                <a href="{{ route('guru_bk.jadwal') }}"
                    class="flex-1 text-center py-3 border border-outline text-on-surface-variant hover:bg-surface-container-low rounded-xl transition font-semibold text-sm">
                     Batal
                 </a>

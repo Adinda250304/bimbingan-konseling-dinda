@@ -3,9 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GuruBkController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\WaliKelasController;
-use App\Http\Controllers\ArtikelController;
 
 // ===== PUBLIC ROUTES =====
 Route::get('/welcome', [AuthController::class, 'showSplash'])->name('splash');
@@ -26,14 +26,6 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Kalender Guru BK
-    Route::get('/kalender', [AdminController::class, 'kalender'])->name('kalender');
-    Route::get('/api/kalender', [AdminController::class, 'apiKalender'])->name('api.kalender');
-    Route::post('/api/kalender', [AdminController::class, 'apiKalenderStore'])->name('api.kalender.store');
-    Route::put('/api/kalender/{kalender}', [AdminController::class, 'apiKalenderUpdate'])->name('api.kalender.update');
-    Route::delete('/api/kalender/{kalender}', [AdminController::class, 'apiKalenderDestroy'])->name('api.kalender.destroy');
-
-
     // Profile
     Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
     Route::put('/profile', [AdminController::class, 'updateProfile'])->name('profile.update');
@@ -44,41 +36,52 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
+});
+
+// ===== GURU BK ROUTES =====
+Route::prefix('guru-bk')->name('guru_bk.')->middleware(['auth', 'role:guru_bk'])->group(function () {
+    Route::get('/dashboard', [GuruBkController::class, 'dashboard'])->name('dashboard');
+
+    // Kalender Guru BK
+    Route::get('/kalender', [GuruBkController::class, 'kalender'])->name('kalender');
+    Route::get('/api/kalender', [GuruBkController::class, 'apiKalender'])->name('api.kalender');
+    Route::post('/api/kalender', [GuruBkController::class, 'apiKalenderStore'])->name('api.kalender.store');
+    Route::put('/api/kalender/{kalender}', [GuruBkController::class, 'apiKalenderUpdate'])->name('api.kalender.update');
+    Route::delete('/api/kalender/{kalender}', [GuruBkController::class, 'apiKalenderDestroy'])->name('api.kalender.destroy');
+
+    // Profile
+    Route::get('/profile', [GuruBkController::class, 'profile'])->name('profile');
+    Route::put('/profile', [GuruBkController::class, 'updateProfile'])->name('profile.update');
+    Route::put('/profile/password', [GuruBkController::class, 'updatePassword'])->name('profile.password');
 
     // Jadwal
-    Route::get('/jadwal', [AdminController::class, 'jadwal'])->name('jadwal');
-    Route::post('/jadwal/konseling', [AdminController::class, 'storeKonseling'])->name('jadwal.konseling.store');
-    Route::post('/jadwal', [AdminController::class, 'storeJadwal'])->name('jadwal.store');
-    Route::put('/jadwal/{jadwal}', [AdminController::class, 'updateJadwal'])->name('jadwal.update');
-    Route::delete('/jadwal/{jadwal}', [AdminController::class, 'deleteJadwal'])->name('jadwal.delete');
+    Route::get('/jadwal', [GuruBkController::class, 'jadwal'])->name('jadwal');
+    Route::post('/jadwal/konseling', [GuruBkController::class, 'storeKonseling'])->name('jadwal.konseling.store');
+    Route::post('/jadwal', [GuruBkController::class, 'storeJadwal'])->name('jadwal.store');
+    Route::put('/jadwal/{jadwal}', [GuruBkController::class, 'updateJadwal'])->name('jadwal.update');
+    Route::delete('/jadwal/{jadwal}', [GuruBkController::class, 'deleteJadwal'])->name('jadwal.delete');
 
     // Riwayat & Hasil
-    Route::get('/riwayat', [AdminController::class, 'riwayat'])->name('riwayat');
-    Route::get('/konseling/{konseling}', [AdminController::class, 'showKonseling'])->name('konseling.show');
-    Route::put('/konseling/{konseling}', [AdminController::class, 'updateKonseling'])->name('konseling.update');
-    Route::put('/konseling/{konseling}/status', [AdminController::class, 'updateStatusKonseling'])->name('konseling.status');
-    Route::post('/konseling/{konseling}/advance', [AdminController::class, 'advanceStatus'])->name('konseling.advance');
-    Route::post('/konseling/{konseling}/setujui', [AdminController::class, 'setujuiPengajuan'])->name('konseling.setujui');
-    Route::post('/konseling/{konseling}/tolak', [AdminController::class, 'tolakPengajuan'])->name('konseling.tolak');
-    Route::delete('/konseling/{konseling}', [AdminController::class, 'deleteKonseling'])->name('konseling.delete');
-    Route::get('/konseling/{konseling}/hasil', [AdminController::class, 'hasilKonseling'])->name('konseling.hasil');
-    Route::post('/konseling/{konseling}/hasil', [AdminController::class, 'storeHasil'])->name('konseling.hasil.store');
+    Route::get('/riwayat', [GuruBkController::class, 'riwayat'])->name('riwayat');
+    Route::get('/konseling/{konseling}', [GuruBkController::class, 'showKonseling'])->name('konseling.show');
+    Route::put('/konseling/{konseling}', [GuruBkController::class, 'updateKonseling'])->name('konseling.update');
+    Route::put('/konseling/{konseling}/status', [GuruBkController::class, 'updateStatusKonseling'])->name('konseling.status');
+    Route::post('/konseling/{konseling}/advance', [GuruBkController::class, 'advanceStatus'])->name('konseling.advance');
+    Route::post('/konseling/{konseling}/setujui', [GuruBkController::class, 'setujuiPengajuan'])->name('konseling.setujui');
+    Route::post('/konseling/{konseling}/tolak', [GuruBkController::class, 'tolakPengajuan'])->name('konseling.tolak');
+    Route::delete('/konseling/{konseling}', [GuruBkController::class, 'deleteKonseling'])->name('konseling.delete');
+    Route::get('/konseling/{konseling}/hasil', [GuruBkController::class, 'hasilKonseling'])->name('konseling.hasil');
+    Route::post('/konseling/{konseling}/hasil', [GuruBkController::class, 'storeHasil'])->name('konseling.hasil.store');
 
     // Laporan & Rekap
-    Route::get('/laporan', [AdminController::class, 'laporan'])->name('laporan');
-    Route::get('/laporan/pdf', [AdminController::class, 'laporanPdf'])->name('laporan.pdf');
+    Route::get('/laporan', [GuruBkController::class, 'laporan'])->name('laporan');
+    Route::get('/laporan/pdf', [GuruBkController::class, 'laporanPdf'])->name('laporan.pdf');
 
     // Tindak Lanjut
     Route::post('/konseling/{konseling}/tindak-lanjut', [\App\Http\Controllers\TindakLanjutController::class, 'store'])->name('konseling.tindak-lanjut.store');
     Route::get('/tindak-lanjut/{tindakLanjut}/pdf', [\App\Http\Controllers\TindakLanjutController::class, 'pdf'])->name('tindak-lanjut.pdf');
     Route::post('/tindak-lanjut/{tindakLanjut}/wa', [\App\Http\Controllers\TindakLanjutController::class, 'kirimWa'])->name('tindak-lanjut.wa');
     Route::post('/tindak-lanjut/{tindakLanjut}/email', [\App\Http\Controllers\TindakLanjutController::class, 'kirimEmail'])->name('tindak-lanjut.email');
-
-    // Artikel
-    Route::get('/artikel', [ArtikelController::class, 'index'])->name('artikel.index');
-    Route::post('/artikel', [ArtikelController::class, 'store'])->name('artikel.store');
-    Route::put('/artikel/{id}', [ArtikelController::class, 'update'])->name('artikel.update');
-    Route::delete('/artikel/{id}', [ArtikelController::class, 'destroy'])->name('artikel.destroy');
 });
 
 // ===== SISWA ROUTES =====
@@ -94,10 +97,6 @@ Route::prefix('siswa')->name('siswa.')->middleware(['auth', 'role:siswa'])->grou
     Route::get('/kalender', [SiswaController::class, 'kalender'])->name('kalender');
     Route::get('/api/kalender', [SiswaController::class, 'apiKalender'])->name('api.kalender');
     Route::get('/api/slot-guru', [SiswaController::class, 'apiSlotGuru'])->name('api.slot.guru');
-
-    // Artikel
-    Route::get('/artikel', [SiswaController::class, 'artikel'])->name('artikel.index');
-    Route::get('/artikel/{id}', [SiswaController::class, 'artikelDetail'])->name('artikel.detail');
 });
 
 // ===== WALI KELAS ROUTES =====
@@ -116,5 +115,3 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/api/notifications/read-all', [\App\Http\Controllers\NotificationController::class, 'readAll'])->name('notifications.readAll');
     Route::post('/api/notifications/{notification}/read', [\App\Http\Controllers\NotificationController::class, 'read'])->name('notifications.read');
 });
-
-

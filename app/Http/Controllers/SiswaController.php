@@ -6,7 +6,6 @@ use App\Models\Konseling;
 use App\Models\JadwalKonseling;
 use App\Models\KalenderBk;
 use App\Models\User;
-use App\Models\Artikel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,27 +29,25 @@ class SiswaController extends Controller
             ->orderBy('jam_konseling', 'asc')
             ->first();
 
-        // Info ketersediaan guru BK pertama
-        $guru_bk = User::role('admin')->first();
+        // Info ketersediaan guru BK: ada slot kalender is_available=true untuk hari ini atau masa depan
+        $guru_bk = User::role('guru_bk')->first();
         $is_available = false;
         if ($guru_bk) {
             $is_available = KalenderBk::where('guru_id', $guru_bk->id)
                 ->where('is_available', true)
-                ->where('start', '>=', now())
+                ->whereDate('start', '>=', today())
                 ->exists();
         }
 
-        $artikels = Artikel::where('is_published', true)->latest()->take(2)->get();
-
         return view('siswa.dashboard', compact(
-            'sesi_aktif', 'menunggu', 'selesai', 'total', 'riwayat', 'sesi_terdekat', 'guru_bk', 'is_available', 'artikels'
+            'sesi_aktif', 'menunggu', 'selesai', 'total', 'riwayat', 'sesi_terdekat', 'guru_bk', 'is_available'
         ));
     }
 
     public function pengajuan()
     {
         // Get all Guru BK users with their real session counts and average ratings
-        $gurubk = User::role('admin')
+        $gurubk = User::role('guru_bk')
             ->withCount(['konselings as completed_sessions_count' => function ($query) {
                 $query->where('status', 'selesai');
             }])
@@ -149,7 +146,7 @@ class SiswaController extends Controller
             ->latest()
             ->get();
             
-        $guru_bk = User::role('admin')->first();
+        $guru_bk = User::role('guru_bk')->first();
         
         return view('siswa.jadwal', compact('konselings', 'guru_bk'));
     }
@@ -162,8 +159,15 @@ class SiswaController extends Controller
 
     public function kalender()
     {
-        $gurubk = User::role('admin')->get(['id', 'name']);
-        return view('siswa.kalender', compact('gurubk'));
+        $gurubk = User::role('guru_bk')->get(['id', 'name']);
+
+        // Cek apakah ada slot tersedia dari salah satu guru bk
+        $has_any_slots = KalenderBk::whereIn('guru_id', $gurubk->pluck('id'))
+            ->where('is_available', true)
+            ->whereDate('start', '>=', today())
+            ->exists();
+
+        return view('siswa.kalender', compact('gurubk', 'has_any_slots'));
     }
 
     public function apiKalender()
@@ -242,24 +246,5 @@ class SiswaController extends Controller
         ]);
 
         return back()->with('success', 'Terima kasih atas ulasan dan umpan balik Anda!');
-    }
-
-    public function artikel()
-    {
-        $artikels = Artikel::where('is_published', true)->latest()->paginate(9);
-        return view('siswa.artikel', compact('artikels'));
-    }
-
-    public function artikelDetail($id)
-    {
-        $artikel = Artikel::where('is_published', true)->findOrFail($id);
-        
-        $rekomendasi = Artikel::where('is_published', true)
-            ->where('id', '!=', $id)
-            ->latest()
-            ->take(3)
-            ->get();
-
-        return view('siswa.artikel-detail', compact('artikel', 'rekomendasi'));
     }
 }

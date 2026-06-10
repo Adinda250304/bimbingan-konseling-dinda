@@ -36,11 +36,22 @@
         </div>
     </div>
 
+    {{-- Banner peringatan jika belum ada slot tersedia --}}
+    @if(!$has_any_slots)
+    <div class="flex items-start gap-4 bg-amber-50 border border-amber-200 rounded-2xl px-6 py-5">
+        <span class="material-symbols-outlined text-amber-500 text-[1.75rem] mt-0.5 shrink-0">event_busy</span>
+        <div>
+            <p class="font-semibold text-amber-800 text-sm mb-1">Jadwal konseling belum tersedia</p>
+            <p class="text-amber-700 text-sm leading-relaxed">Guru BK belum mengatur slot waktu konseling untuk saat ini. Anda tetap bisa mengajukan konseling melalui halaman <a href="{{ route('siswa.pengajuan') }}" class="underline font-semibold hover:text-amber-900">Ajukan Konseling</a> dan Guru BK akan menjadwalkan waktunya setelah meninjau pengajuan Anda.</p>
+        </div>
+    </div>
+    @endif
+
     <!-- Calendar & Filters Bento Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
         <!-- Sidebar Filters -->
         <div class="lg:col-span-3 space-y-6">
-            <div class="bg-white rounded-2xl p-6 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(16,106,106,0.04)]">
+            <div class="bg-white rounded-2xl p-6 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(16,106,106,0.04)] {{ !$has_any_slots ? 'opacity-50 pointer-events-none select-none' : '' }}">
                 <h3 class="font-headline-sm text-headline-sm mb-4">Pilih Konselor</h3>
                 <div class="space-y-3" id="counselor-list">
                     @foreach($gurubk as $index => $g)
@@ -84,7 +95,7 @@
 
         <!-- Monthly Calendar View -->
         <div class="lg:col-span-9">
-            <div class="bg-white rounded-3xl p-8 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(16,106,106,0.04)]">
+            <div class="bg-white rounded-3xl p-8 border border-outline-variant/30 shadow-[0px_4px_20px_rgba(16,106,106,0.04)] relative {{ !$has_any_slots ? 'opacity-50 pointer-events-none select-none' : '' }}">
                 <!-- Calendar Controls -->
                 <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
                     <div class="flex items-center gap-4">

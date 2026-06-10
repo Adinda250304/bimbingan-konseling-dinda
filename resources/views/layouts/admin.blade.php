@@ -50,15 +50,23 @@
         
         <nav class="flex-1 flex flex-col gap-2">
             @php
-                $navItems = [
-                    ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
-                    ['route' => 'admin.users',     'label' => 'User Data', 'icon' => 'group'],
-                    ['route' => 'admin.kalender',  'label' => 'Calendar', 'icon' => 'calendar_month'],
-                    ['route' => 'admin.jadwal',    'label' => 'Schedule', 'icon' => 'event_upcoming'],
-                    ['route' => 'admin.riwayat',   'label' => 'History', 'icon' => 'history'],
-                    ['route' => 'admin.laporan',   'label' => 'Reports', 'icon' => 'assessment'],
-                    ['route' => 'admin.artikel.index', 'label' => 'Articles', 'icon' => 'article'],
-                ];
+                $userRole = auth()->user()->roles->pluck('name')->first();
+                $navItems = [];
+                
+                if ($userRole === 'admin') {
+                    $navItems = [
+                        ['route' => 'admin.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
+                        ['route' => 'admin.users',     'label' => 'Kelola Pengguna', 'icon' => 'group'],
+                    ];
+                } elseif ($userRole === 'guru_bk') {
+                    $navItems = [
+                        ['route' => 'guru_bk.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
+                        ['route' => 'guru_bk.kalender',  'label' => 'Kalender', 'icon' => 'calendar_month'],
+                        ['route' => 'guru_bk.jadwal',    'label' => 'Jadwal Konseling', 'icon' => 'event_upcoming'],
+                        ['route' => 'guru_bk.riwayat',   'label' => 'Riwayat Konseling', 'icon' => 'history'],
+                        ['route' => 'guru_bk.laporan',   'label' => 'Laporan & Rekap', 'icon' => 'assessment'],
+                    ];
+                }
             @endphp
             
             @foreach($navItems as $item)
@@ -117,11 +125,11 @@
                     <div id="profile-menu" class="hidden dd-menu absolute right-0 mt-3 w-56 bg-surface-container-lowest border border-outline-variant/30 rounded-2xl shadow-xl py-1 z-50 overflow-hidden text-left origin-top-right transition-all">
                         <div class="px-4 py-3 bg-surface-container-low">
                             <p class="text-sm font-bold text-on-surface leading-tight truncate">{{ auth()->user()->name }}</p>
-                            <p class="text-xs text-on-surface-variant font-medium leading-tight mt-1 truncate">Guru BK</p>
+                            <p class="text-xs text-on-surface-variant font-medium leading-tight mt-1 truncate">{{ auth()->user()->hasRole('guru_bk') ? 'Guru BK' : 'Admin' }}</p>
                         </div>
                         <hr class="border-outline-variant/30">
                         <div class="py-1.5">
-                            <a href="{{ route('admin.profile') }}" class="flex items-center gap-3 px-4 py-2 text-sm text-on-surface hover:bg-primary-container/10 hover:text-primary transition-colors">
+                            <a href="{{ auth()->user()->hasRole('guru_bk') ? route('guru_bk.profile') : route('admin.profile') }}" class="flex items-center gap-3 px-4 py-2 text-sm text-on-surface hover:bg-primary-container/10 hover:text-primary transition-colors">
                                 <span class="material-symbols-outlined text-on-surface-variant">account_circle</span>
                                 Pengaturan Profil
                             </a>

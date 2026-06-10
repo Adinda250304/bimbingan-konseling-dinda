@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
-@section('title', 'Jadwal Konseling')
-@section('nav-title', 'Jadwal Konseling')
+@section('title', 'Jadwal Konseling Kelas')
+@section('nav-title', 'Jadwal Konseling Kelas')
 
 @section('content')
 <div class="bg-surface rounded-3xl shadow-sm border border-outline-variant/30 overflow-hidden">
     <div class="p-6 border-b border-outline-variant/30 bg-surface-container-lowest flex items-center justify-between flex-wrap gap-4">
         <div>
-            <h2 class="text-xl font-bold text-on-surface">Jadwal Panggilan</h2>
+            <h2 class="text-xl font-bold text-on-surface">Jadwal Konseling Kelas</h2>
             <p class="text-sm text-on-surface-variant mt-1">Siswa Kelas {{ $kelas ?? '—' }}</p>
         </div>
         <form method="GET">

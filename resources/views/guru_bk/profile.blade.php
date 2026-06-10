@@ -29,7 +29,7 @@
                 <span class="material-symbols-outlined text-[3rem]">account_circle</span>
             </div>
 
-            <form action="{{ route('admin.profile.update') }}" method="POST" class="space-y-6">
+            <form action="{{ route('guru_bk.profile.update') }}" method="POST" class="space-y-6">
                 @csrf @method('PUT')
 
                 <div class="space-y-1.5">
@@ -100,7 +100,7 @@
             </div>
             @endif
 
-            <form action="{{ route('admin.profile.password') }}" method="POST" class="space-y-6">
+            <form action="{{ route('guru_bk.profile.password') }}" method="POST" class="space-y-6">
                 @csrf @method('PUT')
 
                 <div class="space-y-1.5">

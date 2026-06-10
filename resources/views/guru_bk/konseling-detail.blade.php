@@ -41,7 +41,7 @@
 
 <!-- Back Button & Page Header -->
 <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-    <a href="{{ route('admin.jadwal') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-outline-variant/30 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 hover:border-primary rounded-xl text-sm font-semibold transition-all duration-300">
+    <a href="{{ route('guru_bk.jadwal') }}" class="inline-flex items-center gap-2 px-4 py-2 border border-outline-variant/30 text-on-surface-variant hover:text-primary hover:bg-primary-container/10 hover:border-primary rounded-xl text-sm font-semibold transition-all duration-300">
         <span class="material-symbols-outlined text-[1.125rem]">arrow_back</span>
         Kembali ke Jadwal
     </a>
@@ -242,12 +242,12 @@
                                 
                                 <!-- Document actions -->
                                 <div class="flex flex-row md:flex-col justify-center gap-2 min-w-[13.125rem] shrink-0">
-                                    <a href="{{ route('admin.tindak-lanjut.pdf', $tl) }}" target="_blank" class="flex-1 md:flex-initial px-4 py-2.5 bg-surface-container hover:bg-on-surface hover:text-white text-on-surface rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-outline-variant/30">
+                                    <a href="{{ route('guru_bk.tindak-lanjut.pdf', $tl) }}" target="_blank" class="flex-1 md:flex-initial px-4 py-2.5 bg-surface-container hover:bg-on-surface hover:text-white text-on-surface rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-outline-variant/30">
                                         <span class="material-symbols-outlined text-[1rem]">picture_as_pdf</span>
                                         Buka PDF
                                     </a>
                                     
-                                    <form action="{{ route('admin.tindak-lanjut.wa', $tl) }}" method="POST" class="flex-1 md:flex-initial">
+                                    <form action="{{ route('guru_bk.tindak-lanjut.wa', $tl) }}" method="POST" class="flex-1 md:flex-initial">
                                         @csrf
                                         <button type="submit" class="w-full px-4 py-2.5 bg-[#25D366]/10 hover:bg-[#25D366] hover:text-white text-[#128C7E] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#25D366]/20 shadow-sm cursor-pointer font-sans">
                                             <span class="material-symbols-outlined text-[1rem] font-bold">chat</span>
@@ -255,7 +255,7 @@
                                         </button>
                                     </form>
 
-                                    <form action="{{ route('admin.tindak-lanjut.email', $tl) }}" method="POST" class="flex-1 md:flex-initial">
+                                    <form action="{{ route('guru_bk.tindak-lanjut.email', $tl) }}" method="POST" class="flex-1 md:flex-initial">
                                         @csrf
                                         <button type="submit" class="w-full px-4 py-2.5 bg-[#1a73e8]/10 hover:bg-[#1a73e8] hover:text-white text-[#1a73e8] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#1a73e8]/20 shadow-sm cursor-pointer font-sans">
                                             <span class="material-symbols-outlined text-[1rem]">mail</span>
@@ -350,7 +350,7 @@
                         </div>
                     </div>
                     
-                    <form action="{{ route('admin.konseling.setujui', $konseling) }}" method="POST" class="space-y-4">
+                    <form action="{{ route('guru_bk.konseling.setujui', $konseling) }}" method="POST" class="space-y-4">
                         @csrf
                         <div class="space-y-3">
                             <div class="space-y-1">
@@ -395,7 +395,7 @@
                         </div>
                     </div>
                     
-                    <form action="{{ route('admin.konseling.advance', $konseling) }}" method="POST" id="form-mulai-detail">
+                    <form action="{{ route('guru_bk.konseling.advance', $konseling) }}" method="POST" id="form-mulai-detail">
                         @csrf
                         <button type="button" onclick="confirmMulaiDetail('{{ addslashes($konseling->siswa->name) }}')"
                                 class="w-full py-3.5 bg-secondary hover:opacity-95 text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer font-sans">
@@ -417,7 +417,7 @@
                         </div>
                     </div>
                     
-                    <a href="{{ route('admin.konseling.hasil', $konseling) }}"
+                    <a href="{{ route('guru_bk.konseling.hasil', $konseling) }}"
                        class="w-full py-3.5 bg-primary hover:bg-primary-container text-white font-bold rounded-2xl text-xs transition-all shadow-md flex items-center justify-center gap-1.5">
                         <span class="material-symbols-outlined text-[1rem] font-bold">rate_review</span>
                         Tulis Hasil &amp; Saran
@@ -437,7 +437,7 @@
                     </div>
                     
                     <div class="flex flex-col gap-2">
-                        <a href="{{ route('admin.konseling.hasil', $konseling) }}" class="w-full py-3 border border-outline-variant/40 hover:bg-surface-container-low text-on-surface-variant font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-1.5">
+                        <a href="{{ route('guru_bk.konseling.hasil', $konseling) }}" class="w-full py-3 border border-outline-variant/40 hover:bg-surface-container-low text-on-surface-variant font-bold rounded-2xl text-xs transition-all flex items-center justify-center gap-1.5">
                             <span class="material-symbols-outlined text-[1rem] font-bold">edit</span>
                             Edit Hasil &amp; Saran
                         </a>
@@ -460,7 +460,7 @@
         <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Tolak Pengajuan Konseling</h3>
         <p class="text-body-sm text-outline mb-6">Berikan alasan penolakan atau instruksi alternatif bagi siswa terkait pembatalan ini.</p>
         
-        <form action="{{ route('admin.konseling.tolak', $konseling) }}" method="POST" class="space-y-4">
+        <form action="{{ route('guru_bk.konseling.tolak', $konseling) }}" method="POST" class="space-y-4">
             @csrf
             <div class="space-y-1">
                 <label class="text-xs font-bold text-outline uppercase tracking-wider">Alasan Penolakan</label>
@@ -493,7 +493,7 @@
         <h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Buat Rencana Tindak Lanjut</h3>
         <p class="text-body-sm text-outline mb-6">Dokumen resmi (pemanggilan orang tua, surat mediasi, atau rujukan) akan dibuat otomatis.</p>
         
-        <form action="{{ route('admin.konseling.tindak-lanjut.store', $konseling) }}" method="POST" class="space-y-4">
+        <form action="{{ route('guru_bk.konseling.tindak-lanjut.store', $konseling) }}" method="POST" class="space-y-4">
             @csrf
             <div class="space-y-1">
                 <label class="text-xs font-bold text-outline uppercase tracking-wider">Jenis Dokumen</label>

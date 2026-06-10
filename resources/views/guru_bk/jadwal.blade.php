@@ -22,22 +22,22 @@
     {{-- Elegant Tab Filters + Search --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-outline-variant/30 pb-2 gap-4">
         <div class="flex gap-6 overflow-x-auto w-full md:w-auto">
-            <a href="{{ route('admin.jadwal', ['status' => 'semua', 'search' => $search]) }}" 
+            <a href="{{ route('guru_bk.jadwal', ['status' => 'semua', 'search' => $search]) }}" 
                class="pb-3 text-body-md text-on-surface-variant hover:text-primary transition-all whitespace-nowrap {{ $status === 'semua' ? 'active-tab' : '' }}">
                 Semua Sesi
             </a>
-            <a href="{{ route('admin.jadwal', ['status' => 'hari_ini', 'search' => $search]) }}" 
+            <a href="{{ route('guru_bk.jadwal', ['status' => 'hari_ini', 'search' => $search]) }}" 
                class="pb-3 text-body-md text-on-surface-variant hover:text-primary transition-all whitespace-nowrap relative {{ $status === 'hari_ini' ? 'active-tab' : '' }}">
                 Hari Ini
                 @if($hari_ini_count > 0)
                     <span class="absolute -right-2 top-0 w-2 h-2 bg-secondary rounded-full"></span>
                 @endif
             </a>
-            <a href="{{ route('admin.jadwal', ['status' => 'terjadwal', 'search' => $search]) }}" 
+            <a href="{{ route('guru_bk.jadwal', ['status' => 'terjadwal', 'search' => $search]) }}" 
                class="pb-3 text-body-md text-on-surface-variant hover:text-primary transition-all whitespace-nowrap {{ $status === 'terjadwal' ? 'active-tab' : '' }}">
                 Terjadwal
             </a>
-            <a href="{{ route('admin.jadwal', ['status' => 'menunggu', 'search' => $search]) }}" 
+            <a href="{{ route('guru_bk.jadwal', ['status' => 'menunggu', 'search' => $search]) }}" 
                class="pb-3 text-body-md text-on-surface-variant hover:text-primary transition-all whitespace-nowrap flex items-center gap-2 {{ $status === 'menunggu' ? 'active-tab' : '' }}">
                 Menunggu Persetujuan
                 @if($menunggu_count > 0)
@@ -47,14 +47,14 @@
         </div>
 
         {{-- Search Input --}}
-        <form method="GET" action="{{ route('admin.jadwal') }}" class="w-full md:w-auto">
+        <form method="GET" action="{{ route('guru_bk.jadwal') }}" class="w-full md:w-auto">
             <input type="hidden" name="status" value="{{ $status }}">
             <div class="flex items-center gap-2 border border-outline-variant/30 rounded-xl px-4 py-2 bg-surface-container-lowest focus-within:ring-2 focus-within:ring-primary focus-within:border-primary transition-all w-full md:w-64">
                 <span class="material-symbols-outlined text-on-surface-variant text-[1.25rem] select-none">search</span>
                 <input type="text" name="search" value="{{ $search }}" placeholder="Cari siswa..."
                     class="text-sm border-none bg-transparent p-0 outline-none focus:ring-0 text-on-surface placeholder:text-on-surface-variant/50 w-full">
                 @if($search)
-                    <a href="{{ route('admin.jadwal', ['status' => $status]) }}" class="text-on-surface-variant hover:text-error transition-all">
+                    <a href="{{ route('guru_bk.jadwal', ['status' => $status]) }}" class="text-on-surface-variant hover:text-error transition-all">
                         <span class="material-symbols-outlined text-[1.125rem]">close</span>
                     </a>
                 @endif
@@ -132,7 +132,7 @@
                             {{-- Actions --}}
                             <div class="absolute right-4 bottom-4">
                                 @if($k->status === 'disetujui')
-                                    <form action="{{ route('admin.konseling.advance', $k) }}" method="POST" id="form-mulai-{{ $k->id }}">
+                                    <form action="{{ route('guru_bk.konseling.advance', $k) }}" method="POST" id="form-mulai-{{ $k->id }}">
                                         @csrf
                                         <button type="button" onclick="confirmMulai('{{ $k->id }}', '{{ addslashes($k->siswa->name) }}')"
                                             class="bg-secondary text-white px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-1 hover:opacity-90 active:scale-95 transition-all shadow-sm">
@@ -141,7 +141,7 @@
                                         </button>
                                     </form>
                                 @elseif($k->status === 'berlangsung')
-                                    <a href="{{ route('admin.konseling.hasil', $k) }}" 
+                                    <a href="{{ route('guru_bk.konseling.hasil', $k) }}" 
                                        class="bg-primary text-white px-4 py-2 rounded-xl font-bold text-xs flex items-center gap-1 hover:bg-primary-container transition-all shadow-sm">
                                         <span class="material-symbols-outlined text-[1rem]">edit_note</span>
                                         Catatan / Selesai
@@ -260,7 +260,7 @@
                                                 <button onclick="openTolak({{ $k->id }}, '{{ addslashes($k->siswa->name) }}')" 
                                                     class="text-error hover:underline hover:text-red-700 text-xs">Tolak</button>
                                             @elseif($k->status === 'disetujui')
-                                                <form action="{{ route('admin.konseling.advance', $k) }}" method="POST" id="form-mulai-{{ $k->id }}" class="hidden">
+                                                <form action="{{ route('guru_bk.konseling.advance', $k) }}" method="POST" id="form-mulai-{{ $k->id }}" class="hidden">
                                                     @csrf
                                                 </form>
                                                 <button type="button" onclick="confirmMulai('{{ $k->id }}', '{{ addslashes($k->siswa->name) }}')"
@@ -272,7 +272,7 @@
                                                 <button onclick="openTolak({{ $k->id }}, '{{ addslashes($k->siswa->name) }}')" 
                                                     class="text-error hover:underline hover:text-red-700 text-xs">Batalkan</button>
                                             @elseif($k->status === 'berlangsung')
-                                                <a href="{{ route('admin.konseling.hasil', $k) }}" 
+                                                <a href="{{ route('guru_bk.konseling.hasil', $k) }}" 
                                                    class="text-primary hover:underline hover:text-primary-container text-xs flex items-center gap-1">
                                                     <span class="material-symbols-outlined text-[1rem]">edit_note</span> Selesaikan
                                                 </a>
@@ -405,7 +405,7 @@
                 </button>
             </div>
             
-            <form action="{{ route('admin.jadwal.konseling.store') }}" method="POST" class="space-y-5">
+            <form action="{{ route('guru_bk.jadwal.konseling.store') }}" method="POST" class="space-y-5">
                 @csrf
                 <div class="space-y-2">
                     <label class="font-label-md text-on-surface-variant uppercase text-xs font-semibold block">Pilih Siswa</label>
@@ -471,7 +471,7 @@
         document.getElementById('modal-subtitle').textContent = 'Konfirmasi persetujuan dan waktu untuk ' + name;
         
         const form = document.getElementById('form-atur-jadwal');
-        form.action = '/admin/konseling/' + id + '/setujui';
+        form.action = '/guru-bk/konseling/' + id + '/setujui';
         
         // Prep fields
         form.querySelector('input[name="tanggal_konseling"]').value = date || '';
@@ -485,7 +485,7 @@
         document.getElementById('modal-subtitle').textContent = 'Tentukan tanggal atau jam baru untuk ' + name;
         
         const form = document.getElementById('form-atur-jadwal');
-        form.action = '/admin/konseling/' + id + '/setujui';
+        form.action = '/guru-bk/konseling/' + id + '/setujui';
         
         // Prep fields
         form.querySelector('input[name="tanggal_konseling"]').value = date || '';
@@ -499,7 +499,7 @@
         document.getElementById('tolak-subtitle').textContent = 'Beri penjelasan alasan penolakan/pembatalan untuk ' + name;
         
         const form = document.getElementById('form-tolak');
-        form.action = '/admin/konseling/' + id + '/tolak';
+        form.action = '/guru-bk/konseling/' + id + '/tolak';
         
         openModal('modal-tolak');
     }

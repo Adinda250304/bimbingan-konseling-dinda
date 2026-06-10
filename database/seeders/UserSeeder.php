@@ -13,13 +13,22 @@ class UserSeeder extends Seeder
         // Reset cached roles & permissions to avoid stale cache issues
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // Akun Guru BK (Bimbingan Konseling)
+        // Akun Admin
         $admin = User::firstOrCreate(['email' => 'admin@smkypml.sch.id'], [
-            'name'     => 'Guru BK',
+            'name'     => 'Administrator',
             'username' => 'admin',
             'password' => Hash::make('admin123'),
         ]);
+        $admin->update(['name' => 'Administrator']);
         $admin->syncRoles(['admin']);
+
+        // Akun Guru BK
+        $gurubk = User::firstOrCreate(['email' => 'gurubk@smkypml.sch.id'], [
+            'name'     => 'Guru BK',
+            'username' => 'gurubk',
+            'password' => Hash::make('gurubk123'),
+        ]);
+        $gurubk->syncRoles(['guru_bk']);
 
         $faker = \Faker\Factory::create('id_ID');
 

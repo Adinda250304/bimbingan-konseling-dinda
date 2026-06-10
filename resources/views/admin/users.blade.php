@@ -72,6 +72,8 @@
                         </td>
                         <td class="px-6 py-5">
                             @if($u->hasRole('admin'))
+                                <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold bg-purple-100 text-purple-700 uppercase">Admin</span>
+                            @elseif($u->hasRole('guru_bk'))
                                 <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold bg-primary/10 text-primary uppercase">Guru BK</span>
                             @elseif($u->hasRole('wali_kelas'))
                                 <span class="px-3 py-1 rounded-full text-[0.6875rem] font-bold bg-amber-100 text-amber-700 uppercase">Wali Kelas</span>
@@ -81,6 +83,8 @@
                         </td>
                         <td class="px-6 py-5">
                             @if($u->hasRole('admin'))
+                                <span class="text-sm text-on-surface-variant">Administrator Sistem</span>
+                            @elseif($u->hasRole('guru_bk'))
                                 <span class="text-sm text-on-surface-variant">Konseling & Kesiswaan</span>
                             @elseif($u->hasRole('wali_kelas'))
                                 <span class="text-sm text-on-surface-variant">Wali {{ $u->kelas ?? 'Kelas' }}</span>
@@ -151,7 +155,8 @@
                     <select id="userRole" name="role" required class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm cursor-pointer" onchange="toggleRoleFields()">
                         <option value="siswa">Siswa</option>
                         <option value="wali_kelas">Wali Kelas</option>
-                        <option value="admin">Guru BK</option>
+                        <option value="guru_bk">Guru BK</option>
+                        <option value="admin">Admin</option>
                     </select>
                 </div>
                 <div>
