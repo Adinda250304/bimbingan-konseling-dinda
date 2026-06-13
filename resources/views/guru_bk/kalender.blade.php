@@ -129,6 +129,15 @@
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
     }
+
+    /* Past dates - dimmed & locked */
+    .fc-day-past {
+        background-color: rgba(0, 0, 0, 0.02) !important;
+        opacity: 0.5;
+    }
+    .fc-day-past .fc-daygrid-day-number {
+        color: #a0a0a0 !important;
+    }
     
     /* Align texts in event content */
     .fc-event-main {
@@ -390,6 +399,13 @@
 <script>
     let calendar;
 
+    // Helper: cek apakah tanggal sudah lewat (sebelum hari ini)
+    function isPastDate(date) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        return date < today;
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
@@ -414,6 +430,19 @@
                 minute: '2-digit',
                 hour12: false,
                 omitZeroMinute: false
+            },
+
+            // Cegah selection di tanggal yang sudah lewat
+            selectAllow: function(info) {
+                return !isPastDate(info.start);
+            },
+
+            // Tambahkan visual redup untuk tanggal lampau
+            dayCellClassNames: function(info) {
+                if (isPastDate(info.date)) {
+                    return ['fc-day-past'];
+                }
+                return [];
             },
 
             eventContent: function(arg) {
@@ -488,6 +517,17 @@
             eventClick: function(info) {
                 const event = info.event;
                 
+                // Blok edit event yang tanggalnya sudah lewat
+                if (event.start && isPastDate(event.start)) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Tanggal Sudah Lewat',
+                        text: 'Slot ketersediaan di tanggal yang sudah lewat tidak dapat diubah atau dihapus.',
+                        confirmButtonColor: '#005050'
+                    });
+                    return;
+                }
+
                 if (event.extendedProps.is_readonly) {
                     Swal.fire({
                         icon: 'info',
@@ -545,6 +585,17 @@
             },
 
             eventDrop: function(info) {
+                // Blok pindahkan event ke/tanggal yang sudah lewat
+                if (info.event.start && isPastDate(info.event.start)) {
+                    info.revert();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Tanggal Sudah Lewat',
+                        text: 'Tidak dapat memindahkan slot ke tanggal yang sudah lewat.',
+                        confirmButtonColor: '#005050'
+                    });
+                    return;
+                }
                 if (info.event.extendedProps.is_readonly) {
                     info.revert();
                     Swal.fire({
@@ -558,6 +609,17 @@
                 updateAjax(info.event);
             },
             eventResize: function(info) {
+                // Blok resize event yang sudah lewat
+                if (info.event.start && isPastDate(info.event.start)) {
+                    info.revert();
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Tanggal Sudah Lewat',
+                        text: 'Tidak dapat mengubah durasi slot di tanggal yang sudah lewat.',
+                        confirmButtonColor: '#005050'
+                    });
+                    return;
+                }
                 if (info.event.extendedProps.is_readonly) {
                     info.revert();
                     Swal.fire({

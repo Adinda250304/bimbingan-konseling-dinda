@@ -61,7 +61,7 @@
                 } elseif ($userRole === 'guru_bk') {
                     $navItems = [
                         ['route' => 'guru_bk.dashboard', 'label' => 'Dashboard', 'icon' => 'dashboard'],
-                        ['route' => 'guru_bk.kalender',  'label' => 'Kalender', 'icon' => 'calendar_month'],
+                        ['route' => 'guru_bk.kalender',  'label' => 'Kalender Ketersediaan', 'icon' => 'calendar_month'],
                         ['route' => 'guru_bk.jadwal',    'label' => 'Jadwal Konseling', 'icon' => 'event_upcoming'],
                         ['route' => 'guru_bk.riwayat',   'label' => 'Riwayat Konseling', 'icon' => 'history'],
                         ['route' => 'guru_bk.laporan',   'label' => 'Laporan & Rekap', 'icon' => 'assessment'],

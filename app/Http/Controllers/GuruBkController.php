@@ -137,10 +137,12 @@ class GuruBkController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'start' => 'required|date',
+            'start' => 'required|date|after_or_equal:today',
             'end' => 'nullable|date|after_or_equal:start',
             'is_available' => 'required|boolean',
             'color' => 'nullable|string'
+        ], [
+            'start.after_or_equal' => 'Tidak dapat menambah slot ketersediaan di tanggal yang sudah lewat.',
         ]);
 
         $kalender = KalenderBk::create([
@@ -158,13 +160,20 @@ class GuruBkController extends Controller
     public function apiKalenderUpdate(Request $request, KalenderBk $kalender)
     {
         if ($kalender->guru_id !== auth()->id()) abort(403);
+
+        // Blok update jika tanggal sudah lewat
+        if ($kalender->start->isPast()) {
+            return response()->json(['success' => false, 'message' => 'Tidak dapat mengubah slot ketersediaan di tanggal yang sudah lewat.'], 403);
+        }
         
         $request->validate([
             'title' => 'sometimes|required|string',
-            'start' => 'required|date',
+            'start' => 'required|date|after_or_equal:today',
             'end' => 'nullable|date',
             'is_available' => 'sometimes|required|boolean',
             'color' => 'nullable|string'
+        ], [
+            'start.after_or_equal' => 'Tidak dapat mengubah slot ke tanggal yang sudah lewat.',
         ]);
 
         $kalender->update($request->only('title', 'start', 'end', 'is_available', 'color'));
@@ -175,6 +184,12 @@ class GuruBkController extends Controller
     public function apiKalenderDestroy(KalenderBk $kalender)
     {
         if ($kalender->guru_id !== auth()->id()) abort(403);
+
+        // Blok delete jika tanggal sudah lewat
+        if ($kalender->start->isPast()) {
+            return response()->json(['success' => false, 'message' => 'Tidak dapat menghapus slot ketersediaan di tanggal yang sudah lewat.'], 403);
+        }
+
         $kalender->delete();
         return response()->json(['success' => true]);
     }
