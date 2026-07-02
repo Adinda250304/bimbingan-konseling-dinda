@@ -23,9 +23,9 @@ class UserSeeder extends Seeder
         $admin->syncRoles(['admin']);
 
         // Akun Guru BK
-        $gurubk = User::firstOrCreate(['email' => 'gurubk@smkypml.sch.id'], [
-            'name'     => 'Guru BK',
-            'username' => 'gurubk',
+        $gurubk = User::firstOrCreate(['email' => 'rinimariny@smkypml.sch.id'], [
+            'name'     => 'Rini Mariny',
+            'username' => 'rinimariny',
             'password' => Hash::make('gurubk123'),
         ]);
         $gurubk->syncRoles(['guru_bk']);

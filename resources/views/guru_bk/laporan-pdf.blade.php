@@ -193,14 +193,13 @@
                     Guru Bimbingan Konseling
                     <div class="signature-space"></div>
                     <strong>{{ $user->name }}</strong><br>
-                    NIP. -
                 </td>
                 <td width="50%">
                     Mengetahui,<br>
                     Kepala Sekolah SMK YPML
                     <div class="signature-space"></div>
-                    <strong>....................................................</strong><br>
-                    NIP. -
+                    <strong>Syuhada, S.Pd</strong><br>
+                    NIP. 10003
                 </td>
             </tr>
         </table>

@@ -14,7 +14,7 @@
     <div class="bg-surface rounded-3xl shadow-sm border border-outline-variant/30 overflow-hidden">
         <div class="p-6 sm:p-8 border-b border-outline-variant/30 bg-error/5">
             <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-full bg-error text-white flex items-center justify-center flex-shrink-0 shadow-md">
+                <div class="w-12 h-12 rounded-full bg-gray-500 text-white flex items-center justify-center flex-shrink-0 shadow-md">
                     <span class="material-symbols-outlined">report_problem</span>
                 </div>
                 <div>

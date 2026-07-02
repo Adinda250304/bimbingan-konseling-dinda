@@ -41,7 +41,7 @@
                         </span>
                     </td>
                     <td class="p-4 px-6 text-right">
-                        <a href="{{ route('wali.rujuk', $siswa->id) }}" class="inline-flex items-center justify-center gap-2 bg-error text-white text-sm font-bold py-2 px-4 rounded-xl hover:bg-error/90 transition-all focus:ring-4 focus:ring-error/20 active:scale-95 shadow-sm">
+                        <a href="{{ route('wali.rujuk', $siswa->id) }}" class="inline-flex items-center justify-center gap-2 bg-gray-500 text-white text-sm font-bold py-2 px-4 rounded-xl hover:bg-gray-600 transition-all focus:ring-4 focus:ring-error/20 active:scale-95 shadow-sm">
                             <span class="material-symbols-outlined text-[1.125rem]">warning</span>
                             Rujuk ke BK
                         </a>
