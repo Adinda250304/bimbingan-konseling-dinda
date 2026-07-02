@@ -32,6 +32,7 @@ class AdminController extends Controller
             'email'   => 'required|email|unique:users,email,' . $user->id,
             'no_telp' => 'nullable|string|max:20',
             'alamat'  => 'nullable|string|max:255',
+            
         ]);
         $user->update($request->only('name', 'email', 'no_telp', 'alamat'));
         return back()->with('success', 'Profil berhasil diperbarui.');

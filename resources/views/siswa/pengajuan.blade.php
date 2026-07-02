@@ -39,7 +39,7 @@
             <div class="bg-white rounded-[1.5rem] p-8 card-shadow border border-surface-variant/30 space-y-6">
                 <div class="flex items-center gap-3">
                     <span class="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
-                    <h4 class="font-headline-sm text-headline-sm">Apa yang sedang kamu pikirkan?</h4>
+                    <h4 class="font-headline-sm text-headline-sm">Apa yang sedang kamu pikirkan ?</h4>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
                     <button type="button" data-value="Akademik" class="reason-chip flex flex-col items-center gap-3 p-4 rounded-2xl border border-surface-variant hover:border-primary/50 hover:bg-primary/5 transition-all text-center group cursor-pointer">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Teman BK YPML — Bimbingan &amp; Konseling Sekolah')</title>
+    <link rel="icon" type="image/png" href="{{ asset('img/logo-ypml.png') }}">
     
     <!-- Google Fonts & Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -148,15 +149,15 @@
                 <h4 class="font-bold text-sm text-on-background uppercase tracking-wider">Kontak &amp; Alamat</h4>
                 <div class="flex items-start gap-2 text-xs text-on-surface-variant leading-relaxed">
                     <span class="material-symbols-outlined text-sm text-outline mt-0.5">location_on</span>
-                    Gedung Bimbingan &amp; Konseling YPML, Lingkungan Sekolah
+                    Ruko Premier Village, Blok M 20, RT.004/RW.003, Cipondoh, Kec. Cipondoh, Kota Tangerang, Banten 15148
                 </div>
                 <div class="flex items-center gap-2 text-xs text-on-surface-variant">
                     <span class="material-symbols-outlined text-sm text-outline">mail</span>
-                    bk@ypml.sch.id
+                    smktiypml@ymail.com
                 </div>
                 <div class="flex items-center gap-2 text-xs text-on-surface-variant">
                     <span class="material-symbols-outlined text-sm text-outline">phone</span>
-                    Hubungi Guru BK Sekolah
+                    0813-8541-0016
                 </div>
             </div>
 

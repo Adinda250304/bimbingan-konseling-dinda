@@ -30,44 +30,56 @@ class UserSeeder extends Seeder
         ]);
         $gurubk->syncRoles(['guru_bk']);
 
-        $faker = \Faker\Factory::create('id_ID');
+        $siswas = [
+            ['name' => 'Satria Dwi Jaya Perdana', 'kelas' => '10 TKJ-1'],
+            ['name' => 'Ridho Maulana', 'kelas' => '11 TKJ-1'],
+            ['name' => 'M. Alfiansyah', 'kelas' => '11 TKJ-1'],
+            ['name' => 'Almira Qivi Putri', 'kelas' => '11 DKV'],
+            ['name' => 'Desy Yulanda', 'kelas' => '10 DKV'],
+            ['name' => 'Aurel', 'kelas' => '12 TKJ'],
+            ['name' => 'Siro Judin', 'kelas' => '10 TKJ-2'],
+            ['name' => 'M. Rayyan Sofyan', 'kelas' => '10 TKJ-2'],
+            ['name' => 'Luthfi', 'kelas' => '10 TKJ-2'],
+            ['name' => 'Januar', 'kelas' => '10 TKJ-2'],
+            ['name' => 'Tegar', 'kelas' => '11 TKJ-2'],
+        ];
 
-        $tingkats = ['X', 'XI', 'XII'];
-        $jurusans = ['DKV', 'TKJ'];
-        $uruts = [1, 2, 3];
+        // Daftar Wali Kelas (Silakan sesuaikan jika Anda memiliki data aslinya nanti)
+        $walis = [
+            ['name' => 'Budi Santoso', 'kelas' => '10 TKJ-1'],
+            ['name' => 'Siti Aminah', 'kelas' => '11 TKJ-1'],
+            ['name' => 'Ahmad Fauzi', 'kelas' => '11 DKV'],
+            ['name' => 'Dewi Lestari', 'kelas' => '10 DKV'],
+            ['name' => 'Rahmat Hidayat', 'kelas' => '12 TKJ'],
+            ['name' => 'Fitriani', 'kelas' => '10 TKJ-2'],
+            ['name' => 'Eko Prasetyo', 'kelas' => '11 TKJ-2'],
+        ];
 
-        foreach ($tingkats as $tingkat) {
-            foreach ($jurusans as $jurusan) {
-                foreach ($uruts as $urut) {
-                    $kelasFull = "{$tingkat} {$jurusan} {$urut}";
-                    $kodeLower = strtolower($tingkat . $jurusan . $urut);
+        // Buat akun Wali Kelas
+        foreach ($walis as $dataWali) {
+            // Username otomatis dari nama (tanpa spasi dan huruf kecil)
+            $username = strtolower(preg_replace('/[^a-z0-9]/i', '', $dataWali['name']));
+            
+            $wali = User::firstOrCreate(['email' => "{$username}@smkypml.sch.id"], [
+                'name'     => $dataWali['name'],
+                'username' => $username,
+                'password' => Hash::make("walikelas123"),
+                'kelas'    => $dataWali['kelas'],
+            ]);
+            $wali->syncRoles(['wali_kelas']);
+        }
 
-                    // Buat 1 Wali Kelas untuk masing-masing kelas
-                    $wali = User::firstOrCreate(['email' => "wali{$kodeLower}@smkypml.sch.id"], [
-                        'name'     => "Wali Kelas {$kelasFull}",
-                        'username' => "wali{$kodeLower}",
-                        'password' => Hash::make("walikelas123"),
-                        'kelas'    => $kelasFull,
-                    ]);
-                    $wali->syncRoles(['wali_kelas']);
-
-                    // Buat 9 Siswa untuk masing-masing kelas
-                    for ($i = 1; $i <= 9; $i++) {
-                        $siswaUsername = "siswa{$kodeLower}" . $i;
-                        $siswa = User::firstOrCreate(['email' => "{$siswaUsername}@siswa.sch.id"], [
-                            'name'     => $faker->name(),
-                            'username' => $siswaUsername,
-                            'password' => Hash::make('siswa123'),
-                            'kelas'    => $kelasFull,
-                        ]);
-                        $siswa->syncRoles(['siswa']);
-                    }
-
-                    // Keep DB connection alive between batches
-                    \Illuminate\Support\Facades\DB::reconnect();
-                    app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-                }
-            }
+        // Buat akun siswa
+        foreach ($siswas as $dataSiswa) {
+            $username = strtolower(preg_replace('/[^a-z0-9]/i', '', $dataSiswa['name']));
+            
+            $siswa = User::firstOrCreate(['email' => "{$username}@siswa.sch.id"], [
+                'name'     => $dataSiswa['name'],
+                'username' => $username,
+                'password' => Hash::make('siswa123'),
+                'kelas'    => $dataSiswa['kelas'],
+            ]);
+            $siswa->syncRoles(['siswa']);
         }
     }
 }
