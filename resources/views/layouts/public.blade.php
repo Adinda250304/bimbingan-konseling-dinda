@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Teman BK YPML — Bimbingan &amp; Konseling Sekolah')</title>
+    <title>@yield('title', 'TEMAN BK')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/logo-ypml.png') }}">
     
     <!-- Google Fonts & Material Symbols -->
