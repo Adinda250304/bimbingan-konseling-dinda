@@ -37,7 +37,7 @@
             <!-- Right Side: Friendly counselor-student illustration -->
             <div class="lg:col-span-5 flex justify-center hero-visual">
                 <div class="relative max-w-md w-full">
-                    <img src="{{ asset('img/counseling_student_warm.png') }}" alt="Bimbingan Konseling Sekolah" class="rounded-[2rem] border border-outline-variant/30 shadow-xl w-full object-cover">
+                    <img src="{{ asset('img/bgsmkypml.png') }}" alt="Bimbingan Konseling Sekolah" class="rounded-[2rem] border border-outline-variant/30 shadow-xl w-full object-cover">
                 </div>
             </div>
 

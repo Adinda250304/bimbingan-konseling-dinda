@@ -37,7 +37,7 @@
         
         <!-- Left Side Cover (Desktop Only) -->
         <div class="hidden lg:block lg:w-1/2 h-full relative overflow-hidden">
-            <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('img/counseling_student_warm.png') }}" alt="Bimbingan Konseling Teman BK YPML"/>
+            <img class="absolute inset-0 w-full h-full object-cover" src="{{ asset('img/bgsmkypml.png') }}" alt="Bimbingan Konseling Teman BK YPML"/>
             <div class="absolute inset-0 bg-primary/20 backdrop-brightness-95"></div>
             
             <!-- Branding Overlay on Image -->
