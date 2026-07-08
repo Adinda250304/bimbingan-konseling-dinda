@@ -4,80 +4,84 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-    body { margin: 0; padding: 0; font-family: Arial, sans-serif; background: #f3f4f6; }
-    .container { max-width: 580px; margin: 30px auto; background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-    .header { background: #1e3a8a; padding: 28px 32px; text-align: center; }
-    .header h1 { color: white; font-size: 20px; margin: 0 0 4px; }
-    .header p { color: #93c5fd; font-size: 13px; margin: 0; }
-    .body { padding: 28px 32px; }
-    .greeting { font-size: 15px; color: #374151; margin-bottom: 18px; }
-    .info-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px 20px; margin: 16px 0; }
-    .info-row { display: flex; margin-bottom: 8px; font-size: 13px; }
-    .info-row:last-child { margin-bottom: 0; }
-    .info-label { font-weight: bold; color: #1e40af; min-width: 130px; }
-    .info-value { color: #374151; }
-    .catatan-box { background: #f9fafb; border-left: 4px solid #1e3a8a; padding: 14px 16px; margin: 16px 0; border-radius: 0 8px 8px 0; font-size: 13px; color: #4b5563; line-height: 1.7; }
-    .badge { display: inline-block; background: #dbeafe; color: #1d4ed8; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; }
-    .footer-note { font-size: 12px; color: #9ca3af; text-align: center; margin-top: 24px; border-top: 1px solid #f3f4f6; padding-top: 16px; }
-    .footer { background: #f9fafb; padding: 16px 32px; text-align: center; }
-    .footer p { font-size: 11px; color: #9ca3af; margin: 0; }
+    body { margin: 0; padding: 0; font-family: Georgia, 'Times New Roman', serif; background: #f5f5f0; color: #2d2d2d; }
+    .wrapper { max-width: 600px; margin: 32px auto; background: #fff; border-radius: 4px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .top-bar { background: #1a3a5c; height: 5px; }
+    .letterhead { padding: 28px 40px 20px; border-bottom: 1px solid #e8e4df; }
+    .letterhead .school { font-size: 13px; color: #6b6b6b; text-transform: uppercase; letter-spacing: 0.08em; }
+    .letterhead .dept { font-size: 15px; font-weight: bold; color: #1a3a5c; margin-top: 2px; }
+    .body { padding: 32px 40px; line-height: 1.85; font-size: 14px; }
+    .body p { margin: 0 0 16px; }
+    .catatan { background: #fafaf7; border-left: 3px solid #1a3a5c; padding: 14px 18px; margin: 20px 0; font-style: italic; font-size: 14px; color: #4b4b4b; border-radius: 0 4px 4px 0; line-height: 1.8; }
+    .kode { display: inline-block; font-family: 'Courier New', monospace; font-size: 13px; background: #f0f0eb; padding: 3px 10px; border-radius: 3px; color: #333; letter-spacing: 0.05em; }
+    .signature { margin-top: 28px; }
+    .signature .name { font-weight: bold; font-size: 14px; margin-top: 4px; }
+    .signature .title { font-size: 13px; color: #6b6b6b; }
+    .footer { background: #f9f9f6; padding: 16px 40px; border-top: 1px solid #e8e4df; }
+    .footer p { font-size: 11px; color: #aaa; margin: 0; line-height: 1.6; }
 </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>📋 Tindak Lanjut Konseling</h1>
-        <p>SMK YPML — Bimbingan Konseling</p>
+<div class="wrapper">
+    <div class="top-bar"></div>
+    <div class="letterhead">
+        <div class="school">SMK YPML</div>
+        <div class="dept">Bimbingan &amp; Konseling</div>
     </div>
     <div class="body">
-        <p class="greeting">Yth. Orang Tua/Wali dari <strong>{{ $siswa->name }}</strong>,</p>
-        <p style="font-size:13px;color:#4b5563;margin-bottom:16px;">
-            Kami menginformasikan bahwa telah dilakukan tindak lanjut atas sesi konseling siswa kami.
-            Harap membaca informasi berikut dengan saksama.
+        @php
+            $namaPanggil = $siswa->nama_ortu ?? 'Bapak/Ibu';
+            $namaGuru    = $konseling->guru?->name ?? 'Guru BK';
+            $tanggal     = now()->translatedFormat('d F Y');
+        @endphp
+
+        <p>Assalamu'alaikum, {{ $namaPanggil }}.</p>
+
+        <p>
+            Semoga Bapak/Ibu dalam keadaan sehat dan baik. Saya {{ $namaGuru }}, Guru Bimbingan Konseling 
+            di SMK YPML, ingin menyampaikan informasi terkait putra/putri Bapak/Ibu, 
+            <strong>{{ $siswa->name }}</strong> (Kelas {{ $siswa->kelas ?? '—' }}).
         </p>
 
-        <div class="info-box">
-            <div class="info-row">
-                <span class="info-label">Nama Siswa</span>
-                <span class="info-value">{{ $siswa->name }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Kelas</span>
-                <span class="info-value">{{ $siswa->kelas ?? '—' }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Jenis Tindak Lanjut</span>
-                <span class="info-value"><span class="badge">{{ $tindakLanjut->jenis_label }}</span></span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Tanggal Surat</span>
-                <span class="info-value">{{ now()->format('d F Y') }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Guru BK</span>
-                <span class="info-value">{{ $konseling->guru?->name ?? '—' }}</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">Kode Surat</span>
-                <span class="info-value"><code>{{ $tindakLanjut->kode_unik }}</code></span>
-            </div>
-        </div>
-
-        <p style="font-size:13px;font-weight:bold;color:#374151;margin-bottom:8px;">Catatan dari Guru BK:</p>
-        <div class="catatan-box">{{ $tindakLanjut->catatan }}</div>
-
-        <p style="font-size:13px;color:#4b5563;margin-top:16px;">
-            Surat resmi terlampir dalam format PDF pada email ini. 
-            Silakan hubungi pihak sekolah apabila memerlukan informasi lebih lanjut.
+        <p>
+            Pada tanggal {{ $tanggal }}, kami telah melakukan tindak lanjut konseling berupa 
+            <strong>{{ $tindakLanjut->jenis_label }}</strong> sebagai bagian dari upaya kami mendampingi 
+            perkembangan {{ $siswa->name }} di sekolah.
         </p>
 
-        <div class="footer-note">
-            Email ini dikirim otomatis oleh sistem <strong>Teman BK</strong>.<br>
-            Kode verifikasi surat: <code>{{ $tindakLanjut->kode_unik }}</code>
+        <p>Berikut catatan yang ingin saya sampaikan:</p>
+
+        <div class="catatan">{{ $tindakLanjut->catatan }}</div>
+
+        <p>
+            Surat resmi dengan detail lengkap telah kami lampirkan dalam format PDF di email ini. 
+            Mohon kiranya Bapak/Ibu berkenan membacanya dan menandatangani sebagai tanda telah menerima informasi ini.
+        </p>
+
+        <p>
+            Kami sangat mengharapkan keterlibatan Bapak/Ibu dalam proses ini karena dukungan keluarga 
+            sangat berarti bagi perkembangan {{ $siswa->name }}. Apabila ada hal yang ingin 
+            Bapak/Ibu diskusikan, jangan ragu untuk menghubungi kami langsung di sekolah — kami 
+            terbuka untuk berbicara kapan saja.
+        </p>
+
+        <p>Terima kasih atas perhatian dan kepercayaan Bapak/Ibu kepada kami.</p>
+
+        <div class="signature">
+            <p style="margin:0;">Salam hangat,</p>
+            <p class="name">{{ $namaGuru }}</p>
+            <p class="title">Guru Bimbingan Konseling<br>SMK YPML</p>
         </div>
+
+        <p style="margin-top:28px;font-size:12px;color:#aaa;">
+            Kode verifikasi surat: <span class="kode">{{ $tindakLanjut->kode_unik }}</span>
+        </p>
     </div>
     <div class="footer">
-        <p>© {{ date('Y') }} SMK YPML — Sistem Teman BK</p>
+        <p>
+            Pesan ini dikirim secara pribadi oleh sistem Teman BK atas nama {{ $namaGuru }}.<br>
+            Jika ini bukan tujuan yang tepat, abaikan email ini atau hubungi pihak sekolah.
+        </p>
     </div>
 </div>
 </body>

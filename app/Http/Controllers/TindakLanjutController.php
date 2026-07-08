@@ -28,7 +28,28 @@ class TindakLanjutController extends Controller
             'kode_unik'    => strtoupper(Str::random(4)) . '-' . $konseling->id . '-' . date('Ymd'),
         ]);
 
-        return back()->with('success', 'Tindak lanjut berhasil disimpan. Silakan unduh atau kirim surat.');
+        // Automatically send WA and Email notifications
+        [$waSent, $emailSent] = $this->kirimNotifikasiOtomatis($tl);
+
+        $msg = 'Tindak lanjut berhasil disimpan.';
+        if ($waSent && $emailSent) {
+            $msg .= ' Notifikasi WhatsApp & Email berhasil dikirim secara otomatis.';
+            return back()->with('success', $msg);
+        } else {
+            $msg .= ' Status Pengiriman - WA: ' . ($waSent ? 'Terkirim' : 'Gagal') . ', Email: ' . ($emailSent ? 'Terkirim' : 'Gagal') . '.';
+            return back()->with('warning', $msg);
+        }
+    }
+
+    // ───────────────────────────────────────────
+    // PUBLIC: Kirim notifikasi WA + Email
+    // Bisa dipanggil dari controller lain
+    // ───────────────────────────────────────────
+    public function kirimNotifikasiOtomatis(TindakLanjut $tl): array
+    {
+        $waSent    = $this->autoKirimWa($tl);
+        $emailSent = $this->autoKirimEmail($tl);
+        return [$waSent, $emailSent];
     }
 
     // ───────────────────────────────────────────
@@ -57,33 +78,43 @@ class TindakLanjutController extends Controller
     }
 
     // ───────────────────────────────────────────
-    // KIRIM WHATSAPP via FONNTE
+    // AUTOMATED WHATSAPP SENDING
     // ───────────────────────────────────────────
-    public function kirimWa(TindakLanjut $tindakLanjut)
+    private function autoKirimWa(TindakLanjut $tindakLanjut): bool
     {
         $konseling = $tindakLanjut->konseling->load(['siswa', 'guru']);
         $siswa     = $konseling->siswa;
 
-        if (!$siswa->no_telp) {
-            return back()->with('error', 'Nomor WhatsApp siswa/orang tua tidak tersedia.');
+        $recipientNumber = $siswa->no_telp_ortu ?: $siswa->no_telp;
+        $recipientName = $siswa->nama_ortu ?: 'Orang Tua/Wali';
+
+        if (!$recipientNumber) {
+            $tindakLanjut->update(['status_wa' => 'gagal']);
+            return false;
         }
 
-        $pesan = "📋 *PEMBERITAHUAN TINDAK LANJUT KONSELING*\n";
-        $pesan .= "SMK YPML — Bimbingan Konseling\n\n";
-        $pesan .= "Yth. Orang Tua/Wali dari *{$siswa->name}*\n\n";
-        $pesan .= "Kami menginformasikan bahwa telah dilakukan tindak lanjut konseling:\n";
-        $pesan .= "📌 *Jenis:* {$tindakLanjut->jenis_label}\n";
-        $pesan .= "📅 *Tanggal:* " . now()->format('d M Y') . "\n";
-        $pesan .= "📝 *Catatan:* {$tindakLanjut->catatan}\n\n";
-        $pesan .= "Kode Surat: *{$tindakLanjut->kode_unik}*\n";
-        $pesan .= "Guru BK: {$konseling->guru?->name}\n\n";
-        $pesan .= "_Pesan ini dikirim otomatis oleh sistem Teman BK_";
+        $namaPanggil = $recipientName !== 'Orang Tua/Wali' ? $recipientName : 'Bapak/Ibu';
+        $namaGuru    = $konseling->guru?->name ?? 'Guru BK';
+        $tanggal     = now()->translatedFormat('d F Y');
 
-        $nomor = preg_replace('/[^0-9]/', '', $siswa->no_telp);
+        $pesan  = "Assalamu'alaikum, {$namaPanggil}.\n\n";
+        $pesan .= "Saya {$namaGuru}, Guru Bimbingan Konseling di SMK YPML, ingin menyampaikan kabar terkait putra/putri Bapak/Ibu, *{$siswa->name}*.\n\n";
+        $pesan .= "Pada tanggal {$tanggal}, kami telah melakukan tindak lanjut konseling berupa *{$tindakLanjut->jenis_label}*.\n\n";
+        $pesan .= "*Catatan dari Guru BK:*\n_{$tindakLanjut->catatan}_\n\n";
+        $pesan .= "Surat resmi dan detail lengkap mengenai pemanggilan ini telah kami kirimkan ke Email Bapak/Ibu. Mohon diperiksa sebagai tanda telah menerima informasi ini.\n\n";
+        $pesan .= "Apabila ada yang ingin didiskusikan lebih lanjut, Bapak/Ibu bisa menghubungi kami langsung di sekolah. Kami terbuka untuk berbicara kapan saja.\n\n";
+        $pesan .= "Terima kasih atas perhatian dan kerjasamanya. Semoga {$siswa->name} bisa terus berkembang dengan baik.\n\n";
+        $pesan .= "Salam hangat,\n{$namaGuru}\nGuru BK SMK YPML\n\n";
+        $pesan .= "_Kode verifikasi surat: {$tindakLanjut->kode_unik}_";
+
+        $nomor = preg_replace('/[^0-9]/', '', $recipientNumber);
         if (str_starts_with($nomor, '0')) {
             $nomor = '62' . substr($nomor, 1);
+        } elseif (str_starts_with($nomor, '8')) {
+            $nomor = '62' . $nomor;
         }
 
+        // ponytail: skip PDF attachment to bypass Fonnte free-tier file restrictions
         $response = $this->sendFonnte($nomor, $pesan);
 
         if ($response && isset($response['status']) && $response['status'] === true) {
@@ -91,28 +122,34 @@ class TindakLanjutController extends Controller
                 'status_wa'  => 'terkirim',
                 'dikirim_at' => now(),
             ]);
-            return back()->with('success', 'WhatsApp berhasil dikirim ke ' . $nomor);
+            return true;
         }
 
         $tindakLanjut->update(['status_wa' => 'gagal']);
-        return back()->with('error', 'Gagal mengirim WhatsApp. Cek API token Fonnte di .env');
+        return false;
     }
 
     // ───────────────────────────────────────────
-    // KIRIM EMAIL via SMTP (tanpa Mailable class)
+    // AUTOMATED EMAIL SENDING
     // ───────────────────────────────────────────
-    public function kirimEmail(TindakLanjut $tindakLanjut)
+    private function autoKirimEmail(TindakLanjut $tindakLanjut): bool
     {
         $konseling = $tindakLanjut->konseling->load(['siswa', 'guru']);
         $siswa     = $konseling->siswa;
 
-        if (!$siswa->email) {
-            return back()->with('error', 'Email siswa/orang tua tidak tersedia.');
+        // Kirim ke email orang tua jika ada, fallback ke email siswa
+        $emailTujuan = $siswa->email_ortu ?? $siswa->email ?? null;
+
+        if (!$emailTujuan) {
+            $tindakLanjut->update(['status_email' => 'gagal']);
+            return false;
         }
 
+        $namaPenerima = $siswa->nama_ortu ?? $siswa->name;
+
         // Generate PDF untuk attachment
-        $qrCode = QrCode::format('svg')->size(90)->errorCorrection('M')
-            ->generate(url('/verifikasi-surat/' . $tindakLanjut->kode_unik));
+        $verifikasiUrl = url('/verifikasi-surat/' . $tindakLanjut->kode_unik);
+        $qrCode = QrCode::format('svg')->size(90)->errorCorrection('M')->generate($verifikasiUrl);
 
         $pdfContent = Pdf::loadView('pdf.tindak-lanjut', [
             'tl'        => $tindakLanjut,
@@ -123,15 +160,14 @@ class TindakLanjutController extends Controller
         $filename = 'TindakLanjut_' . $tindakLanjut->kode_unik . '.pdf';
 
         try {
-            // Kirim via SMTP menggunakan config mail di .env
-            \Mail::send([], [], function ($message) use ($siswa, $konseling, $tindakLanjut, $pdfContent, $filename) {
+            \Mail::send([], [], function ($message) use ($siswa, $konseling, $tindakLanjut, $pdfContent, $filename, $emailTujuan, $namaPenerima) {
                 $message
-                    ->to($siswa->email, $siswa->name)
-                    ->subject('[SMK YPML] Tindak Lanjut Konseling — ' . $tindakLanjut->jenis_label)
+                    ->to($emailTujuan, $namaPenerima)
+                    ->subject('Pemberitahuan: ' . $tindakLanjut->jenis_label . ' — ' . $siswa->name)
                     ->html(
                         view('emails.tindak-lanjut', [
-                            'siswa'       => $siswa,
-                            'konseling'   => $konseling,
+                            'siswa'        => $siswa,
+                            'konseling'    => $konseling,
                             'tindakLanjut' => $tindakLanjut,
                         ])->render()
                     )
@@ -142,30 +178,56 @@ class TindakLanjutController extends Controller
                 'status_email' => 'terkirim',
                 'dikirim_at'   => now(),
             ]);
-            return back()->with('success', 'Email berhasil dikirim ke ' . $siswa->email);
+            return true;
 
         } catch (\Exception $e) {
+            \Log::error('Email tindak lanjut gagal: ' . $e->getMessage());
             $tindakLanjut->update(['status_email' => 'gagal']);
-            return back()->with('error', 'Gagal mengirim email. Periksa konfigurasi SMTP di .env — ' . $e->getMessage());
+            return false;
         }
+    }
+
+    // Keep public actions for manual retry/redirect if requested, routing internally to auto methods
+    public function kirimWa(TindakLanjut $tindakLanjut)
+    {
+        $status = $this->autoKirimWa($tindakLanjut);
+        if ($status) {
+            return back()->with('success', 'WhatsApp berhasil dikirim.');
+        }
+        return back()->with('error', 'Gagal mengirim WhatsApp. Cek API token Fonnte di .env');
+    }
+
+    public function kirimEmail(TindakLanjut $tindakLanjut)
+    {
+        $status = $this->autoKirimEmail($tindakLanjut);
+        if ($status) {
+            return back()->with('success', 'Email berhasil dikirim.');
+        }
+        return back()->with('error', 'Gagal mengirim email.');
     }
 
     // ───────────────────────────────────────────
     // HELPER: Fonnte API
     // ───────────────────────────────────────────
-    private function sendFonnte(string $nomor, string $pesan): ?array
+    private function sendFonnte(string $nomor, string $pesan, ?string $filePath = null, ?string $fileName = null): ?array
     {
-        $token = env('FONNTE_TOKEN');
+        $token = env('FONNTE_API_KEY');
         if (!$token) return null;
+
+        $fields = [
+            'target'  => $nomor,
+            'message' => $pesan,
+        ];
+
+        if ($filePath && file_exists($filePath)) {
+            $fields['file'] = new \CURLFile($filePath, 'application/pdf', $fileName ?: 'dokumen.pdf');
+        }
 
         $ch = curl_init('https://api.fonnte.com/send');
         curl_setopt_array($ch, [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => [
-                'target'  => $nomor,
-                'message' => $pesan,
-            ],
+            CURLOPT_POSTFIELDS     => $fields,
             CURLOPT_HTTPHEADER => ['Authorization: ' . $token],
         ]);
         $result = curl_exec($ch);

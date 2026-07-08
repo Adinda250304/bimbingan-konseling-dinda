@@ -20,6 +20,9 @@
                 <div>
                     <h2 class="text-xl font-bold text-on-surface">Form Rujukan Konseling</h2>
                     <p class="text-sm text-on-surface-variant mt-1">Siswa: <strong class="text-on-surface">{{ $siswa->name }}</strong> ({{ $siswa->kelas }})</p>
+                    @if($siswa->nama_ortu)
+                        <p class="text-xs text-on-surface-variant/80 mt-1">Orang Tua/Wali: <span class="font-semibold text-on-surface">{{ $siswa->nama_ortu }}</span> ({{ $siswa->no_telp_ortu ?? 'Tidak ada No. Telp/WA' }})</p>
+                    @endif
                 </div>
             </div>
         </div>

@@ -158,7 +158,56 @@
                         </select>
                     </div>
 
-                    <!-- Password & Konfirmasi (Samping-sampingan dengan font proporsional agar hemat ruang vertikal) -->
+                    <!-- Data Orang Tua -->
+                    <div class="pt-2 pb-1 border-t border-outline-variant/30 mt-4 mb-1">
+                        <p class="text-xs font-bold text-on-surface-variant mb-3 flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[1.125rem]">family_restroom</span>
+                            Data Orang Tua / Wali
+                        </p>
+                        <div class="space-y-3.5">
+                            <!-- Nama Ortu -->
+                            <div class="space-y-1 form-element text-left">
+                                <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="nama_ortu">
+                                    Nama Orang Tua
+                                </label>
+                                <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
+                                       id="nama_ortu" 
+                                       name="nama_ortu" 
+                                       value="{{ old('nama_ortu') }}"
+                                       placeholder="Nama Bapak / Ibu" 
+                                       type="text"/>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- No Telp Ortu -->
+                                <div class="space-y-1 form-element text-left">
+                                    <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="no_telp_ortu">
+                                        No. WhatsApp Ortu
+                                    </label>
+                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
+                                           id="no_telp_ortu" 
+                                           name="no_telp_ortu" 
+                                           value="{{ old('no_telp_ortu') }}"
+                                           placeholder="0812..." 
+                                           type="text"/>
+                                </div>
+                                <!-- Email Ortu -->
+                                <div class="space-y-1 form-element text-left">
+                                    <label class="font-label-md text-xs font-bold text-on-surface-variant flex items-center gap-2" for="email_ortu">
+                                        Email Ortu
+                                    </label>
+                                    <input class="w-full bg-surface-container-low border border-outline-variant rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary-container focus:ring-offset-2 outline-none transition-all placeholder:text-on-surface-variant/40" 
+                                           id="email_ortu" 
+                                           name="email_ortu" 
+                                           value="{{ old('email_ortu') }}"
+                                           placeholder="email@contoh.com" 
+                                           type="email"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password & Konfirmasi -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <!-- Password -->
                         <div class="space-y-1 form-element text-left">

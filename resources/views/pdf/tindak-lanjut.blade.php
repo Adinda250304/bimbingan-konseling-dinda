@@ -70,8 +70,8 @@
         <img src="{{ public_path('img/logo-ypml.png') }}" alt="Logo">
         <h2>YAYASAN PENDIDIKAN MANDIRI LENTERA</h2>
         <h1>SMK YPML</h1>
-        <p style="margin: 2px 0 0;">Jl. Contoh Jalan Pendidikan No. 123, Kota Contoh, 12345</p>
-        <p style="margin: 2px 0 0;">Telp: (021) 1234567 | Email: info@smkypml.sch.id</p>
+        <p style="margin: 2px 0 0;">Ruko Premier Village, Blok M 20, RT.004/RW.003, Cipondoh, Kec. Cipondoh, Kota Tangerang, Banten 15148</p>
+        <p style="margin: 2px 0 0;">Telp: 22262189 | Email: smktiypml@ymail.com</p>
     </div>
 
     <div class="meta-surat-container">

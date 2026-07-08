@@ -95,7 +95,7 @@
                         <td class="px-6 py-5 text-right">
                             <div class="flex justify-end gap-2">
                                 <button class="w-8 h-8 flex items-center justify-center rounded-full text-primary hover:bg-primary/10 transition-all"
-                                        onclick="openEditModal({{ $u->id }}, '{{ addslashes($u->name) }}', '{{ $u->username }}', '{{ $u->email }}', '{{ $u->roles->first()?->name }}', '{{ $u->kelas }}', '{{ $u->no_telp }}')">
+                                        onclick="openEditModal({{ $u->id }}, '{{ addslashes($u->name) }}', '{{ $u->username }}', '{{ $u->email }}', '{{ $u->roles->first()?->name }}', '{{ $u->kelas }}', '{{ $u->no_telp }}', '{{ addslashes($u->nama_ortu) }}', '{{ $u->no_telp_ortu }}', '{{ $u->email_ortu }}')">
                                     <span class="material-symbols-outlined text-[1.25rem]">edit</span>
                                 </button>
                                 @if(auth()->id() !== $u->id)
@@ -216,6 +216,22 @@
                 </div>
             </div>
             
+            <!-- Fields only for student (Siswa) parents -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="parentFields">
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Nama Orang Tua</label>
+                    <input id="userNamaOrtu" name="nama_ortu" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Nama Bapak / Ibu" type="text"/>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">No. Telp/WA Orang Tua</label>
+                    <input id="userNoTelpOrtu" name="no_telp_ortu" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="Contoh: 0812345678" type="text"/>
+                </div>
+                <div class="sm:col-span-2">
+                    <label class="block text-sm font-semibold text-on-surface-variant mb-1.5">Email Orang Tua</label>
+                    <input id="userEmailOrtu" name="email_ortu" class="w-full bg-background border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary outline-none transition-all text-sm" placeholder="emailortu@contoh.com" type="email"/>
+                </div>
+            </div>
+            
             <div class="pt-6 flex gap-3">
                 <button class="flex-1 py-3 border border-outline-variant rounded-xl font-bold text-on-surface-variant hover:bg-background transition-all" onclick="closeUserModal()" type="button">
                     Batal
@@ -261,10 +277,17 @@
 function toggleRoleFields() {
     var role = document.getElementById('userRole').value;
     var fields = document.getElementById('siswaFields');
+    var parentFields = document.getElementById('parentFields');
     if (role === 'siswa' || role === 'wali_kelas') {
         fields.classList.remove('hidden');
     } else {
         fields.classList.add('hidden');
+    }
+    
+    if (role === 'siswa') {
+        parentFields.classList.remove('hidden');
+    } else {
+        parentFields.classList.add('hidden');
     }
 }
 
@@ -296,12 +319,15 @@ function openAddModal() {
     document.getElementById('userNotelp').value = '';
     document.getElementById('userTingkat').value = '';
     document.getElementById('userJurusan').value = '';
+    document.getElementById('userNamaOrtu').value = '';
+    document.getElementById('userNoTelpOrtu').value = '';
+    document.getElementById('userEmailOrtu').value = '';
     
     toggleRoleFields();
     openModal('userModal');
 }
 
-function openEditModal(id, name, username, email, role, kelas, notelp) {
+function openEditModal(id, name, username, email, role, kelas, notelp, namaOrtu, noTelpOrtu, emailOrtu) {
     document.getElementById('modalTitle').textContent = 'Edit Pengguna';
     document.getElementById('userForm').action = "/admin/users/" + id;
     document.getElementById('methodContainer').innerHTML = '<input type="hidden" name="_method" value="PUT">';
@@ -315,6 +341,9 @@ function openEditModal(id, name, username, email, role, kelas, notelp) {
     document.getElementById('userPassword').required = false;
     document.getElementById('pwHelp').textContent = 'Biarkan kosong jika tidak ingin mengubah password. Jika diisi: 8-20 karakter, huruf besar, kecil, angka & spesial.';
     document.getElementById('userNotelp').value = notelp || '';
+    document.getElementById('userNamaOrtu').value = namaOrtu || '';
+    document.getElementById('userNoTelpOrtu').value = noTelpOrtu || '';
+    document.getElementById('userEmailOrtu').value = emailOrtu || '';
     
     var tingkat = '', jurusan = '';
     if (kelas) {

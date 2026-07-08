@@ -10,8 +10,19 @@
     </div>
 
     @if(session('success'))
-        <div class="p-4 m-4 bg-green-50 border border-green-200 text-green-700 rounded-xl">
-            {{ session('success') }}
+        <div class="p-5 m-4 bg-green-50 border border-green-200 text-green-800 rounded-xl space-y-3 shadow-sm">
+            <div class="flex items-center gap-2 text-sm font-bold">
+                <span class="material-symbols-outlined text-green-600">check_circle</span>
+                {{ session('success') }}
+            </div>
+            @if(session('wa_url'))
+                <div class="pt-1">
+                    <a href="{{ session('wa_url') }}" target="_blank" class="inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white text-xs font-bold py-2.5 px-4 rounded-xl transition-all shadow-sm font-sans">
+                        <span class="material-symbols-outlined text-[1.125rem]">chat</span>
+                        Kirim Notifikasi Rujukan ke Orang Tua via WhatsApp
+                    </a>
+                </div>
+            @endif
         </div>
     @endif
 

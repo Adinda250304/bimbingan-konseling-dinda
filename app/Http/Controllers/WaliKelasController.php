@@ -95,6 +95,56 @@ class WaliKelasController extends Controller
             'status' => 'menunggu',
         ]);
 
-        return redirect()->route('wali.siswa')->with('success', 'Berhasil membuat rujukan konseling untuk ' . $siswa->name);
+        $recipientNumber = $siswa->no_telp_ortu ?: $siswa->no_telp;
+        $recipientName = $siswa->nama_ortu ?: 'Orang Tua/Wali';
+
+        $pesanWa = "📋 *RUJUKAN BIMBINGAN KONSELING (BK)*\n"
+                 . "SMK YPML — Bimbingan Konseling\n\n"
+                 . "Yth. {$recipientName} dari *{$siswa->name}*\n\n"
+                 . "Kami menginformasikan bahwa Wali Kelas telah merujuk putra/putri Anda ke Bimbingan Konseling (BK) untuk pendampingan lebih lanjut:\n"
+                 . "📌 *Bidang Masalah:* {$request->jenis_masalah}\n"
+                 . "📝 *Keterangan/Alasan:* {$request->alasan_rujukan}\n\n"
+                 . "Wali Kelas: {$wali->name}\n\n"
+                 . "_Pesan ini dikirim oleh sistem Teman BK_";
+
+        $urlWa = null;
+        if ($recipientNumber) {
+            $nomor = preg_replace('/[^0-9]/', '', $recipientNumber);
+            if (str_starts_with($nomor, '0')) {
+                $nomor = '62' . substr($nomor, 1);
+            }
+            
+            // Try sending automatically via Fonnte
+            $this->sendFonnte($nomor, $pesanWa);
+            
+            // Prefilled manual WhatsApp URL
+            $urlWa = "https://wa.me/" . $nomor . "?text=" . urlencode($pesanWa);
+        }
+
+        return redirect()->route('wali.siswa')
+            ->with('success', 'Berhasil membuat rujukan konseling untuk ' . $siswa->name)
+            ->with('wa_url', $urlWa)
+            ->with('siswa_name', $siswa->name);
+    }
+
+    private function sendFonnte(string $nomor, string $pesan): ?array
+    {
+        $token = env('FONNTE_TOKEN');
+        if (!$token) return null;
+
+        $ch = curl_init('https://api.fonnte.com/send');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => [
+                'target'  => $nomor,
+                'message' => $pesan,
+            ],
+            CURLOPT_HTTPHEADER => ['Authorization: ' . $token],
+        ]);
+        $result = curl_exec($ch);
+        curl_close($ch);
+
+        return $result ? json_decode($result, true) : null;
     }
 }

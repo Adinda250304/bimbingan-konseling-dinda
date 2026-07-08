@@ -246,22 +246,6 @@
                                         <span class="material-symbols-outlined text-[1rem]">picture_as_pdf</span>
                                         Buka PDF
                                     </a>
-                                    
-                                    <form action="{{ route('guru_bk.tindak-lanjut.wa', $tl) }}" method="POST" class="flex-1 md:flex-initial">
-                                        @csrf
-                                        <button type="submit" class="w-full px-4 py-2.5 bg-[#25D366]/10 hover:bg-[#25D366] hover:text-white text-[#128C7E] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#25D366]/20 shadow-sm cursor-pointer font-sans">
-                                            <span class="material-symbols-outlined text-[1rem] font-bold">chat</span>
-                                            Kirim WA
-                                        </button>
-                                    </form>
-
-                                    <form action="{{ route('guru_bk.tindak-lanjut.email', $tl) }}" method="POST" class="flex-1 md:flex-initial">
-                                        @csrf
-                                        <button type="submit" class="w-full px-4 py-2.5 bg-[#1a73e8]/10 hover:bg-[#1a73e8] hover:text-white text-[#1a73e8] rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 border border-[#1a73e8]/20 shadow-sm cursor-pointer font-sans">
-                                            <span class="material-symbols-outlined text-[1rem]">mail</span>
-                                            Kirim Email
-                                        </button>
-                                    </form>
                                 </div>
                             </div>
                         @endforeach
@@ -314,23 +298,46 @@
                 </div>
                 <div class="flex items-center gap-3 text-body-sm text-on-surface-variant bg-surface-container-low/50 p-3 rounded-xl">
                     <span class="material-symbols-outlined text-outline text-[1.25rem]">call</span>
-                    <span>{{ $konseling->siswa->no_telp ?? 'Tidak ada nomor telepon' }}</span>
+                    <span>Siswa: {{ $konseling->siswa->no_telp ?? 'Tidak ada nomor telepon' }}</span>
                 </div>
+                @if($konseling->siswa->nama_ortu || $konseling->siswa->no_telp_ortu)
+                    <div class="flex items-center gap-3 text-body-sm text-on-surface-variant bg-surface-container-low/50 p-3 rounded-xl">
+                        <span class="material-symbols-outlined text-outline text-[1.25rem]">family_restroom</span>
+                        <span>Ortu: {{ $konseling->siswa->nama_ortu ?? '—' }} ({{ $konseling->siswa->no_telp_ortu ?? 'Tidak ada nomor' }})</span>
+                    </div>
+                @endif
             </div>
             
-            @if($konseling->siswa->no_telp)
-                @php
-                    $cleanPhone = preg_replace('/[^0-9]/', '', $konseling->siswa->no_telp);
-                    if (str_starts_with($cleanPhone, '0')) {
-                        $cleanPhone = '62' . substr($cleanPhone, 1);
-                    }
-                    $waUrl = "https://wa.me/" . $cleanPhone . "?text=" . urlencode("Halo {$konseling->siswa->name}, saya Guru BK terkait pengajuan bimbingan konseling Anda...");
-                @endphp
-                <a href="{{ $waUrl }}" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20 rounded-2xl text-xs font-bold transition-all duration-300 shadow-sm font-sans">
-                    <span class="material-symbols-outlined text-[1rem] font-bold">chat</span>
-                    Hubungi via WhatsApp
-                </a>
-            @endif
+            <div class="flex flex-col gap-2">
+                @if($konseling->siswa->no_telp)
+                    @php
+                        $cleanPhone = preg_replace('/[^0-9]/', '', $konseling->siswa->no_telp);
+                        if (str_starts_with($cleanPhone, '0')) {
+                            $cleanPhone = '62' . substr($cleanPhone, 1);
+                        }
+                        $waUrl = "https://wa.me/" . $cleanPhone . "?text=" . urlencode("Halo {$konseling->siswa->name}, saya Guru BK terkait bimbingan konseling Anda...");
+                    @endphp
+                    <a href="{{ $waUrl }}" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#25D366]/10 text-[#128C7E] hover:bg-[#25D366] hover:text-white border border-[#25D366]/20 rounded-2xl text-xs font-bold transition-all duration-300 shadow-sm font-sans">
+                        <span class="material-symbols-outlined text-[1rem] font-bold">chat</span>
+                        Hubungi Siswa via WhatsApp
+                    </a>
+                @endif
+
+                @if($konseling->siswa->no_telp_ortu)
+                    @php
+                        $cleanPhoneOrtu = preg_replace('/[^0-9]/', '', $konseling->siswa->no_telp_ortu);
+                        if (str_starts_with($cleanPhoneOrtu, '0')) {
+                            $cleanPhoneOrtu = '62' . substr($cleanPhoneOrtu, 1);
+                        }
+                        $ortuGreeting = $konseling->siswa->nama_ortu ? "Bapak/Ibu " . $konseling->siswa->nama_ortu : "Orang Tua/Wali";
+                        $waUrlOrtu = "https://wa.me/" . $cleanPhoneOrtu . "?text=" . urlencode("Halo {$ortuGreeting} dari {$konseling->siswa->name}, saya Guru BK terkait perkembangan bimbingan konseling putra/putri Anda...");
+                    @endphp
+                    <a href="{{ $waUrlOrtu }}" target="_blank" class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-primary/10 text-primary hover:bg-primary hover:text-white border border-primary/20 rounded-2xl text-xs font-bold transition-all duration-300 shadow-sm font-sans">
+                        <span class="material-symbols-outlined text-[1rem]">family_restroom</span>
+                        Hubungi Ortu via WhatsApp
+                    </a>
+                @endif
+            </div>
         </div>
         
         <!-- Action Timeline / Quick Controls Card -->

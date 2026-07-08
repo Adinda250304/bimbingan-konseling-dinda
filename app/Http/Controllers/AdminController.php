@@ -101,6 +101,9 @@ class AdminController extends Controller
             'tingkat_kelas' => 'nullable|in:X,XI,XII',
             'jurusan'       => 'nullable|string|max:100',
             'no_telp'       => 'nullable|string|max:20',
+            'nama_ortu'     => 'nullable|string|max:255',
+            'no_telp_ortu'  => 'nullable|string|max:20',
+            'email_ortu'    => 'nullable|email|max:255',
         ]);
 
         // Gabungkan tingkat + jurusan menjadi nilai kelas
@@ -110,12 +113,15 @@ class AdminController extends Controller
         }
 
         $user = User::create([
-            'name'     => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'password' => bcrypt($request->password),
-            'kelas'    => $kelas,
-            'no_telp'  => $request->no_telp,
+            'name'         => $request->name,
+            'username'     => $request->username,
+            'email'        => $request->email,
+            'password'     => bcrypt($request->password),
+            'kelas'        => $kelas,
+            'no_telp'      => $request->no_telp,
+            'nama_ortu'    => $request->nama_ortu,
+            'no_telp_ortu' => $request->no_telp_ortu,
+            'email_ortu'   => $request->email_ortu,
         ]);
         $user->assignRole($request->role);
 
@@ -132,6 +138,9 @@ class AdminController extends Controller
             'tingkat_kelas' => 'nullable|in:X,XI,XII',
             'jurusan'       => 'nullable|string|max:100',
             'no_telp'       => 'nullable|string|max:20',
+            'nama_ortu'     => 'nullable|string|max:255',
+            'no_telp_ortu'  => 'nullable|string|max:20',
+            'email_ortu'    => 'nullable|email|max:255',
         ]);
 
         $kelas = null;
@@ -140,11 +149,14 @@ class AdminController extends Controller
         }
 
         $user->update([
-            'name'     => $request->name,
-            'username' => $request->username,
-            'email'    => $request->email,
-            'kelas'    => $kelas,
-            'no_telp'  => $request->no_telp,
+            'name'         => $request->name,
+            'username'     => $request->username,
+            'email'        => $request->email,
+            'kelas'        => $kelas,
+            'no_telp'      => $request->no_telp,
+            'nama_ortu'    => $request->nama_ortu,
+            'no_telp_ortu' => $request->no_telp_ortu,
+            'email_ortu'   => $request->email_ortu,
         ]);
         $user->syncRoles($request->role);
         if ($request->filled('password')) {

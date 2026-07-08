@@ -589,6 +589,10 @@ class GuruBkController extends Controller
                  'kode_unik'    => strtoupper(\Illuminate\Support\Str::random(4)) . '-' . $konseling->id . '-' . date('Ymd'),
              ]);
 
+             // Kirim notifikasi WA & Email otomatis ke orang tua
+             $tlController = new \App\Http\Controllers\TindakLanjutController();
+             $tlController->kirimNotifikasiOtomatis($tl);
+
              $tlText = 'Diterbitkan Surat Tindak Lanjut: ' . $tl->jenis_label;
         }
 

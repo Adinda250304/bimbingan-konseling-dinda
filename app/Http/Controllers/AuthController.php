@@ -93,7 +93,10 @@ class AuthController extends Controller
                 'regex:/[0-9]/',      // minimal 1 angka
                 'regex:/[@$!%*#?&^]/', // minimal 1 karakter spesial
             ],
-            'kelas'    => 'nullable|string|max:100',
+            'kelas'        => 'nullable|string|max:100',
+            'nama_ortu'    => 'nullable|string|max:255',
+            'no_telp_ortu' => 'nullable|string|max:20',
+            'email_ortu'   => 'nullable|email|max:255',
         ], [
             'username.unique'    => 'Username sudah digunakan.',
             'email.unique'       => 'Email sudah terdaftar.',
@@ -108,12 +111,14 @@ class AuthController extends Controller
             'username' => $request->username,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'kelas'    => $request->kelas,
+            'kelas'        => $request->kelas,
+            'nama_ortu'    => $request->nama_ortu,
+            'no_telp_ortu' => $request->no_telp_ortu,
+            'email_ortu'   => $request->email_ortu,
         ]);
         $user->assignRole('siswa');
-
-        Auth::login($user);
-        return redirect()->route('siswa.dashboard')->with('success', 'Registrasi berhasil! Selamat datang di Teman BK.');
+        
+        return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login untuk melanjutkan.');
     }
 
     public function login(Request $request)
